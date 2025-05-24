@@ -92,7 +92,7 @@ export default function AcaCertificationPage() {
                                         Check out the guide for new agents and brokers to help you through the
                                         registration and training steps.
                                     </p>
-                                    <p className="fw-semibold">
+                                    <p className="fw-semibold" style={{marginBottom: '64px'}}>
                                         When registering your account, select <span>'MLMS: Marketplace Learning Management System'</span> in the drop-down menu.
                                     </p>
                                 </div>
