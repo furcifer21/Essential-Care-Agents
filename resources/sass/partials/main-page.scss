@@ -1,0 +1,82 @@
+.section-margin {
+  padding: 40px 0;
+  &.with-bg {
+    background-color: #faf9fc;
+  }
+
+  @media (min-width: breakpoint-min(xl)) {
+    padding: 60px 0;
+  }
+}
+
+.main-section {
+  grid-gap: 24px;
+  font-size: 16px;
+  line-height: 24px;
+  &:last-of-type {
+    .main-section-img {
+      @media (max-width: breakpoint-max(xl)) {
+        margin-top: 0;
+        height: 250px;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 35px;
+    line-height: 1.2em;
+    color: #E8623C;
+  }
+
+  h2 {
+    font-size: 28px;
+    line-height: 1.4em;
+    color: #E8623C;
+  }
+
+  .btn-basic {
+    font-size: 18px;
+  }
+
+  @media (min-width: breakpoint-min(md)) {
+    h1 {
+      font-size: 52px;
+      line-height: 1.2em;
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 1.4em;
+    }
+  }
+
+  @media (min-width: breakpoint-min(xl)) {
+    font-size: 18px;
+    line-height: 30px;
+
+    h1 {
+      font-size: 60px;
+      line-height: 77px;
+    }
+
+    h1 {
+      font-size: 40px;
+      line-height: 55px;
+    }
+
+    p {
+      color: #8a8a8a;
+    }
+
+    > div  {
+      width: 50%;
+    }
+  }
+}
+
+.main-section-img {
+  @media (max-width: breakpoint-max(xl)) {
+    margin-top: 60px;
+    height: 450px;
+  }
+}

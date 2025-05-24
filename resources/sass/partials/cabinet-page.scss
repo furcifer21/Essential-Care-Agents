@@ -1,0 +1,118 @@
+.sort-icon {
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin-left: 4px;
+  font-size: 12px;
+  color: #fff;
+  background-color: #E8623C;
+}
+
+.resize-bar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  cursor: col-resize;
+  background-color: #ecf0f1;
+  z-index: 1;
+}
+
+.table-block {
+  table-layout: auto;
+
+  tr {
+    transition: all .2s;
+    &:hover {
+      background-color: #faf9fc;
+    }
+  }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 8px 10px;
+    justify-content: center;
+    font-size: 12px;
+  }
+}
+
+.table-th {
+  position: relative;
+  min-width: 80px;
+  border-bottom: 2px solid #ecf0f1;
+  user-select: none;
+  background-color: #faf9fc;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.table-td {
+  border-right: 1px solid #ecf0f1;
+  border-bottom: 1px solid #ecf0f1;
+  font-size: 14px;
+}
+
+.table-th, .table-td {
+  white-space: nowrap;
+
+}
+
+.portal-card {
+  border-radius: 6px;
+  height: 100%;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, .15), 0 1px 3px 0 rgba(0, 0, 0, .15);
+  &.small {
+    @media (min-width: breakpoint-min(xl)) {
+      height: 200px;
+    }
+  }
+  &.extra-small {
+    color: #fff;
+
+    div {
+      &:first-of-type {
+        border-radius: 6px 6px 0 0;
+        font-size: 20px;
+        opacity: 0.9;
+      }
+      &:last-of-type {
+        border-radius: 0 0 6px 6px;
+        font-size: 14px;
+      }
+    }
+  }
+  &.big {
+    height: 424px;
+  }
+
+  &__title {
+    > div {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+
+    .svg-icon {
+      font-size: 32px;
+      color: #fff;
+    }
+  }
+
+  &__text {
+    border-radius: 0 0 6px 6px;
+    color: #fff;
+    font-size: 13px;
+  }
+}
+
+.login-form {
+  border-radius: 6px;
+  padding: 24px;
+  height: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, .15), 0 1px 3px 0 rgba(0, 0, 0, .15);
+}

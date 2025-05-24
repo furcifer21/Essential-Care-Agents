@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+// Bootstrap
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px
+) !default;
+
+@import '~bootstrap/scss/bootstrap';
+
+// Partials styles
+@import 'partials/header';
+@import 'partials/main-page';
+@import 'partials/contracting-page';
+@import 'partials/cabinet-page';
+
+// App helpers
+@import 'common';
