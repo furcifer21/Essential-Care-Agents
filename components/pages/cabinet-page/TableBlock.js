@@ -2,12 +2,17 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import {  Box } from '@mui/material';
+import RequestModal from "./RequestModal";
+import {useState} from "react";
 
 export default function TableBlock({tableData}) {
-    const handleRequestClick = (tableData) => {
-        alert(`Request contract for ${tableData}`);
-    };
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        markets: '',
+        appointedStates: [],
+    });
     const columns = [
         { field: 'carrier', headerName: 'Carrier', flex: 1 },
         { field: 'status', headerName: 'Status', flex: 1 },
@@ -28,39 +33,64 @@ export default function TableBlock({tableData}) {
         },
     ];
 
+    const handleRequestClick = (rowData) => {
+        setSelectedRow(rowData);
+        setFormData({
+            name: '',
+            markets: rowData.markets.split(',')[0]?.trim() || '',
+            appointedStates: rowData.appointedStates?.split(',').map((s) => s.trim()) || [],
+        });
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedRow(null);
+    };
+
     return (
-        <Box sx={{ width: '100%', overflowX: 'auto' }}>
-            <Box sx={{ minWidth: 1000 }}> {/* или больше, если нужно */}
-                <DataGrid
-                    autoHeight
-                    rows={tableData}
-                    columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    disableRowSelectionOnClick
-                    sx={{
-                        '& .MuiDataGrid-footerContainer': {
-                            justifyContent: 'space-between',
-                            alignItems: 'center', // Выравнивает по центру
-                            paddingLeft: 2,
-                            paddingRight: 2,
-                        },
-                        '& .MuiTablePagination-root': {
-                            alignItems: 'center',
-                            display: 'flex',
-                        },
-                        '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
-                            marginTop: 0,
-                            marginBottom: 0,
-                            lineHeight: 'normal',
-                        },
-                        '& .MuiInputBase-root': {
-                            marginTop: 0,
-                            marginBottom: 0,
-                        },
-                    }}
-                />
+        <>
+            <Box sx={{ width: '100%', overflowX: 'auto' }}>
+                <Box sx={{ minWidth: 1000 }}> {/* или больше, если нужно */}
+                    <DataGrid
+                        autoHeight
+                        rows={tableData}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5, 10, 25]}
+                        disableRowSelectionOnClick
+                        sx={{
+                            '& .MuiDataGrid-footerContainer': {
+                                justifyContent: 'space-between',
+                                alignItems: 'center', // Выравнивает по центру
+                                paddingLeft: 2,
+                                paddingRight: 2,
+                            },
+                            '& .MuiTablePagination-root': {
+                                alignItems: 'center',
+                                display: 'flex',
+                            },
+                            '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
+                                marginTop: 0,
+                                marginBottom: 0,
+                                lineHeight: 'normal',
+                            },
+                            '& .MuiInputBase-root': {
+                                marginTop: 0,
+                                marginBottom: 0,
+                            },
+                        }}
+                    />
+                </Box>
             </Box>
-        </Box>
+
+            <RequestModal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                data={selectedRow}
+                formData={formData}
+                setFormData={setFormData}
+            />
+        </>
     );
 }
