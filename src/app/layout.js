@@ -9,6 +9,7 @@ export default function RootLayout({ children }) {
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon.png" />
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js'></script>
         </head>
         <body>
             <PageLoader/>

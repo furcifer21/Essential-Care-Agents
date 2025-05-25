@@ -8,7 +8,7 @@ export default function MainPageSecondSection() {
             <div className="container">
                 <div className="main-section d-flex flex-column-reverse flex-xl-row">
                     <div className="main-section-img position-relative">
-                        <Image src={`/images/ACA-Carrier-Contracting.png`}
+                        <Image src={`/images/IMG-2-1000x.png`}
                                fill
                                alt="ACA Carrier Contracting"
                                objectFit="contain"
