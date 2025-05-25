@@ -27,7 +27,7 @@ export default function LoginForm() {
         <section className="section-margin">
             <div className="container">
                 <div className="login-form">
-                    <h3 className="text-center mb-4">Enter</h3>
+                    <h3 className="text-center mb-4">Authorization</h3>
                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
                         <div className="mb-3">
                             <label className="form-label">Email</label>

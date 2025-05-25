@@ -22,7 +22,7 @@ export default function ContractingForm() {
                 <h1 className="mb-4 pb-2 text-center">ACA Contracting & Appointment</h1>
                 <p className="mb-4 pb-2 text-center">
                     Carriers are expanding! Protect your book of business & support your clients by adding
-                    ACA contracting through Agility! Select your requested carriers and complete the fields below.
+                    ACA contracting through Essential! Select your requested carriers and complete the fields below.
                 </p>
                 <div className="contract-form-wrap d-xl-flex">
                     <FormBlock/>

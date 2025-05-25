@@ -147,9 +147,9 @@ export default function FormBlock() {
             </div>
 
             <p className="mb-4">
-                By completing this form, you authorize Agility Insurance Services ('Agility') to submit
+                By completing this form, you authorize Essential Insurance Services ('Essential') to submit
                 the selected carrier contract requests to the appropriate insurance companies on your behalf.
-                You also authorize Agility to contact you by phone and email.
+                You also authorize Essential to contact you by phone and email.
             </p>
             <div>
                 <ReCAPTCHA
