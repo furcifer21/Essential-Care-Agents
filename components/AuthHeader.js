@@ -41,9 +41,9 @@ export default function AuthHeader() {
                 <div className="container">
                     <div className="header-top-line d-flex align-items-center justify-content-between py-2">
                         <Link href={`/`} className="header-menu__logo position-relative me-4 flex-shrink-0">
-                            <Image src={`/images/logo.png`}
+                            <Image src={`/images/logo.svg`}
                                    fill
-                                   alt="logo Essential Care"
+                                   alt="logo EC AgentHub"
                                    objectFit="contain"
                             />
                         </Link>
@@ -115,7 +115,7 @@ export default function AuthHeader() {
                                     </ul>
                                 </nav>
                             </div>
-                            <Link href="/aca-contracting" className="btn-basic d-none d-xl-inline-flex py-2">Try Our Contracting</Link>
+                            {/*<Link href="/aca-contracting" className="btn-basic d-none d-xl-inline-flex py-2">Try Our Contracting</Link>*/}
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,35 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
+import React, {useEffect} from "react";
 
 export default function MainPageFirstSection() {
+    useEffect(() => {
+        const container = document.getElementById('animationCard');
+        let animation;
+
+        if (container && window.bodymovin) {
+            try {
+                animation = window.bodymovin.loadAnimation({
+                    container: container,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '/animation/IMG-1-anim.json'
+                });
+            } catch (error) {
+                console.error('Failed to load animation:', error);
+            }
+        }
+
+        return () => {
+            if (animation) {
+                animation.destroy();
+            }
+        };
+    }, []);
+
     return (
         <section className="section-margin">
             <div className="container">
@@ -23,7 +50,7 @@ export default function MainPageFirstSection() {
                         <Link href={`/aca-contracting`} className="btn-basic">ACA Contracting</Link>
                     </div>
                     <div className="main-section-img position-relative mt-4">
-                        <Image src={`/images/Medicare-for-Agents.gif`}
+                        <Image src={`/images/IMG-1.svg`}
                                fill
                                alt="ACA Plans"
                                objectFit="contain"
