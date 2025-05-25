@@ -5,7 +5,7 @@ import MainPageThirdBlock from "../../components/pages/main-page/MainPageThirdBl
 import MainLayout from "../../components/MainLayout";
 
 export const metadata = {
-    title: 'ACA - Agility Insurance Services',
+    title: 'ACA - EC Agency Hub',
     description: '',
 };
 
