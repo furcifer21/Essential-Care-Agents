@@ -20,6 +20,10 @@ export default function RequestModal({ isOpen, onClose, data }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const selectedStates = watch('appointedStates') || [];
 
+    useOutsideClick(multiSelectRef, () => {
+        setDropdownOpen(false);
+    })
+
     if (!isOpen) return null;
 
     const toggleState = (state) => {
