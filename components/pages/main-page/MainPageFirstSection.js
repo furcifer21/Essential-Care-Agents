@@ -16,7 +16,7 @@ export default function MainPageFirstSection() {
                     renderer: 'svg',
                     loop: true,
                     autoplay: true,
-                    path: '/animation/IMG-1-anim.json'
+                    path: 'https://lottie.host/79ee908f-24b5-4f4a-b65a-b3f456b5b347/yc0OjyLfUs.json'
                 });
             } catch (error) {
                 console.error('Failed to load animation:', error);
@@ -49,7 +49,7 @@ export default function MainPageFirstSection() {
                         </p>
                         <Link href={`/aca-contracting`} className="btn-basic">ACA Contracting</Link>
                     </div>
-                    <div className="main-section-img position-relative mt-4">
+                    <div className="main-section-img position-relative mt-4" id={"animationCard"}>
                         <Image src={`/images/IMG-1.svg`}
                                fill
                                alt="ACA Plans"

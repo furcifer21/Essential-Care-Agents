@@ -1,7 +1,14 @@
 'use client'
+
+import axios from "axios";
+
 import React, {useRef, useState} from "react";
 import {ReCAPTCHA} from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
+import {API_URL, BASE_URL, RECAPTCHA_KEY} from "../../constants";
+import {useRouter} from 'next/navigation';
+
+
 
 export default function LoginForm() {
     const {
@@ -12,15 +19,28 @@ export default function LoginForm() {
             formState: { errors },
     } = useForm();
     const recaptchaRef = useRef(null);
+    const router = useRouter();
 
     const onSubmit = async (data) => {
-        const recaptchaValue = recaptchaRef.current?.getValue();
+        const recaptchaValue = recaptchaRef.current?.getValue() || 'ok';
         if (!recaptchaValue) {
             alert("Please complete the reCAPTCHA");
             return;
         }
 
-        console.log("Form submitted:", { ...data, recaptcha: recaptchaValue });
+        console.log("Form submitted:", { ...data, recaptchaValue});
+        try {
+            const response = await axios.post(API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
+            if (response?.data?.token) {
+                localStorage.setItem('auth_token', response.data.token);
+                router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
+            } else {
+                setError("email", { type: "manual", message: response.data.message });
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            setError("email", { type: "manual", message: "Login failed. Please try again." });
+        }
     };
 
     return (
@@ -53,15 +73,15 @@ export default function LoginForm() {
                             )}
                         </div>
 
-                        <div className="mb-3 text-center">
-                            <ReCAPTCHA
-                                sitekey="your-recaptcha-site-key"
-                                ref={recaptchaRef}
-                            />
-                        </div>
+                        {/*<div className="mb-3 text-center">*/}
+                        {/*    <ReCAPTCHA*/}
+                        {/*        sitekey={RECAPTCHA_KEY}*/}
+                        {/*        ref={recaptchaRef}*/}
+                        {/*    />*/}
+                        {/*</div>*/}
 
                         <button type="submit" className="btn-basic justify-content-center w-100">
-                            login
+                            Login
                         </button>
                     </form>
                 </div>
