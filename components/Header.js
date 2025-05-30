@@ -2,9 +2,12 @@
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import Image from 'next/image';
+import {useRouter} from "next/navigation";
 
 export default function Header() {
+    const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const menuData = [
         {
             name: 'Home',
@@ -124,7 +127,9 @@ export default function Header() {
                                     </ul>
                                 </nav>
                             </div>
-                            <Link href="/login" className="btn-basic d-none d-xl-inline-flex py-2">Login</Link>
+                            {router.pathname !== '/login' && (
+                                <Link href="/login" className="btn-basic d-none d-xl-inline-flex py-2">Login</Link>
+                            )}
                         </div>
                     </div>
                 </div>
