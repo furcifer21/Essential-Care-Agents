@@ -27,6 +27,7 @@ export default function Header() {
     ];
 
     useEffect(() => {
+        console.log(router.pathname, router.asPath);
         const mobileMenuHide = () => {
             // После обсуждений с Колей - десктоп начинается с 1300 (из за дизайна десктоп меню, который ломается на меньшей ширине)
             if(window.innerWidth > 1299) {
@@ -127,7 +128,7 @@ export default function Header() {
                                     </ul>
                                 </nav>
                             </div>
-                            {router.pathname !== '/login' && (
+                            { (router.pathname || router.asPath) !== '/login' && (
                                 <Link href="/login" className="btn-basic d-none d-xl-inline-flex py-2">Login</Link>
                             )}
                         </div>
