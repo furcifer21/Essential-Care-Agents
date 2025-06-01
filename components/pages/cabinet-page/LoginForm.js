@@ -5,7 +5,7 @@ import axios from "axios";
 import React, {useRef, useState} from "react";
 import {ReCAPTCHA} from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
-import {API_URL, BASE_URL, RECAPTCHA_KEY} from "../../constants";
+import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
 
 
@@ -30,7 +30,7 @@ export default function LoginForm() {
 
         console.log("Form submitted:", { ...data, recaptchaValue});
         try {
-            const response = await axios.post(API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
+            const response = await axios.post(CLIENT_API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
             if (response?.data?.token) {
                 localStorage.setItem('auth_token', response.data.token);
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login

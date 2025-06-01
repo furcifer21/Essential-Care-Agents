@@ -1,5 +1,6 @@
 import "../../resources/sass/app.scss";
 import PageLoader from "../../components/loaders/PageLoader";
+import { Toaster } from "sonner"
 
 export default function RootLayout({ children }) {
   return (
@@ -14,6 +15,15 @@ export default function RootLayout({ children }) {
         <body>
             <PageLoader/>
             {children}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                classNames: {
+                error: 'error-toast',
+                success: 'success-toast',
+                },
+              }}
+            />
         </body>
       </html>
   );

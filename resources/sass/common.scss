@@ -148,3 +148,15 @@ h1, h2, h3, h4, h5, h6 {
     animation: rotate 1s linear infinite;
   }
 }
+
+.error-toast {
+  background: red !important;
+  color: white !important;
+  border: none !important;
+}
+
+.success-toast {
+  background: green !important;
+  color: white !important;
+  border: none !important;
+}

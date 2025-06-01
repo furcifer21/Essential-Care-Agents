@@ -1,11 +1,12 @@
-'use client';
+"use client";
+
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import Image from 'next/image';
-import {useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 
 export default function Header() {
-    const router = useRouter();
+    const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const menuData = [
@@ -27,7 +28,6 @@ export default function Header() {
     ];
 
     useEffect(() => {
-        console.log(router.pathname, router.asPath);
         const mobileMenuHide = () => {
             // После обсуждений с Колей - десктоп начинается с 1300 (из за дизайна десктоп меню, который ломается на меньшей ширине)
             if(window.innerWidth > 1299) {
@@ -128,7 +128,7 @@ export default function Header() {
                                     </ul>
                                 </nav>
                             </div>
-                            { (router.pathname || router.asPath) !== '/login' && (
+                            { pathname !== '/login' && (
                                 <Link href="/login" className="btn-basic d-none d-xl-inline-flex py-2">Login</Link>
                             )}
                         </div>

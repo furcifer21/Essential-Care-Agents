@@ -1,21 +1,10 @@
+"use client";
+
 import React from "react";
-import Image from "next/image";
 import FormBlock from "./FormBlock";
+import {IMAGE_API_URL} from "../../constants";
 
-export default function ContractingForm() {
-    const  ACACarriersLogos = [
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png',
-        'cigna-logo.png'
-    ];
-
+export default function ContractingForm({insuranceData}) {
     return (
         <section className="contract-form-section section-margin">
             <div className="container">
@@ -25,15 +14,20 @@ export default function ContractingForm() {
                     ACA contracting through Essential! Select your requested carriers and complete the fields below.
                 </p>
                 <div className="contract-form-wrap d-xl-flex">
-                    <FormBlock/>
+                    <FormBlock insuranceData={insuranceData}  />
                     <div className="contract-logos d-flex flex-xl-column flex-shrink-0 mt-4 mt-xl-0">
-                        {ACACarriersLogos.map((logo, i) => {
+                        {insuranceData.map((carrier) => {
                             return (
-                                <div key={`logo-${i}`} className="contract-logos__item flex-shrink-0 position-relative d-flex align-items-center justify-content-center">
-                                    <Image src={`/images/logo.png`}
-                                           fill
-                                           alt={`logo ${i}`}
-                                           objectFit="contain"
+                                <div key={`logo-${carrier.id}`} className="contract-logos__item flex-shrink-0 position-relative d-flex align-items-center justify-content-center">
+                                    <img src={IMAGE_API_URL + carrier.logo}
+                                           alt={carrier.name + ' logo'}
+                                           style={{
+                                                maxWidth: '100%',
+                                                maxHeight: '100%',
+                                                width: 'auto',
+                                                height: 'auto',
+                                                objectFit: 'contain'
+                                           }}
                                     />
                                 </div>
                             )
