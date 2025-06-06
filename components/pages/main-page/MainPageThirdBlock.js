@@ -30,9 +30,9 @@ export default function MainPageThirdBlock() {
         },
         {
             title: 'How can Essential Help with Medicare?',
-            text1: 'Essential Insurance Services stands out from the competition by offering our agents a truly unique opportunities to boost your sales and grow your ACA insurance business. From offering agents the ability to customize their marketing to match the individual needs of their clients, to providing access to a wide range of innovative industry tools such as our Digital ACA Quoting & Enrollment Platform to help close more sales.',
-            text2: 'Furthermore, with unbeatable customer service and unparalleled attention to detail, we allow agents to provide their clients with the best possible coverage and ensure that their needs are met with the utmost professionalism.  With Essential Insurance Services, agents can look forward to a rewarding and successful career as a professional insurance agent.',
-            text3: ''
+            text1: 'Essential Insurance Services stands out from the competition by offering our agents a truly unique opportunities to boost your sales and grow your ACA insurance business.',
+            text2: 'From offering agents the ability to customize their marketing to match the individual needs of their clients, to providing access to a wide range of innovative industry tools such as our Digital ACA Quoting & Enrollment Platform to help close more sales.',
+            text3: 'Furthermore, with unbeatable customer service and unparalleled attention to detail, we allow agents to provide their clients with the best possible coverage and ensure that their needs are met with the utmost professionalism.  With Essential Insurance Services, agents can look forward to a rewarding and successful career as a professional insurance agent.'
         }
     ];
 
