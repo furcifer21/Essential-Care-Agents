@@ -28,12 +28,12 @@ export default function MainPageThirdBlock() {
             text2: 'Commissions and compensation: Selling ACA health plans can be financially rewarding for agents and brokers. You can earn commissions or other forms of compensation for enrolling individuals in these plans, providing a steady income stream. Overall, offering ACA health plans can broaden an agent or broker’s market reach, provide financial incentives, strengthen client relationships, showcase compliance expertise, and help clients access subsidies, making it a beneficial option to consider.',
             text3: ''
         },
-        {
-            title: 'How can Essential Help with Medicare?',
-            text1: 'Essential Insurance Services stands out from the competition by offering our agents a truly unique opportunities to boost your sales and grow your ACA insurance business.',
-            text2: 'From offering agents the ability to customize their marketing to match the individual needs of their clients, to providing access to a wide range of innovative industry tools such as our Digital ACA Quoting & Enrollment Platform to help close more sales.',
-            text3: 'Furthermore, with unbeatable customer service and unparalleled attention to detail, we allow agents to provide their clients with the best possible coverage and ensure that their needs are met with the utmost professionalism.  With Essential Insurance Services, agents can look forward to a rewarding and successful career as a professional insurance agent.'
-        }
+        // {
+        //     title: 'How can Essential Help with Medicare?',
+        //     text1: 'Essential Insurance Services stands out from the competition by offering our agents a truly unique opportunities to boost your sales and grow your ACA insurance business.',
+        //     text2: 'From offering agents the ability to customize their marketing to match the individual needs of their clients, to providing access to a wide range of innovative industry tools such as our Digital ACA Quoting & Enrollment Platform to help close more sales.',
+        //     text3: 'Furthermore, with unbeatable customer service and unparalleled attention to detail, we allow agents to provide their clients with the best possible coverage and ensure that their needs are met with the utmost professionalism.  With Essential Insurance Services, agents can look forward to a rewarding and successful career as a professional insurance agent.'
+        // }
     ];
 
     return (
