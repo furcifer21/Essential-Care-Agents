@@ -1,12 +1,12 @@
-import React from "react";
+"use client";
+import React, {useEffect} from "react";
 import MainLayout from "../../../../components/MainLayout";
-import TableBlock from "../../../../components/pages/cabinet-page/TableBlock";
 import Link from "next/link";
-
-export const metadata = {
-    title: 'My Portal',
-    description: '',
-};
+import axios from "axios";
+import useAuthStore from "../../../../components/storage";
+import {useRouter} from "next/navigation";
+import {CLIENT_API_URL} from "../../../../components/constants";
+import {toast} from "sonner";
 
 export default function MyPortalPage() {
     const cards = [
@@ -79,6 +79,38 @@ export default function MyPortalPage() {
             color: '#E8623C',
         },
     ]
+    const { token, user, isHydrated } = useAuthStore();
+    const router = useRouter();
+    useEffect(() => {
+        if (!isHydrated) {
+            // Ждем, пока Zustand восстановит состояние
+            return;
+        }
+        if (!token) {
+            router.push('/login');
+            return;
+        }
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(CLIENT_API_URL+'/api/contracts', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log('Success Fetch Data:', response.data);
+            } catch (error) {
+                toast.error('Error fetching data:', error);
+                if (error.response?.status === 401) {
+                    // Если токен недействителен, очищаем состояние и перенаправляем
+                    useAuthStore.getState().clearAuth();
+                    router.push('/login');
+                }
+            }
+        };
+
+        fetchData();
+    }, [token, router, isHydrated]);
 
     return (
         <MainLayout isAuth>
@@ -99,28 +131,28 @@ export default function MyPortalPage() {
                                 </div>
                             </div>
                             <div className="portal-card big mb-4">
-                                <h3 className="mb-2">User NAme</h3>
+                                <h3 className="mb-2">{user?.first_name} {user?.last_name}</h3>
                                 <div className="mb-4">
                                     <div className="fw-semibold mb-2">National Producer Number (NPN):</div>
-                                    <div>18032271</div>
+                                    <div>{user?.npn}</div>
                                 </div>
                                 <div className="mb-4">
                                     <div className="fw-semibold mb-2">Address:</div>
-                                    <div className="mb-2">1601 ORIENTAL BLVD</div>
-                                    <div>BROOKLYN, NY 11235</div>
+                                    <div className="mb-2"></div>
+                                    <div></div>
                                 </div>
                                 <div className="mb-4">
                                     <div className="d-flex align-items-center mb-2">
                                         <svg className="svg-icon flex-shrink-0 me-2">
                                             <use xlinkHref="/images/sprite.svg#phone-icon"></use>
                                         </svg>
-                                        (347) 393-9052
+                                        {user?.phone}
                                     </div>
                                     <div className="d-flex align-items-center">
                                         <svg className="svg-icon flex-shrink-0 me-2">
                                             <use xlinkHref="/images/sprite.svg#phone-icon"></use>
                                         </svg>
-                                        user@mail.com
+                                        {user?.email}
                                     </div>
                                 </div>
                             </div>

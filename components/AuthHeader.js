@@ -3,32 +3,43 @@ import Link from "next/link";
 import Image from "next/image";
 import React, {useRef, useState} from "react";
 import {useOutsideClick} from "./helper";
+import useAuthStore from "./storage";
+import {useRouter} from "next/navigation";
 
 export default function AuthHeader() {
     const popoverRef = useRef(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [showUserPopover, setShowUserPopover] = useState(false);
+    const router = useRouter();
+
+    const {user} = useAuthStore();
+
+    const logout = () => {
+        useAuthStore.getState().clearAuth();
+        router.push('/login');
+    }
+
     const menuData = [
-        {
-            name: 'Home',
-            link: '/cabinet/home',
-        },
+        // {
+        //     name: 'Home',
+        //     link: '/cabinet/home',
+        // },
         {
             name: 'My Portal',
             link: '/cabinet/my-portal',
         },
         {
-            name: 'My contracting',
+            name: 'My Contracting',
             link: '/cabinet/my-contracting',
         },
-        {
-            name: 'My Payments',
-            link: '/cabinet/my-payments',
-        },
-        {
-            name: 'Book of business',
-            link: '/cabinet/book-of-business',
-        },
+        // {
+        //     name: 'My Payments',
+        //     link: '/cabinet/my-payments',
+        // },
+        // {
+        //     name: 'Book of business',
+        //     link: '/cabinet/book-of-business',
+        // },
     ];
 
     useOutsideClick(popoverRef, () => {
@@ -49,7 +60,7 @@ export default function AuthHeader() {
                         </Link>
                         <div className="d-flex align-items-center">
                             <div className="avatar-block d-flex align-items-center" onClick={() => setShowUserPopover(!showUserPopover)}>
-                                <div title={`User Name`} className="avatar-block__name d-none d-md-block me-2">User Name</div>
+                                <div title={`User Name`} className="avatar-block__name d-none d-md-block me-2">{user?.first_name} {user?.last_name}</div>
                                 <div title={`User Name`} className="avatar-block__img position-relative pointer">
                                     <Image src={`/images/user-normal.png`}
                                            fill
@@ -66,11 +77,13 @@ export default function AuthHeader() {
                                         />
                                     </div>
                                     <div className="avatar-block__popover-info">
-                                        <div className="fw-semibold">User Name</div>
-                                        <span>user@mail.com</span>
+                                        <div className="fw-semibold">{user?.first_name} {user?.last_name}</div>
+                                        <span>{user?.email}</span>
                                         <div className="d-flex align-items-center mt-3">
                                             <Link href={`/cabinet/my-data`}>My Account</Link>
-                                            <button className="btn-secondary p-2 ms-3">Sign out</button>
+                                            <button className="btn-secondary p-2 ms-3" onClick={
+                                                () => logout()
+                                            }>Sign out</button>
                                         </div>
                                     </div>
                                 </div>

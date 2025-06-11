@@ -15,7 +15,14 @@ export default function TableBlock({tableData}) {
     });
     const columns = [
         { field: 'carrier', headerName: 'Carrier', flex: 1 },
-        { field: 'status', headerName: 'Status', flex: 1 },
+        {
+            field: 'status',
+            headerName: 'Status',
+            flex: 1,
+            renderCell: (params) => (
+              <span style={{color: params.row.status === 'Available' ? 'green' : 'inherit'}}>{params.row.status}</span>
+            ),
+        },
         { field: 'statusDate', headerName: 'Status Date', flex: 1 },
         { field: 'writingNo', headerName: 'Writing No', flex: 1 },
         { field: 'appointedStates', headerName: 'Appointed States', flex: 1 },
@@ -26,7 +33,12 @@ export default function TableBlock({tableData}) {
             sortable: false,
             flex: 1,
             renderCell: (params) => (
-                <button className="btn-secondary py-1" style={{fontSize: '14px'}} onClick={() => handleRequestClick(params.row)}>
+                <button
+                  className={`btn-secondary py-1 ${params.row.status !== 'Available'?'disabled':''}`}
+                  style={{
+                      fontSize: '14px',
+                  }}
+                  onClick={() => handleRequestClick(params.row)}>
                     Request
                 </button>
             ),
@@ -34,6 +46,7 @@ export default function TableBlock({tableData}) {
     ];
 
     const handleRequestClick = (rowData) => {
+        console.log(rowData);
         setSelectedRow(rowData);
         setFormData({
             name: '',

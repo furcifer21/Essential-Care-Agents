@@ -7,7 +7,7 @@ import {ReCAPTCHA} from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
-
+import useAuthStore from '../../storage';
 
 
 export default function LoginForm() {
@@ -20,6 +20,7 @@ export default function LoginForm() {
     } = useForm();
     const recaptchaRef = useRef(null);
     const router = useRouter();
+    const setAuth = useAuthStore((state) => state.setAuth);
 
     const onSubmit = async (data) => {
         const recaptchaValue = recaptchaRef.current?.getValue() || 'ok';
@@ -32,7 +33,7 @@ export default function LoginForm() {
         try {
             const response = await axios.post(CLIENT_API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
             if (response?.data?.token) {
-                localStorage.setItem('auth_token', response.data.token);
+                setAuth(response.data.token, response.data.user);
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
             } else {
                 setError("email", { type: "manual", message: response.data.message });

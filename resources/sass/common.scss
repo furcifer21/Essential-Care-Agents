@@ -36,6 +36,9 @@ h1, h2, h3, h4, h5, h6 {
   &.disabled {
     color: #464545;
     pointer-events: none;
+    background-color: lightgray;
+    border-color: darkgray;
+    font-weight: bolder;
   }
 }
 
