@@ -8,7 +8,7 @@ services:
       - "9154:3000"
     volumes:
       - ./:/var/www/html
-    command: sh -c "cp -n .env.local .env && npm install && npm run dev"
+    command: sh -c "npm install && npm run dev"
     extra_hosts:
       - "api.ecagenthub.loc:172.19.0.2" # направляем на nginx-proxy и делаем bind в /etc/hosts
     networks:
