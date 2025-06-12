@@ -4,6 +4,9 @@ import React, {useRef, useState} from 'react';
 import {ReCAPTCHA} from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
 import {useOutsideClick} from "../../helper";
+import axios from "axios";
+import {CLIENT_API_URL} from "../../constants";
+import {toast} from "sonner";
 
 export default function RequestModal({ isOpen, onClose, data }) {
     const recaptchaRef = useRef();
@@ -33,14 +36,32 @@ export default function RequestModal({ isOpen, onClose, data }) {
         setValue('appointedStates', Array.from(current), { shouldValidate: true });
     };
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         /* const recaptchaValue = recaptchaRef.current?.getValue();
          if (!recaptchaValue) {
              alert("Please complete the reCAPTCHA");
              return;
          }*/
+        const sendData = [
+            { label: "Requested market:", value: data.markets },
+            { label: "Appointed states:", value: data.appointedStates?.join(', ') }
+        ]
 
-        console.log("Form submitted:", { ...data });
+        try {
+            await axios.post(CLIENT_API_URL + '/api/form', {
+                'slug': 'agent-request',
+                'subject': 'Agent Request Contract',
+                'gtoken': 'ok',
+                'data': sendData,
+            })
+            toast.success('Your request has been sent successfully. We will contact you soon.');
+        }
+        catch (e) {
+            toast.error('We have an issue with sending your request. ' + e.message);
+        }
+        //
+        //
+        // console.log("Form submitted:", { ...data });
     };
 
     return (
