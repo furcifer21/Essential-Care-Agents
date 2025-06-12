@@ -63,11 +63,11 @@ export default function Header() {
                                 </svg>
                                 <span className="d-none d-xl-inline">(347) 971-3399</span>
                             </a>
-                            <a href="mailto:contracts@essentialcare.info" className="d-inline-flex align-items-center" target="_blank">
+                            <a href="mailto:acacontracting@essentialcare.info" className="d-inline-flex align-items-center" target="_blank">
                                 <svg className="svg-icon flex-shrink-0 me-2">
                                     <use xlinkHref="/images/sprite.svg#email-icon"></use>
                                 </svg>
-                                <span className="d-none d-xl-inline">contracts@essentialcare.info</span>
+                                <span className="d-none d-xl-inline">acacontracting@essentialcare.info</span>
                             </a>
                             <a href="https://www.facebook.com/EssentialCareInsuranceAgency"
                                className="social-btn d-inline-flex flex-shrink-0 ms-2"
