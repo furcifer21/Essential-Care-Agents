@@ -63,6 +63,7 @@ export default function RequestModal({ isOpen, onClose, data, formData }) {
         catch (e) {
             toast.error('We have an issue with sending your request. ' + e.message);
         }
+        reset();
         onClose();
     };
 
