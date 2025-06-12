@@ -35,7 +35,7 @@ export default function MainPageFirstSection() {
             <div className="container">
                 <div className="main-section d-xl-flex ">
                     <div className="text-center text-xl-start">
-                        <h1 className="mb-4">Agent & Broker <br/>ACA (Obamacare) Plans</h1>
+                        <h1 className="mb-4">Licensed Agents and Brokers <br/>for ACA (Affordable Care Act) Health Plans</h1>
                         <p className="mb-4 mb-xl-5">
                             ACA health insurance plans, also known as Affordable Care Act plans or Obamacare
                             plans, are government-regulated health insurance options designed to provide
