@@ -46,7 +46,7 @@ export default function TableBlock({tableData, fetchData}) {
     ];
 
     const handleRequestClick = (rowData) => {
-        // console.log(rowData);
+        console.log(rowData);
         setSelectedRow(rowData);
         setFormData({
             carrierId: rowData.id?.replace('0-',''),
