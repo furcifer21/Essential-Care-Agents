@@ -5,7 +5,7 @@ import {  Box } from '@mui/material';
 import RequestModal from "./RequestModal";
 import {useState} from "react";
 
-export default function TableBlock({tableData}) {
+export default function TableBlock({tableData, fetchData}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const [formData, setFormData] = useState({
@@ -60,6 +60,7 @@ export default function TableBlock({tableData}) {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedRow(null);
+        fetchData();
     };
 
     return (
