@@ -45,7 +45,7 @@ export default function FormBlock({insuranceData}) {
       try {
         await axios.post(CLIENT_API_URL + '/api/form', {
           'slug': 'aca-contracting',
-          'Subject': 'ACA Contracting Request',
+          'subject': 'ACA Contracting Request',
           'gtoken': 'ok',
           'data': sendData,
         })
