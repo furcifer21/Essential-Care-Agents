@@ -140,7 +140,8 @@ export default function AcaCertificationPage() {
                 <div className="container">
                     <div className="certification-bottom-card d-flex flex-column-reverse flex-xl-row align-items-center">
                         <div className="certification-bottom-card__btn d-flex align-items-center justify-content-center flex-shrink-0">
-                            <Link href={`https://blog.enrollinsurance.com/2023/06/important-update-health-and-human-services-introduces-new-consent-requirement-for-aca-enrollments/?_gl=1*13rt5mm*_gcl_au*ODcwOTk0Mjg3LjE3NDc5ODE4MDk.*_ga*MTA5ODc1Nzg0OS4xNzQ3OTgxODA5*_ga_68J7MNP2PJ*czE3NDgwNjk2MzMkbzIkZzEkdDE3NDgwOTEzMTUkajYwJGwwJGgxMDM5MjI0MTc2JGRFNVQtR0tBNXZfQzIwNS1Ua2JCdUl0ejRVTlFZcTNFa3dR`}
+                            <!-- https://blog.enrollinsurance.com/2023/06/important-update-health-and-human-services-introduces-new-consent-requirement-for-aca-enrollments/?_gl=1*13rt5mm*_gcl_au*ODcwOTk0Mjg3LjE3NDc5ODE4MDk.*_ga*MTA5ODc1Nzg0OS4xNzQ3OTgxODA5*_ga_68J7MNP2PJ*czE3NDgwNjk2MzMkbzIkZzEkdDE3NDgwOTEzMTUkajYwJGwwJGgxMDM5MjI0MTc2JGRFNVQtR0tBNXZfQzIwNS1Ua2JCdUl0ejRVTlFZcTNFa3dR -->
+                            <Link href='#'
                                   className="btn-basic"
                             >
                                 Learn More
