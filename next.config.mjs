@@ -1,12 +1,18 @@
 /** @type {import('next').NextConfig} */
+const isDev = process.env.NODE_ENV !== 'production';
+
 const nextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'host.docker.internal',
-        port: '9155', // Укажите порт, если он используется
-      },
+      ...(isDev
+        ? [
+          {
+            protocol: 'http',
+            hostname: 'host.docker.internal',
+            port: '9155',
+          },
+        ]
+        : []),
       {
         protocol: 'https',
         hostname: 'api.ecagenthub.com',
