@@ -7,6 +7,8 @@ import {useOutsideClick} from "../../helper";
 import axios from "axios";
 import {CLIENT_API_URL} from "../../constants";
 import {toast} from "sonner";
+import useAuthStore from "../../../components/storage";
+
 
 export default function RequestModal({ isOpen, onClose, data }) {
     const recaptchaRef = useRef();
@@ -22,6 +24,7 @@ export default function RequestModal({ isOpen, onClose, data }) {
     } = useForm();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const selectedStates = watch('appointedStates') || [];
+    const { token } = useAuthStore();
 
     useOutsideClick(multiSelectRef, () => {
         setDropdownOpen(false);
@@ -42,26 +45,25 @@ export default function RequestModal({ isOpen, onClose, data }) {
              alert("Please complete the reCAPTCHA");
              return;
          }*/
-        const sendData = [
-            { label: "Requested market:", value: data.markets },
-            { label: "Appointed states:", value: data.appointedStates?.join(', ') }
-        ]
 
         try {
-            await axios.post(CLIENT_API_URL + '/api/form', {
-                'slug': 'agent-request',
-                'subject': 'Agent Request Contract',
-                'gtoken': 'ok',
-                'data': sendData,
-            })
+            await axios.post(CLIENT_API_URL + '/api/contract/create', {
+                'market_id': data.markets === 'ACA'? 1 : data.markets === 'Medicare'? 2 : 3,
+                'carrier_id': data.carrierId,
+                'state_ids': data.appointedStates,
+                },
+              {
+                  headers: {
+                      'Authorization': `Bearer ${token}`,
+                      'Content-Type': 'application/json',
+                  },
+              })
             toast.success('Your request has been sent successfully. We will contact you soon.');
         }
         catch (e) {
             toast.error('We have an issue with sending your request. ' + e.message);
         }
-        //
-        //
-        // console.log("Form submitted:", { ...data });
+        onClose();
     };
 
     return (

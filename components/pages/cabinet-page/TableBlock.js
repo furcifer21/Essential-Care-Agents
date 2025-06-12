@@ -46,9 +46,10 @@ export default function TableBlock({tableData}) {
     ];
 
     const handleRequestClick = (rowData) => {
-        console.log(rowData);
+        // console.log(rowData);
         setSelectedRow(rowData);
         setFormData({
+            carrierId: rowData.id?.replace('0-',''),
             name: '',
             markets: rowData.markets.split(',')[0]?.trim() || '',
             appointedStates: rowData.appointedStates?.split(',').map((s) => s.trim()) || [],

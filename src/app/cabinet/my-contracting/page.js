@@ -9,10 +9,10 @@ import {CLIENT_API_URL} from "../../../../components/constants";
 import useAuthStore from "../../../../components/storage";
 import {toast} from "sonner";
 
-// export const metadata = {
-//     title: 'My Contracting',
-//     description: '',
-// };
+export const metadata = {
+    title: 'My Contracting',
+    description: '',
+};
 
 //todo: check if user is authenticated - redirect to login page if not authenticated
 //todo: check if user has access to this page - redirect to login page if not
@@ -20,129 +20,6 @@ import {toast} from "sonner";
 //todo: load all existing contracts for the user
 //todo: prepare data for the table
 
-
-const data = [
-    {
-        id: 1,
-        carrier: 'Carrier A',
-        status: 'Available',
-        statusDate: '',
-        writingNo: '',
-        appointedStates: '',
-        markets: 'ACA',
-        RequestContract: ''
-    },
-    {
-        id: 2,
-        carrier: 'Carrier B',
-        status: 'Inactive',
-        statusDate: '2023-11-15',
-        writingNo: 'WR5678',
-        appointedStates: 'TX, FL',
-        markets: 'Life, Property',
-        RequestContract: ''
-    },
-    {
-        id: 3,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 4,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 5,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'AZ;CA;DE;FL;GA;IL;IN;KS;MD;MO;NC;NJ;NV;OH;TX;UT;VA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 6,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 7,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 8,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 9,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 10,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 11,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-    {
-        id: 12,
-        carrier: 'Carrier A',
-        status: 'Active',
-        statusDate: '2024-04-01',
-        writingNo: 'WR1234',
-        appointedStates: 'NY, CA',
-        markets: 'Health, Auto',
-        RequestContract: ''
-    },
-];
 
 export default function MyContractingPage() {
     const { token, user, isHydrated } = useAuthStore();
