@@ -9,10 +9,10 @@ import {CLIENT_API_URL} from "../../../../components/constants";
 import useAuthStore from "../../../../components/storage";
 import {toast} from "sonner";
 
-export const metadata = {
-    title: 'My Contracting',
-    description: '',
-};
+// export const metadata = {
+//     title: 'My Contracting',
+//     description: '',
+// };
 
 //todo: check if user is authenticated - redirect to login page if not authenticated
 //todo: check if user has access to this page - redirect to login page if not
