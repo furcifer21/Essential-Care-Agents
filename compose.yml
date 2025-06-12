@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   nodejs:
     image: node:20
@@ -6,16 +5,7 @@ services:
     restart: 'no'
     working_dir: /var/www/html
     ports:
-      - 9154:3000
+      - "9154:3000"
     volumes:
       - ./:/var/www/html
-    command: sh -c "cp -n .env.local .env && npm install && npm run dev"
-    extra_hosts:
-      - "api.ecagenthub.loc:172.19.0.2" # направляем на nginx-proxy и делаем bind в /etc/hosts
-    networks:
-      - nginx_proxy
-    environment:
-      - NODE_TLS_REJECT_UNAUTHORIZED=0 # только для локальной разработки, для отключения проверки SSL/TLS
-networks:
-  nginx_proxy:
-    external: true
+    command: sh -c "cp -n .env.prod .env && npm install && npm run dev"
