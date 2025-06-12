@@ -10,20 +10,13 @@ import {toast} from "sonner";
 
 export default function MyPortalPage() {
     const cards = [
-        {
-            name: 'Important Documents!',
-            link: '?',
-            text: 'Review Compliance, Procedures and Policies.',
-            color: '#192954',
-            icon: ''
-        },
-        {
+        /*{
             name: 'Training Central',
             link: '?',
             text: 'Your All-In-One HUB for Idustry Training',
             icon: '',
             color: '#E8623C',
-        },
+        },*/
         {
             name: 'My Contracts',
             link: '/cabinet/my-contracting',
@@ -39,6 +32,13 @@ export default function MyPortalPage() {
             icon: 'money-icon'
         },
         {
+            name: 'Important Documents!',
+            link: '?',
+            text: 'Review Compliance, Procedures and Policies.',
+            color: '#192954',
+            icon: ''
+        },
+        /*{
             name: 'My Agreements',
             link: '?',
             text: 'View Signed Agreements & Documents',
@@ -51,7 +51,7 @@ export default function MyPortalPage() {
             text: 'RSVP Local Events & Webinars',
             color: '#192954',
             icon: 'calendar-icon'
-        }
+        }*/
     ];
     const bottomCards = [
         {
@@ -60,24 +60,24 @@ export default function MyPortalPage() {
             text: 'ACA Enhanced Direct Enrollment',
             color: '#E8623C',
         },
-        {
+        /*{
             name: 'ConnectureDRX',
             link: '?',
             text: 'Digital Medicare Quoting & Enrollment',
             color: '#192954',
-        },
+        },*/
         {
             name: 'ACA Commissions',
             link: '?',
             text: 'Commission Schedules & Bonuses',
             color: '#192954',
         },
-        {
+        /*{
             name: 'Medicare Commissions',
             link: '?',
             text: 'Commission Schedules & Bonuses',
             color: '#E8623C',
-        },
+        },*/
     ]
     const { token, user, isHydrated } = useAuthStore();
     const router = useRouter();
