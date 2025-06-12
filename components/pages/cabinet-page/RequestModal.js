@@ -10,7 +10,7 @@ import {toast} from "sonner";
 import useAuthStore from "../../../components/storage";
 
 
-export default function RequestModal({ isOpen, onClose, data }) {
+export default function RequestModal({ isOpen, onClose, data, formData }) {
     const recaptchaRef = useRef();
     const multiSelectRef = useRef();
     const {
@@ -49,7 +49,7 @@ export default function RequestModal({ isOpen, onClose, data }) {
         try {
             await axios.post(CLIENT_API_URL + '/api/contract/create', {
                 'market_id': data.markets === 'ACA'? 1 : data.markets === 'Medicare'? 2 : 3,
-                'carrier_id': data.carrierId,
+                'carrier_id': formData.carrierId,
                 'state_ids': data.appointedStates,
                 },
               {
