@@ -9,9 +9,11 @@ export default function ContractingForm({insuranceData}) {
         <section className="contract-form-section section-margin">
             <div className="container">
                 <h1 className="mb-4 pb-2 text-center">ACA Contracting & Appointment</h1>
+                <p className="text-center fw-bolder">
+                    Carrier Expansion Is Underway!
+                </p>
                 <p className="mb-4 pb-2 text-center">
-                    Carriers are expanding! Protect your book of business & support your clients by adding
-                    ACA contracting through Essential! Select your requested carriers and complete the fields below.
+                    Safeguard your existing client base and enhance your service offerings by securing ACA contracts through Essential Care. Choose your preferred carriers and fill out the form below to get started.
                 </p>
                 <div className="contract-form-wrap d-xl-flex">
                     <FormBlock insuranceData={insuranceData}  />
