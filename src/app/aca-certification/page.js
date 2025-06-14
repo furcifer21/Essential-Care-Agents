@@ -140,7 +140,7 @@ export default function AcaCertificationPage() {
                 <div className="container">
                     <div className="certification-bottom-card d-flex flex-column-reverse flex-xl-row align-items-center">
                         <div className="certification-bottom-card__btn d-flex align-items-center justify-content-center flex-shrink-0">
-                            <Link href='#'
+                            <Link href='/aca-new-consent-policy'
                                   className="btn-basic"
                             >
                                 Learn More
