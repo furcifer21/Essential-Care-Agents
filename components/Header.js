@@ -52,7 +52,7 @@ export default function Header() {
                         <Link href={`/`} className="header-menu__logo position-relative me-4 flex-shrink-0">
                             <Image src={`/images/logo.svg`}
                                    fill
-                                   alt="logo EC AgentHub Care"
+                                   alt="logo EC AgentHub"
                                    objectFit="contain"
                             />
                         </Link>
