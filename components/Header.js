@@ -25,6 +25,20 @@ export default function Header() {
             link: '/aca-certification',
             subMenu: []
         },
+        {
+            name: 'ACA Resources',
+            link: '',
+            subMenu: [
+                {
+                    name: 'HealthSherpa',
+                    link: '/healthsherpa',
+                },
+                {
+                    name: 'ACA Commissions',
+                    link: '/aca-commissions',
+                }
+            ]
+        },
     ];
 
     useEffect(() => {
