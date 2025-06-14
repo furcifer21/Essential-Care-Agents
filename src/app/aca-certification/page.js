@@ -148,7 +148,7 @@ export default function AcaCertificationPage() {
                         </div>
                         <div className="p-3">
                             <h2 className="mb-3 pb-3">
-                                <Link href={`/aca-contracting`}>ACA Final Rule</Link>
+                                <Link href={`/aca-new-consent-policy`}>ACA Final Rule</Link>
                             </h2>
                             <p>
                                 Under the new ACA rule, registered agents and brokers will be required to obtain
