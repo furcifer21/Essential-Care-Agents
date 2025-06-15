@@ -76,7 +76,7 @@ export default function FormBlock({insuranceData}) {
         })
 
         if (data.attachment?.[0] instanceof File) {
-            formData.append('files[]', formData.file);
+            formData.append('files[]', data.attachment[0]);
         }
 
       // console.log("Form submitted:", { ...data }, sendData);
