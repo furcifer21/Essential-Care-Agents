@@ -70,7 +70,10 @@ export default function FormBlock({insuranceData}) {
         formData.append("slug", "aca-contracting");
         formData.append("subject", "ACA Contracting Request");
         formData.append("gtoken", "ok");
-        formData.append("data", JSON.stringify(sendData));
+        sendData.forEach((element, index) => {
+          formData.append(`data[${index}][label]`, element.label);
+          formData.append(`data[${index}][value]`, element.value);
+        })
 
         if (data.attachment && data.attachment.length) {
             formData.append("attachment", data.attachment[0]); // только первый файл
