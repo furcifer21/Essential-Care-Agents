@@ -21,17 +21,10 @@ export default function FormBlock({insuranceData}) {
     const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
     function validateFile(files) {
-        console.log("validateFile input:", files);
-
-        if (!files || files.length === 0) {
-            console.log(122)
-            return true;
-        }
-console.log(12)
+        if (!files || files.length === 0) return true;
         if (files.length > 1) return "Please select only one file";
-        console.log(123)
+
         const file = files[0];
-        console.log("1validateFile input:", file);
         const allowedTypes = [
             "application/pdf",
             "image/jpeg",
@@ -42,15 +35,11 @@ console.log(12)
             "image/svg+xml",
         ];
 
-        if (!allowedTypes.includes(file.type)) {
-            return "Only image files or PDFs are allowed";
-        }
+        if (!allowedTypes.includes(file.type)) return "Only image files or PDFs are allowed";
 
         const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSizeInBytes) {
-            return "File size should be less than 5MB";
-        }
-        console.log("2validateFile input:", file);
+        if (file.size > maxSizeInBytes) return "File size should be less than 5MB";
+
         return true;
     }
 
