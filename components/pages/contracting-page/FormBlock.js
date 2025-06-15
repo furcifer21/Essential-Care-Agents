@@ -10,21 +10,15 @@ import {useRouter} from "next/navigation";
 
 export default function FormBlock({insuranceData}) {
     const recaptchaRef = useRef();
-    const [selectedFileName, setSelectedFileName] = useState(null);
     const router = useRouter();
     const {
         register,
         handleSubmit,
         control,
         formState: { errors, isSubmitting },
-        trigger
+        watch
     } = useForm();
-
-    const onFileChange = async (e) => {
-        const valid = await trigger("attachment");
-        const file = e.target.files?.[0];
-        setSelectedFileName(file ? file.name : null);
-    };
+    const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
     function validateFile(files) {
         console.log("validateFile input:", files);
@@ -191,7 +185,7 @@ console.log(12)
                     accept="image/*,application/pdf"
                     {...register("attachment", { validate: validateFile })}
                     className="hidden-file-input"
-                    onChange={onFileChange}
+
                 />
 
                 <label htmlFor="file-upload" className={`custom-file-label ${selectedFileName ? 'selected' : ''}`}>
