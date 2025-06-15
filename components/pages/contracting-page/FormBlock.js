@@ -79,15 +79,14 @@ export default function FormBlock({insuranceData}) {
             formData.append('files[]', data.attachment[0]);
         }
 
-      // console.log("Form submitted:", { ...data }, sendData);
-      try {
-        await axios.post(CLIENT_API_URL + '/api/form', formData, {headers: { "Content-Type": "multipart/form-data"}})
-        toast.success('Your request has been sent successfully. We will contact you soon.');
-        router.push('/');
-      }
-      catch (e) {
-        toast.error('We have an issue with sending your request. ' + e.message);
-      }
+        try {
+          await axios.post(CLIENT_API_URL + '/api/form', formData, {headers: { "Content-Type": "multipart/form-data"}})
+          toast.success('Your request has been sent successfully. We will contact you soon.');
+          router.push('/');
+        }
+        catch (e) {
+          toast.error('We have an issue with sending your request. ' + e.message);
+        }
     };
 
     return (

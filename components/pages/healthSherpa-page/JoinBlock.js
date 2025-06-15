@@ -20,7 +20,7 @@ export default function JoinBlock() {
                             <h4>Your Join Code:</h4>
                             <div className="p-3">
                                 <p>
-                                    To join, sign up at <a href="https://healthsherpa.com/" className="text-decoration-none" target="_blank">HealthSherpa.com</a> and use the <strong>Join Code: b4fd</strong>
+                                    To join, sign up at <a href="https://healthsherpa.com/" className="text-decoration-none" target="_blank">HealthSherpa.com</a> and use the <strong>Join Code: 8ce251a0</strong>
                                 </p>
                                 <a href="https://www.healthsherpa.com/?_agent_id=essential-care&joint_code=8ce251a0"
                                    className="btn-basic w-100 justify-content-center"
@@ -47,7 +47,7 @@ export default function JoinBlock() {
                     </div>
                     <div className="col-md-6 col-xl-5">
                         <p>
-                            <span className="fw-bold">Agility</span> has partnered with <span className="fw-bold">HealthSherpa</span>, an innovative healthcare technology
+                            <span className="fw-bold">Essential Care</span> has partnered with <span className="fw-bold">HealthSherpa</span>, an innovative healthcare technology
                             and the <span className="fw-bold">country's largest ACA agent enrollment platform.</span>
                         </p>
                         <div className="text-center text-md-start">
