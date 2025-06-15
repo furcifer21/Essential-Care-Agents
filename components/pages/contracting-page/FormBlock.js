@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from 'sonner';
-import React, { useRef } from "react";
+import React, {useRef, useState} from "react";
 import {ReCAPTCHA} from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
 import axios from "axios";
@@ -10,13 +10,55 @@ import {useRouter} from "next/navigation";
 
 export default function FormBlock({insuranceData}) {
     const recaptchaRef = useRef();
+    const [selectedFileName, setSelectedFileName] = useState(null);
     const router = useRouter();
     const {
         register,
         handleSubmit,
         control,
         formState: { errors, isSubmitting },
+        trigger
     } = useForm();
+
+    const onFileChange = async (e) => {
+        const valid = await trigger("attachment");
+        const file = e.target.files?.[0];
+        setSelectedFileName(file ? file.name : null);
+    };
+
+    function validateFile(files) {
+        console.log("validateFile input:", files);
+
+        if (!files || files.length === 0) {
+            console.log(122)
+            return true;
+        }
+console.log(12)
+        if (files.length > 1) return "Please select only one file";
+        console.log(123)
+        const file = files[0];
+        console.log("1validateFile input:", file);
+        const allowedTypes = [
+            "application/pdf",
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp",
+            "image/bmp",
+            "image/svg+xml",
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            return "Only image files or PDFs are allowed";
+        }
+
+        const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSizeInBytes) {
+            return "File size should be less than 5MB";
+        }
+        console.log("2validateFile input:", file);
+        return true;
+    }
 
 
     const onSubmit = async (data) => {
@@ -41,14 +83,19 @@ export default function FormBlock({insuranceData}) {
         sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
       }
 
+        const formData = new FormData();
+        formData.append("slug", "aca-contracting");
+        formData.append("subject", "ACA Contracting Request");
+        formData.append("gtoken", "ok");
+        formData.append("data", JSON.stringify(sendData));
+
+        if (data.attachment && data.attachment.length) {
+            formData.append("attachment", data.attachment[0]); // только первый файл
+        }
+
       // console.log("Form submitted:", { ...data }, sendData);
       try {
-        await axios.post(CLIENT_API_URL + '/api/form', {
-          'slug': 'aca-contracting',
-          'subject': 'ACA Contracting Request',
-          'gtoken': 'ok',
-          'data': sendData,
-        })
+        await axios.post(CLIENT_API_URL + '/api/form', formData, {headers: { "Content-Type": "multipart/form-data"}})
         toast.success('Your request has been sent successfully. We will contact you soon.');
         router.push('/');
       }
@@ -133,6 +180,27 @@ export default function FormBlock({insuranceData}) {
                     <label><input type="radio" value="No" {...register('data[Are you 2025 FFM Certified]')} /> No</label>
                 </div>
                 {errors.ffmCertified && <span>This field is required</span>}
+            </div>
+
+            <div className="d-flex flex-column mb-4">
+                <label className="mb-2">Attach FFM Certificate (image or PDF)</label>
+
+                <input
+                    type="file"
+                    id="file-upload"
+                    accept="image/*,application/pdf"
+                    {...register("attachment", { validate: validateFile })}
+                    className="hidden-file-input"
+                    onChange={onFileChange}
+                />
+
+                <label htmlFor="file-upload" className={`custom-file-label ${selectedFileName ? 'selected' : ''}`}>
+                    {selectedFileName || "Attach file"}
+                </label>
+
+                {errors.attachment && (
+                    <span className="text-danger">{errors.attachment.message}</span>
+                )}
             </div>
 
             <div className="d-flex flex-column mb-4">

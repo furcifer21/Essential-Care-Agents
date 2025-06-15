@@ -78,6 +78,32 @@
   }
 }
 
+.hidden-file-input {
+  display: none;
+}
+
+/* Кастомный лейбл как drop area */
+.custom-file-label {
+  border: 2px dashed #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  &:hover {
+    color: #E8623C;
+    border-color: #E8623C;
+  }
+  &.selected {
+    border-style: solid;
+  }
+}
+
 .contract-logos {
   grid-gap: 15px;
   padding: 20px;
@@ -251,7 +277,7 @@
   p {
     font-size: 16px;
 
-    span {
+    span, a {
       color: #E8623C;
     }
   }
@@ -291,5 +317,104 @@
       color: #2b2828;
       text-decoration: none;
     }
+  }
+}
+
+.healthSherpa-banner {
+  padding: 120px 0;
+}
+
+.healthSherpa-join {
+  .certification-agents-card p {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+.healthsherpa-img-wrap {
+  h3 {
+    font-size: 32px;
+
+    @media (max-width: breakpoint-max(md)) {
+      font-size: 24px;
+    }
+  }
+}
+
+.healthsherpa-img {
+  width: 145px;
+  height: 145px;
+
+  @media (max-width: breakpoint-max(md)) {
+    width: 95px;
+    height: 95px;
+  }
+}
+
+.benefits-section {
+  h2 {
+    font-size: 36px;
+    span {
+      color: #E8623C;
+    }
+  }
+
+  h4 {
+    color: #E8623C;
+  }
+
+  ul {
+    font-size: 18px;
+  }
+}
+
+.stats-section {
+  h2 {
+    color: #E8623C;
+  }
+
+  ul {
+    font-weight: bold;
+    font-size: 18px;
+
+    span {
+      color: #E8623C;
+    }
+  }
+}
+
+.laptop-wrap {
+  width: 325px;
+  height: 200px;
+
+  @media (min-width: breakpoint-min(md)) {
+    width: 720px;
+    height: 400px;
+  }
+}
+
+.laptop-video {
+  top: 20px;
+  left: 54px;
+  width: 215px;
+  height: 140px;
+
+  @media (min-width: breakpoint-min(md)) {
+    top: 20px;
+    left: 115px;
+    width: 490px;
+    height: 300px;
+  }
+}
+
+.steps-section {
+
+}
+
+.step-img {
+  height: 250px;
+
+  @media (min-width: breakpoint-min(xl)) {
+    width: 80%;
   }
 }
