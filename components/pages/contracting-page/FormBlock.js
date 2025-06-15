@@ -45,26 +45,26 @@ export default function FormBlock({insuranceData}) {
 
 
     const onSubmit = async (data) => {
-       /* const recaptchaValue = recaptchaRef.current?.getValue();
+        /* const recaptchaValue = recaptchaRef.current?.getValue();
         if (!recaptchaValue) {
             alert("Please complete the reCAPTCHA");
             return;
         }*/
-      if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
-          toast.error('Please select at least 3 ACA carriers.');
-          return;
-      }
-
-      const sendData = [];
-      for(const [key, value] of Object.entries(data.data)) {
-        if (key !== 'carriers') {
-          sendData.push({label: key, value});
+        if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
+            toast.error('Please select at least 3 ACA carriers.');
+            return;
         }
-      }
 
-      for(let i = 1; i <= data.carriers.length; i++) {
-        sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
-      }
+        const sendData = [];
+        for(const [key, value] of Object.entries(data.data)) {
+            if (key !== 'carriers') {
+                sendData.push({label: key, value});
+            }
+        }
+
+        for(let i = 1; i <= data.carriers.length; i++) {
+            sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
+        }
 
         const formData = new FormData();
         formData.append("slug", "aca-contracting");
@@ -75,8 +75,8 @@ export default function FormBlock({insuranceData}) {
           formData.append(`data[${index}][value]`, element.value);
         })
 
-        if (data.attachment && data.attachment.length) {
-            formData.append("attachment", data.attachment[0]); // только первый файл
+        if (data.attachment?.[0] instanceof File) {
+            formData.append('files[]', formData.file);
         }
 
       // console.log("Form submitted:", { ...data }, sendData);
