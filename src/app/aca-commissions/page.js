@@ -27,6 +27,7 @@ export default async function AcaCommissionsPage() {
                     commissions_image_path: `/storage/` + (carrier.commissions_image_path || ''),
                 }
                 insuranceData.push(item);
+                console.log(item.broker_portal_link, item.commissions_image_path);
             }
         }
     }
