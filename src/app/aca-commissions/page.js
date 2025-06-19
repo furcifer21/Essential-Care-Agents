@@ -6,6 +6,8 @@ import axios from "axios";
 import {API_URL, IMAGE_API_URL} from "../../../components/constants";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic'; // Динамический рендеринг
+
 export const metadata = {
     title: 'Aca Commissions',
     description: '',
@@ -27,7 +29,7 @@ export default async function AcaCommissionsPage() {
                     commissions_image_path: `/storage/` + (carrier.commissions_image_path || ''),
                 }
                 insuranceData.push(item);
-                console.log(item.broker_portal_link, item.commissions_image_path);
+                // console.log(item.broker_portal_link, item.commissions_image_path);
             }
         }
     }
