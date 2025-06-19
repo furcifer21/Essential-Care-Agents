@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
 import useAuthStore from '../../storage';
+import axios from "axios";
 
 export default function LoginForm() {
     const {
@@ -25,7 +26,7 @@ export default function LoginForm() {
             return;
         }
 
-        console.log("Form submitted:", { ...data, recaptchaValue});
+        // console.log("Form submitted:", { ...data, recaptchaValue});
         try {
             const response = await axios.post(CLIENT_API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
             if (response?.data?.token) {

@@ -32,6 +32,17 @@ export default function AuthHeader() {
             name: 'My Contracting',
             link: '/cabinet/my-contracting',
         },
+        {
+            name: 'My Training',
+            link: '',
+            subMenu: [
+                {
+                    name: 'ACA Training',
+                    link: '/cabinet/my-training',
+                }
+            ]
+
+        },
         // {
         //     name: 'My Payments',
         //     link: '/cabinet/my-payments',
@@ -121,6 +132,17 @@ export default function AuthHeader() {
                                                         <Link href={item.link}>{item.name}</Link>
                                                         :
                                                         <span>{item.name}</span>
+                                                    }
+                                                    {item.subMenu?.length > 0 &&
+                                                      <ul className="header-sub-menu">
+                                                          {item.subMenu.map((subItem, k) => {
+                                                              return (
+                                                                <li key={`sub-item-${i}-${k}`}>
+                                                                    <Link href={subItem.link}>{subItem.name}</Link>
+                                                                </li>
+                                                              )
+                                                          })}
+                                                      </ul>
                                                     }
                                                 </li>
                                             )

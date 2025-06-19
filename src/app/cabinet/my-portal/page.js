@@ -10,13 +10,20 @@ import {toast} from "sonner";
 
 export default function MyPortalPage() {
     const cards = [
-        /*{
-            name: 'Training Central',
+        {
+            name: 'Important Documents!',
             link: '?',
-            text: 'Your All-In-One HUB for Idustry Training',
+            text: 'Review Compliance, Procedures and Policies.',
+            color: '#192954',
+            icon: ''
+        },
+        {
+            name: 'ACA - Training',
+            link: '/cabinet/my-training',
+            text: 'Your All-In-One HUB for ACA Training',
             icon: '',
             color: '#E8623C',
-        },*/
+        },
         {
             name: 'My Contracts',
             link: '/cabinet/my-contracting',
@@ -30,13 +37,6 @@ export default function MyPortalPage() {
             text: 'View All Commission Statements',
             color: '#E8623C',
             icon: 'money-icon'
-        },
-        {
-            name: 'Important Documents!',
-            link: '?',
-            text: 'Review Compliance, Procedures and Policies.',
-            color: '#192954',
-            icon: ''
         },
         /*{
             name: 'My Agreements',
@@ -56,7 +56,7 @@ export default function MyPortalPage() {
     const bottomCards = [
         {
             name: 'HealthSherpa',
-            link: '?',
+            link: '/healthsherpa',
             text: 'ACA Enhanced Direct Enrollment',
             color: '#E8623C',
         },
@@ -68,7 +68,7 @@ export default function MyPortalPage() {
         },*/
         {
             name: 'ACA Commissions',
-            link: '?',
+            link: '/aca-commissions',
             text: 'Commission Schedules & Bonuses',
             color: '#192954',
         },
