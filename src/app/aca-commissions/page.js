@@ -61,7 +61,7 @@ export default async function AcaCommissionsPage() {
                                       </div>
                                       <Link href={`/aca-contracting`} className={'btn-basic'} style={{marginLeft: 'auto'}}>Contracting</Link>
                                       { item.broker_portal_link &&
-                                        <Link href={item.broker_portal_link} className={'btn-basic'} style={{marginLeft:'1em', whiteSpace:'nowrap'}}>Broker portal</Link>
+                                        <Link href={item.broker_portal_link} className={'btn-basic'} style={{marginLeft:'1em', whiteSpace:'nowrap'}} target={'_blank'}>Broker portal</Link>
                                       }
                                   </div>
                                   <div className="w-100 mt-4"><h2>{item.name}</h2></div>
