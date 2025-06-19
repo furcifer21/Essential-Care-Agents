@@ -57,6 +57,7 @@ export default function AcaCertificationPage() {
                 <div className="container d-flex flex-column flex-xl-row align-items-center justify-content-center">
                     <h4 className="mb-3 mb-xl-0 me-xl-4 text-center text-xl-start">Other Resources:</h4>
                     <Link href={`/aca-contracting`} className="btn-basic">ACA Contracting</Link>
+                    <Link href={`/aca-commissions`} className="btn-basic ms-3">ACA Commissions</Link>
                 </div>
             </div>
             <section className="certification-links-section section-margin">
