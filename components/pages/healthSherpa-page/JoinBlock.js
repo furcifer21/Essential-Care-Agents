@@ -22,7 +22,7 @@ export default function JoinBlock() {
                                 <p>
                                     To join, sign up at <a href="https://healthsherpa.com/" className="text-decoration-none" target="_blank">HealthSherpa.com</a> and use the <strong>Join Code: 8ce251a0</strong>
                                 </p>
-                                <a href="https://www.healthsherpa.com/?_agent_id=essential-care&joint_code=8ce251a0"
+                                <a href="https://www.healthsherpa.com/agents/new_user?_agent_id=essential-care&joint_code=8ce251a0"
                                    className="btn-basic w-100 justify-content-center"
                                    target="_blank"
                                 >
@@ -51,7 +51,7 @@ export default function JoinBlock() {
                             and the <span className="fw-bold">country's largest ACA agent enrollment platform.</span>
                         </p>
                         <div className="text-center text-md-start">
-                            <a href="https://www.healthsherpa.com/?_agent_id=essential-care&joint_code=8ce251a0"
+                            <a href="https://www.healthsherpa.com/agents/new_user?_agent_id=essential-care&joint_code=8ce251a0"
                                className="btn-secondary"
                                target="_blank"
                             >
