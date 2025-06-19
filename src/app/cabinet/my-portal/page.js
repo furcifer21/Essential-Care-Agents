@@ -38,14 +38,14 @@ export default function MyPortalPage() {
             color: '#E8623C',
             icon: 'money-icon'
         },
-        /*{
+        {
             name: 'My Agreements',
             link: '?',
             text: 'View Signed Agreements & Documents',
             color: '#E8623C',
             icon: 'pen-icon'
         },
-        {
+        /*{
             name: 'My Events',
             link: '?',
             text: 'RSVP Local Events & Webinars',
