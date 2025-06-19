@@ -42,7 +42,7 @@ export default function MyPortalPage() {
             name: 'My Agreements',
             link: '?',
             text: 'View Signed Agreements & Documents',
-            color: '#E8623C',
+            color: '#192954',
             icon: 'pen-icon'
         },
         /*{
