@@ -40,7 +40,7 @@ export default function MyPortalPage() {
         },
         {
             name: 'My Agreements',
-            link: '?',
+            link: '/cabinet/my-agreement',
             text: 'View Signed Agreements & Documents',
             color: '#192954',
             icon: 'pen-icon'
