@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import MainLayout from "../../../../components/MainLayout";
 import Link from "next/link";
 import axios from "axios";
@@ -7,6 +7,7 @@ import useAuthStore from "../../../../components/storage";
 import {useRouter} from "next/navigation";
 import {CLIENT_API_URL} from "../../../../components/constants";
 import {toast} from "sonner";
+import AgreementsModal from "../../../../components/pages/cabinet-page/AgreementsModal";
 
 export default function MyPortalPage() {
     const cards = [
@@ -40,7 +41,8 @@ export default function MyPortalPage() {
         },
         {
             name: 'My Agreements',
-            link: '/cabinet/my-agreement',
+            link: '#',
+            click: (evt) => handleMyAgreementsClick(evt),
             text: 'View Signed Agreements & Documents',
             color: '#192954',
             icon: 'pen-icon'
@@ -80,6 +82,9 @@ export default function MyPortalPage() {
         },*/
     ]
     const { token, user, isHydrated } = useAuthStore();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [tableData, setTableData] = useState([]);
+
     const router = useRouter();
     useEffect(() => {
         if (!isHydrated) {
@@ -90,6 +95,22 @@ export default function MyPortalPage() {
             router.push('/login');
             return;
         }
+
+        setTableData([
+            {
+                'id': 'user-producer-agreement',
+                'agreementType': 'Producer Agreement',
+                'agreementNo': user.producerAgreementNo || 1,
+                'agreementDate': user.producerAgreementDate || 'June 21, 2025',
+            },
+            {
+                'id': 'user-fee-agreement',
+                'agreementType': 'Administration Fee Agreement',
+                'agreementNo': user.feeAgreementNo || 2,
+                'agreementDate': user.feeAgreementDate || 'June 21, 2025',
+            }
+        ]);
+
 
         const fetchData = async () => {
             try {
@@ -111,6 +132,15 @@ export default function MyPortalPage() {
 
         fetchData();
     }, [token, router, isHydrated]);
+
+    const handleMyAgreementsClick = (evt) => {
+        evt.preventDefault();
+        setIsModalOpen(true);
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <MainLayout isAuth>
@@ -163,7 +193,11 @@ export default function MyPortalPage() {
                                     return (
                                         <div key={`card-${i}`} className="col-6 mb-4">
                                             <div className="portal-card small d-flex flex-column justify-content-between text-center position-relative p-0">
-                                                <Link href={card.link} className="fake-link-block"></Link>
+                                                { card.click ?
+                                                  <Link href={card.link} className="fake-link-block" onClick={card.click}></Link>
+                                                  :
+                                                  <Link href={card.link} className="fake-link-block" ></Link>
+                                                }
                                                 <div className="portal-card__title p-3">
                                                     {card.icon !== '' &&
                                                         <div className="d-inline-flex align-items-center justify-content-center mb-3" style={{backgroundColor: card.color}}>
@@ -196,6 +230,11 @@ export default function MyPortalPage() {
                         })}
                     </div>
                 </div>
+                <AgreementsModal
+                  tableData={tableData}
+                  isOpen={isModalOpen}
+                  onClose={handleCloseModal}
+                />
             </section>
         </MainLayout>
     );

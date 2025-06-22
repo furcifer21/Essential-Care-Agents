@@ -139,6 +139,19 @@
   width: 90%;
 }
 
+.agreements-modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  position: relative;
+  max-width: 725px;
+  width: 90%;
+
+  .MuiDataGrid-footerContainer {
+    display: none;
+  }
+}
+
 .modal-close {
   position: absolute;
   top: 8px;
@@ -205,5 +218,24 @@
       background-color: #d1e7fd;
       font-weight: 500;
     }
+  }
+}
+
+.administrative-fee-table {
+  width: 75%;
+  margin: auto;
+  tbody {
+    td:not(:nth-child(1)) {
+      text-align: center;
+    }
+  }
+  th, tr, td {
+    border: solid 1px;
+    vertical-align: middle;
+    padding: 6px;
+  }
+
+  th {
+    text-align: center;
   }
 }
