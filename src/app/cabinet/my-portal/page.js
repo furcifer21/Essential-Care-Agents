@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {CLIENT_API_URL} from "../../../../components/constants";
 import {toast} from "sonner";
 import AgreementsModal from "../../../../components/pages/cabinet-page/AgreementsModal";
+import { formatDate} from "../../../../components/helper";
 
 export default function MyPortalPage() {
     const cards = [
@@ -101,13 +102,13 @@ export default function MyPortalPage() {
                 'id': 'user-producer-agreement',
                 'agreementType': 'Producer Agreement',
                 'agreementNo': user.producerAgreementNo || 1,
-                'agreementDate': user.producerAgreementDate || 'June 21, 2025',
+                'agreementDate': user.producerAgreementDate && formatDate(user.producerAgreementDate) || 'June 21, 2025',
             },
             {
                 'id': 'user-fee-agreement',
                 'agreementType': 'Administration Fee Agreement',
                 'agreementNo': user.feeAgreementNo || 2,
-                'agreementDate': user.feeAgreementDate || 'June 21, 2025',
+                'agreementDate': user.feeAgreementDate && formatDate(user.feeAgreementDate) || 'June 21, 2025',
             }
         ]);
 
@@ -131,6 +132,7 @@ export default function MyPortalPage() {
         };
 
         fetchData();
+        console.log(user);
     }, [token, router, isHydrated]);
 
     const handleMyAgreementsClick = (evt) => {

@@ -30,7 +30,12 @@ export default function LoginForm() {
         try {
             const response = await axios.post(CLIENT_API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
             if (response?.data?.token) {
-                setAuth(response.data.token, response.data.user);
+                const user = response.data.user;
+                user.producerAgreementNo=response.data.user.producer_agreement_no;
+                user.producerAgreementDate= response.data.user.producer_agreement_date ? new Date(response.data.user.producer_agreement_date) : '';
+                user.feeAgreementNo=response.data.user.fee_agreement_no;
+                user.feeAgreementDate= response.data.user.fee_agreement_date ? new Date(response.data.user.fee_agreement_date): '';
+                setAuth(response.data.token, user);
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
             } else {
                 setError("email", { type: "manual", message: response.data.message });

@@ -67,3 +67,23 @@ export function deleteCookie(name) {
         'max-age': -1
     })
 }
+
+export function formatDate(dt) {
+    const options = {
+        month: 'long', // Полное название месяца (например, June)
+        day: 'numeric', // День месяца (например, 22)
+        year: 'numeric', // Полный год (например, 2025)
+    };
+    if (dt instanceof Date) {
+        console.log('DATE',dt);
+    }
+    else {
+        console.log('STRING',dt);
+    }
+    try {
+        return  new Intl.DateTimeFormat('en-US', options).format(dt);
+    }
+    catch (e) {
+        return '';
+    }
+}
