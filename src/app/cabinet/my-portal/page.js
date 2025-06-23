@@ -14,7 +14,7 @@ export default function MyPortalPage() {
     const cards = [
         {
             name: 'Important Documents!',
-            link: '?',
+            link: 'https://drive.google.com/file/d/1YubT0IwRYlEvyLpmeLl34d3r0LARsN6X/view?usp=sharing',
             text: 'Review Compliance, Procedures and Policies.',
             color: '#192954',
             icon: ''
