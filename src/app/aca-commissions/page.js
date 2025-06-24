@@ -19,7 +19,7 @@ export default async function AcaCommissionsPage() {
         const response = await axios.get(API_URL + '/api/carriers');
         if (response?.data?.data && Array.isArray(response.data.data)) {
             for(const carrier of response.data.data) {
-                if(carrier.commissions_image_path) {
+                if(carrier.commissions_image_path && carrier.logo_path) {
                     const item = {
                         id: carrier.id,
                         logo: `/storage/` + carrier.logo_path || '',
