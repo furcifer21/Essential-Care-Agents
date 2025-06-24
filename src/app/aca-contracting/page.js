@@ -5,7 +5,7 @@ import MainLayout from "../../../components/MainLayout";
 import axios from "axios";
 import {API_URL} from "../../../components/constants";
 
-export const dynamic = 'force-dynamic'; // Динамический рендеринг
+// export const dynamic = 'force-dynamic'; // Динамический рендеринг
 
 
 export const metadata = {
@@ -19,7 +19,7 @@ export default async function AcaContractingPage() {
         const response = await axios.get(API_URL + '/api/carriers');
         if (response?.data?.data && Array.isArray(response.data.data)) {
             for(const carrier of response.data.data) {
-                if(carrier.carrier.logo_path) {
+                if(carrier.logo_path) {
                     insuranceData.push({
                         id: carrier.id,
                         logo: `/storage/` + carrier.logo_path,
