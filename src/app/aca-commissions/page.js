@@ -19,17 +19,19 @@ export default async function AcaCommissionsPage() {
         const response = await axios.get(API_URL + '/api/carriers');
         if (response?.data?.data && Array.isArray(response.data.data)) {
             for(const carrier of response.data.data) {
-                const item = {
-                    id: carrier.id,
-                    logo: `/storage/` + carrier.logo_path || '',
-                    name: carrier.carrier_name || 'Unknown Carrier',
-                    products_info: carrier.products_info || '',
-                    states_info: carrier.states_info || '',
-                    broker_portal_link: carrier.broker_portal_link || '',
-                    commissions_image_path: `/storage/` + (carrier.commissions_image_path || ''),
+                if(carrier.commissions_image_path) {
+                    const item = {
+                        id: carrier.id,
+                        logo: `/storage/` + carrier.logo_path || '',
+                        name: carrier.carrier_name || 'Unknown Carrier',
+                        products_info: carrier.products_info || '',
+                        states_info: carrier.states_info || '',
+                        broker_portal_link: carrier.broker_portal_link || '',
+                        commissions_image_path: `/storage/` + carrier.commissions_image_path,
+                    }
+                    insuranceData.push(item);
+                    // console.log(item.broker_portal_link, item.commissions_image_path);
                 }
-                insuranceData.push(item);
-                // console.log(item.broker_portal_link, item.commissions_image_path);
             }
         }
     }
