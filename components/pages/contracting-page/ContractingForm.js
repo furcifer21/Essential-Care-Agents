@@ -22,7 +22,7 @@ export default function ContractingForm({insuranceData}) {
                     <FormBlock insuranceData={insuranceData}  />
                     <div className="contract-logos d-flex flex-xl-column flex-shrink-0 mt-4 mt-xl-0">
                         {insuranceData.map((carrier, index) => {
-                            if(index < 14 && carrier.logo !== '/storage/') {
+                            if(index < 13 && carrier.logo !== '/storage/') {
                                 return (
                                   <div key={`logo-${carrier.id}`}
                                        className="contract-logos__item flex-shrink-0 position-relative d-flex align-items-center justify-content-center">
