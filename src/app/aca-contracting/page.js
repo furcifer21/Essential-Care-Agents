@@ -5,7 +5,7 @@ import MainLayout from "../../../components/MainLayout";
 import axios from "axios";
 import {API_URL} from "../../../components/constants";
 
-// export const dynamic = 'force-dynamic'; // Динамический рендеринг
+export const dynamic = 'force-dynamic'; // Динамический рендеринг
 
 
 export const metadata = {

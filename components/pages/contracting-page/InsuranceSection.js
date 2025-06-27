@@ -2,6 +2,9 @@ import React from "react";
 import Image from "next/image";
 import {API_URL, IMAGE_API_URL} from "../../constants";
 
+export const dynamic = 'force-dynamic'; // Динамический рендеринг
+
+
 export default function InsuranceSection({insuranceData}) {
     return (
         <section className="insurance-section section-margin position-relative text-center">
