@@ -19,23 +19,21 @@ export default function ContractingForm({insuranceData}) {
                     <FormBlock insuranceData={insuranceData}  />
                     <div className="contract-logos d-flex flex-xl-column flex-shrink-0 mt-4 mt-xl-0">
                         {insuranceData.map((carrier, index) => () => {
-                            if(index < 14) {
-                                return (
-                                  <div key={`logo-${carrier.id}`}
-                                       className="contract-logos__item flex-shrink-0 position-relative d-flex align-items-center justify-content-center">
-                                      <img src={IMAGE_API_URL + carrier.logo}
-                                           alt={carrier.name + ' logo'}
-                                           style={{
-                                               maxWidth: '100%',
-                                               maxHeight: '100%',
-                                               width: 'auto',
-                                               height: 'auto',
-                                               objectFit: 'contain'
-                                           }}
-                                      />
-                                  </div>
-                                )
-                            }
+                            return (
+                              <div key={`logo-${carrier.id}-${index}`}
+                                   className="contract-logos__item flex-shrink-0 position-relative d-flex align-items-center justify-content-center">
+                                  <img src={IMAGE_API_URL + carrier.logo}
+                                       alt={carrier.name + ' logo'}
+                                       style={{
+                                           maxWidth: '100%',
+                                           maxHeight: '100%',
+                                           width: 'auto',
+                                           height: 'auto',
+                                           objectFit: 'contain'
+                                       }}
+                                  />
+                              </div>
+                            )
                         })}
                     </div>
                 </div>
