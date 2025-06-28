@@ -80,7 +80,7 @@ export default function FormBlock({insuranceData}) {
         }
 
         try {
-          await axios.post(CLIENT_API_URL + '/api/form', formData, {headers: { "Content-Type": "multipart/form-data"}})
+          await axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
           toast.success('Your request has been sent successfully. We will contact you soon.');
           router.push('/');
         }
