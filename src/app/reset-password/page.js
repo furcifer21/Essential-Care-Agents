@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Suspense} from "react";
 import MainLayout from "../../../components/MainLayout";
 import ResetForm from "../../../components/pages/cabinet-page/ResetForm";
 
@@ -12,7 +12,9 @@ export const metadata = {
 export default function ResetPasswordPage() {
     return (
         <MainLayout>
-            <ResetForm/>
+            <Suspense fallback={<div>Loading...</div>}>
+                <ResetForm/>
+            </Suspense>
         </MainLayout>
     );
 }
