@@ -1,17 +1,14 @@
 'use client'
-// components/RequestModal.jsx
 import React, {useRef, useState} from 'react';
-import {ReCAPTCHA} from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
 import {useOutsideClick} from "../../helper";
 import axios from "axios";
-import {CLIENT_API_URL} from "../../constants";
+import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {toast} from "sonner";
 import useAuthStore from "../../../components/storage";
 
 
-export default function RequestModal({ isOpen, onClose, data, formData }) {
-    const recaptchaRef = useRef();
+export default function RequestModal ({ isOpen, onClose, data, formData }) {
     const multiSelectRef = useRef();
     const {
         register,
@@ -40,12 +37,6 @@ export default function RequestModal({ isOpen, onClose, data, formData }) {
     };
 
     const onSubmit = async (data) => {
-        /* const recaptchaValue = recaptchaRef.current?.getValue();
-         if (!recaptchaValue) {
-             alert("Please complete the reCAPTCHA");
-             return;
-         }*/
-
         try {
             await axios.post(CLIENT_API_URL + '/api/contract/create', {
                 'market_id': data.markets === 'ACA'? 1 : data.markets === 'Medicare'? 2 : 3,
@@ -114,14 +105,6 @@ export default function RequestModal({ isOpen, onClose, data, formData }) {
                             <span className="error">Select at least one state</span>
                         )}
                     </div>
-
-                    <div>
-                        <ReCAPTCHA
-                            sitekey="your-recaptcha-site-key"
-                            ref={recaptchaRef}
-                        />
-                    </div>
-
                     <button type="submit" className="btn-basic w-100 justify-content-center">REQUEST CONTRACTING</button>
                 </form>
             </div>

@@ -1,13 +1,7 @@
 'use client'
-import React, {useRef, useState} from "react";
-import {ReCAPTCHA} from "react-google-recaptcha";
-import {useForm} from "react-hook-form";
-import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
-import {useRouter} from 'next/navigation';
+import React from "react";
 
 export default function Form404() {
-    const router = useRouter();
-
     return (
         <section className="section-margin">
             <div className="container">

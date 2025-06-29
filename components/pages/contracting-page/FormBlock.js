@@ -1,15 +1,14 @@
 "use client";
 
 import { toast } from 'sonner';
-import React, {useRef, useState} from "react";
-import {ReCAPTCHA} from "react-google-recaptcha";
+import React from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import {CLIENT_API_URL} from "../../constants";
+import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from "next/navigation";
+import {GoogleReCaptchaProvider, useGoogleReCaptcha} from "react-google-recaptcha-v3";
 
-export default function FormBlock({insuranceData}) {
-    const recaptchaRef = useRef();
+const FormBlockContent = ({insuranceData}) => {
     const router = useRouter();
     const {
         register,
@@ -18,6 +17,8 @@ export default function FormBlock({insuranceData}) {
         formState: { errors, isSubmitting },
         watch
     } = useForm();
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
     const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
     function validateFile(files) {
@@ -45,14 +46,14 @@ export default function FormBlock({insuranceData}) {
 
 
     const onSubmit = async (data) => {
-        /* const recaptchaValue = recaptchaRef.current?.getValue();
-        if (!recaptchaValue) {
-            alert("Please complete the reCAPTCHA");
-            return;
-        }*/
         if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
             toast.error('Please select at least 3 ACA carriers.');
             return;
+        }
+
+        if (!executeRecaptcha) {
+          toast.error( 'reCAPTCHA not ready' );
+          return;
         }
 
         const sendData = [];
@@ -80,6 +81,8 @@ export default function FormBlock({insuranceData}) {
         }
 
         try {
+          const gRecaptchaToken = await executeRecaptcha('aca_contracting');
+          formData.append('g-recaptcha-response', gRecaptchaToken);
           await axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
           toast.success('Your request has been sent successfully. We will contact you soon.');
           router.push('/');
@@ -202,14 +205,16 @@ export default function FormBlock({insuranceData}) {
                 the selected carrier contract requests to the appropriate insurance companies on your behalf.
                 You also authorize Essential to contact you by phone and email.
             </p>
-            <div>
-                <ReCAPTCHA
-                    sitekey="your-recaptcha-site-key"
-                    ref={recaptchaRef}
-                />
-            </div>
 
             <button disabled={isSubmitting} type="submit" className="btn-basic w-100 justify-content-center">{isSubmitting ? 'REQUESTING...' : 'REQUEST CONTRACTING'}</button>
         </form>
     );
 }
+
+export default function FormBlock({insuranceData}) {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_KEY}>
+      <FormBlockContent insuranceData={insuranceData}/>
+    </GoogleReCaptchaProvider>
+  )
+};

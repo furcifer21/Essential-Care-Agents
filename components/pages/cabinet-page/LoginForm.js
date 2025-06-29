@@ -1,13 +1,14 @@
 'use client'
-import React, {useRef, useState} from "react";
-import {ReCAPTCHA} from "react-google-recaptcha";
+
+import React, {useCallback} from "react";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
 import useAuthStore from '../../storage';
 import axios from "axios";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
-export default function LoginForm() {
+const LoginFormContent = () => {
     const {
         register,
             handleSubmit,
@@ -15,20 +16,23 @@ export default function LoginForm() {
             clearErrors,
             formState: { errors },
     } = useForm();
-    const recaptchaRef = useRef(null);
+
     const router = useRouter();
     const setAuth = useAuthStore((state) => state.setAuth);
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
-    const onSubmit = async (data) => {
-        const recaptchaValue = recaptchaRef.current?.getValue() || 'ok';
-        if (!recaptchaValue) {
-            alert("Please complete the reCAPTCHA");
+    const onSubmit = useCallback(async (data) => {
+        if (!executeRecaptcha) {
+            setError('password', { type: 'manual', message: 'reCAPTCHA not ready' });
             return;
         }
 
-        // console.log("Form submitted:", { ...data, recaptchaValue});
         try {
-            const response = await axios.post(CLIENT_API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
+            const gRecaptchaToken = await executeRecaptcha('login_form');
+            const response = await axios.post(CLIENT_API_URL+'/api/auth/login', {
+                ...data,
+                'g-recaptcha-response': gRecaptchaToken
+            });
             if (response?.data?.token) {
                 const user = response.data.user;
                 user.producerAgreementNo=response.data.user.producer_agreement_no;
@@ -41,10 +45,9 @@ export default function LoginForm() {
                 setError("email", { type: "manual", message: response.data.message });
             }
         } catch (error) {
-            console.error("Login error:", error);
             setError("email", { type: "manual", message: "Login failed. Please try again." });
         }
-    };
+    }, [executeRecaptcha, setError, setAuth, router]);
 
     return (
         <section className="section-margin">
@@ -79,14 +82,6 @@ export default function LoginForm() {
                                 <div className="invalid-feedback">{errors.password.message}</div>
                             )}
                         </div>
-
-                        {/*<div className="mb-3 text-center">*/}
-                        {/*    <ReCAPTCHA*/}
-                        {/*        sitekey={RECAPTCHA_KEY}*/}
-                        {/*        ref={recaptchaRef}*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-
                         <button type="submit" className="btn-basic justify-content-center w-100">
                             Login
                         </button>
@@ -96,3 +91,11 @@ export default function LoginForm() {
         </section>
     );
 }
+
+export default function LoginForm() {
+    return (
+        <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_KEY}>
+            <LoginFormContent />
+        </GoogleReCaptchaProvider>
+    )
+};

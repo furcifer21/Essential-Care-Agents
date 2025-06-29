@@ -1,31 +1,31 @@
 'use client'
 
-import React, {useRef, useState} from "react";
-import {ReCAPTCHA} from "react-google-recaptcha";
+import React from "react";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter, useSearchParams} from 'next/navigation';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import axios from "axios";
 import {toast} from "sonner";
 
-export default function ResetForm() {
+const ResetFormContent = () => {
     const {
         register,
-            handleSubmit,
-            setError,
-            clearErrors,
-            formState: { errors },
+        handleSubmit,
+        setError,
+        clearErrors,
+        formState: { errors },
     } = useForm();
-    const recaptchaRef = useRef(null);
     const router = useRouter();
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
     const searchParams = useSearchParams();
     const resetToken = searchParams.get('token');
     const isNew = searchParams.get('isNew');
 
     const onSubmit = async (data) => {
-        const recaptchaValue = recaptchaRef.current?.getValue() || 'ok';
-        if (!recaptchaValue) {
-            alert("Please complete the reCAPTCHA");
+        if (!executeRecaptcha) {
+            setError('password', { type: 'manual', message: 'reCAPTCHA not ready' });
             return;
         }
 
@@ -34,9 +34,13 @@ export default function ResetForm() {
             return;
         }
 
-        // console.log("Form submitted:", { ...data, resetToken, recaptchaValue});
         try {
-            await axios.post(CLIENT_API_URL+'/api/auth/reset-password', { ...data, resetToken, recaptcha: recaptchaValue });
+            const gRecaptchaToken = await executeRecaptcha('reset_form');
+            await axios.post(CLIENT_API_URL+'/api/auth/reset-password', {
+                ...data,
+                resetToken,
+                'g-recaptcha-response': gRecaptchaToken
+            });
             toast.success('Your password is updated successfully.');
             router.push('/login'); // Redirect to the cabinet page on successful login
         } catch (error) {
@@ -80,13 +84,6 @@ export default function ResetForm() {
                             )}
                         </div>
 
-                        {/*<div className="mb-3 text-center">*/}
-                        {/*    <ReCAPTCHA*/}
-                        {/*        sitekey={RECAPTCHA_KEY}*/}
-                        {/*        ref={recaptchaRef}*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-
                         <button type="submit" className="btn-basic justify-content-center w-100">
                             Set new password
                         </button>
@@ -96,3 +93,11 @@ export default function ResetForm() {
         </section>
     );
 }
+
+export default function ResetForm() {
+    return (
+      <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_KEY}>
+          <ResetFormContent />
+      </GoogleReCaptchaProvider>
+    )
+};

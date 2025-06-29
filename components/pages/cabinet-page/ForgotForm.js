@@ -1,33 +1,35 @@
 'use client'
-import React, {useRef, useState} from "react";
-import {ReCAPTCHA} from "react-google-recaptcha";
+import React from "react";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import axios from "axios";
 import {toast} from "sonner";
 
-export default function ForgotForm() {
+const ForgotFormContent = () => {
     const {
         register,
-            handleSubmit,
-            setError,
-            clearErrors,
-            formState: { errors },
+        handleSubmit,
+        setError,
+        clearErrors,
+        formState: { errors },
     } = useForm();
-    const recaptchaRef = useRef(null);
     const router = useRouter();
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const onSubmit = async (data) => {
-        const recaptchaValue = recaptchaRef.current?.getValue() || 'ok';
-        if (!recaptchaValue) {
-            alert("Please complete the reCAPTCHA");
+        if (!executeRecaptcha) {
+            setError('email', { type: 'manual', message: 'reCAPTCHA not ready' });
             return;
         }
 
-        // console.log("Form submitted:", { ...data, recaptchaValue});
         try {
-            await axios.post(CLIENT_API_URL+'/api/auth/forgot-password', { ...data, recaptcha: recaptchaValue });
+            const gRecaptchaToken = await executeRecaptcha('login_form');
+            await axios.post(CLIENT_API_URL+'/api/auth/forgot-password', {
+                ...data,
+                'g-recaptcha-response': gRecaptchaToken
+            });
             toast.success('Your request has been sent successfully. Check please your email.');
             router.push('/login');
         } catch (error) {
@@ -52,14 +54,6 @@ export default function ForgotForm() {
                                 <div className="invalid-feedback">{errors.email.message}</div>
                             )}
                         </div>
-
-                        {/*<div className="mb-3 text-center">*/}
-                        {/*    <ReCAPTCHA*/}
-                        {/*        sitekey={RECAPTCHA_KEY}*/}
-                        {/*        ref={recaptchaRef}*/}
-                        {/*    />*/}
-                        {/*</div>*/}
-
                         <button type="submit" className="btn-basic justify-content-center w-100">
                             Send password request
                         </button>
@@ -68,4 +62,12 @@ export default function ForgotForm() {
             </div>
         </section>
     );
+}
+
+export default function ForgotForm() {
+    return (
+      <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_KEY}>
+          <ForgotFormContent />
+      </GoogleReCaptchaProvider>
+    )
 }

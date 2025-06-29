@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import {API_URL, IMAGE_API_URL} from "../../constants";
+import {IMAGE_API_URL} from "../../constants";
 
 export const dynamic = 'force-dynamic'; // Динамический рендеринг
 

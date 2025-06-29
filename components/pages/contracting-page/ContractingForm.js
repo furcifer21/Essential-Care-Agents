@@ -5,9 +5,6 @@ import FormBlock from "./FormBlock";
 import {IMAGE_API_URL} from "../../constants";
 
 export default function ContractingForm({insuranceData}) {
-    useEffect(() => {
-        console.log('ContractingForm', insuranceData);
-    },[])
     return (
         <section className="contract-form-section section-margin">
             <div className="container">

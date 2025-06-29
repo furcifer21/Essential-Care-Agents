@@ -17,7 +17,8 @@ export default function MyPortalPage() {
             link: 'https://drive.google.com/file/d/1YubT0IwRYlEvyLpmeLl34d3r0LARsN6X/view?usp=sharing',
             text: 'Review Compliance, Procedures and Policies.',
             color: '#192954',
-            icon: ''
+            icon: '',
+            target: '_blank',
         },
         {
             name: 'ACA - Training',
@@ -203,9 +204,9 @@ export default function MyPortalPage() {
                                         <div key={`card-${i}`} className="col-6 mb-4">
                                             <div className="portal-card small d-flex flex-column justify-content-between text-center position-relative p-0">
                                                 { card.click ?
-                                                  <Link href={card.link} className="fake-link-block" onClick={card.click}></Link>
+                                                  <Link href={card.link} className="fake-link-block" onClick={card.click} target={card.target || ''}></Link>
                                                   :
-                                                  <Link href={card.link} className="fake-link-block" ></Link>
+                                                  <Link href={card.link} className="fake-link-block" target={card.target || ''}></Link>
                                                 }
                                                 <div className="portal-card__title p-3">
                                                     {card.icon !== '' &&
