@@ -4,10 +4,10 @@ import {ReCAPTCHA} from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
-import useAuthStore from '../../storage';
 import axios from "axios";
+import {toast} from "sonner";
 
-export default function LoginForm() {
+export default function ForgotForm() {
     const {
         register,
             handleSubmit,
@@ -17,7 +17,6 @@ export default function LoginForm() {
     } = useForm();
     const recaptchaRef = useRef(null);
     const router = useRouter();
-    const setAuth = useAuthStore((state) => state.setAuth);
 
     const onSubmit = async (data) => {
         const recaptchaValue = recaptchaRef.current?.getValue() || 'ok';
@@ -28,21 +27,11 @@ export default function LoginForm() {
 
         // console.log("Form submitted:", { ...data, recaptchaValue});
         try {
-            const response = await axios.post(CLIENT_API_URL+'/api/auth/login', { ...data, recaptcha: recaptchaValue });
-            if (response?.data?.token) {
-                const user = response.data.user;
-                user.producerAgreementNo=response.data.user.producer_agreement_no;
-                user.producerAgreementDate= response.data.user.producer_agreement_date ? new Date(response.data.user.producer_agreement_date) : '';
-                user.feeAgreementNo=response.data.user.fee_agreement_no;
-                user.feeAgreementDate= response.data.user.fee_agreement_date ? new Date(response.data.user.fee_agreement_date): '';
-                setAuth(response.data.token, user);
-                router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
-            } else {
-                setError("email", { type: "manual", message: response.data.message });
-            }
+            await axios.post(CLIENT_API_URL+'/api/auth/forgot-password', { ...data, recaptcha: recaptchaValue });
+            toast.success('Your request has been sent successfully. Check please your email.');
+            router.push('/login');
         } catch (error) {
-            console.error("Login error:", error);
-            setError("email", { type: "manual", message: "Login failed. Please try again." });
+            setError("email", { type: "manual", message: "Something went wrong; please try again or contact support." });
         }
     };
 
@@ -50,7 +39,7 @@ export default function LoginForm() {
         <section className="section-margin">
             <div className="container">
                 <div className="login-form">
-                    <h3 className="text-center mb-4">Authorization</h3>
+                    <h3 className="text-center mb-4">Forgot password</h3>
                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
                         <div className="mb-3">
                             <label className="form-label">Email</label>
@@ -64,22 +53,6 @@ export default function LoginForm() {
                             )}
                         </div>
 
-                        <div className="mb-4">
-                            <label className="form-label">Password</label>
-                            <input
-                                type="password"
-                                {...register('password', { required: 'Valid password is required' })}
-                                className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                            />
-                            <div className="forgot-pass pt-3 text-end">
-                                <a href="/forgot" className="">Forgot password?</a>
-                            </div>
-
-                            {errors.password && (
-                                <div className="invalid-feedback">{errors.password.message}</div>
-                            )}
-                        </div>
-
                         {/*<div className="mb-3 text-center">*/}
                         {/*    <ReCAPTCHA*/}
                         {/*        sitekey={RECAPTCHA_KEY}*/}
@@ -88,7 +61,7 @@ export default function LoginForm() {
                         {/*</div>*/}
 
                         <button type="submit" className="btn-basic justify-content-center w-100">
-                            Login
+                            Send password request
                         </button>
                     </form>
                 </div>
