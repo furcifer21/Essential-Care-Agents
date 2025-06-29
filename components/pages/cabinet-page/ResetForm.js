@@ -20,6 +20,7 @@ export default function ResetForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const resetToken = searchParams.get('token');
+    const isNew = searchParams.get('isNew');
 
     const onSubmit = async (data) => {
         const recaptchaValue = recaptchaRef.current?.getValue() || 'ok';
@@ -47,7 +48,13 @@ export default function ResetForm() {
         <section className="section-margin">
             <div className="container">
                 <div className="login-form">
-                    <h3 className="text-center mb-4">Reset password</h3>
+                    <h3 className="text-center mb-4">
+                        { isNew === '1' ?
+                          <>Set new password</>
+                          :
+                          <>Reset password</>
+                        }
+                    </h3>
                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
                         <div className="mb-3">
                             <label className="form-label">Password</label>
