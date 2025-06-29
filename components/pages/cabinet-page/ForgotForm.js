@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
 import {useForm} from "react-hook-form";
-import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
+import {CLIENT_API_URL, RECAPTCHA_KEY, RECAPTCHA_KEY_V2} from "../../constants";
 import {useRouter} from 'next/navigation';
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import axios from "axios";
@@ -25,7 +25,7 @@ const ForgotFormContent = () => {
         }
 
         try {
-            const gRecaptchaToken = await executeRecaptcha('login_form');
+            const gRecaptchaToken = await executeRecaptcha('forgot_form');
             await axios.post(CLIENT_API_URL+'/api/auth/forgot-password', {
                 ...data,
                 'g-recaptcha-response': gRecaptchaToken
