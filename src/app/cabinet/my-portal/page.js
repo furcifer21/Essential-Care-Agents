@@ -97,20 +97,27 @@ export default function MyPortalPage() {
             return;
         }
 
-        setTableData([
-            {
-                'id': 'user-producer-agreement',
-                'agreementType': 'Producer Agreement',
-                'agreementNo': user.producerAgreementNo || 1,
-                'agreementDate': user.producerAgreementDate && formatDate(user.producerAgreementDate) || 'June 21, 2025',
-            },
-            {
+        console.log('USER',user);
+        console.log('producerAgreementDate',user.producerAgreementDate);
+        console.log('producerAgreementDate2',formatDate(user.producerAgreementDate));
+
+
+        const td = [];
+        td.push({
+            'id': 'user-producer-agreement',
+            'agreementType': 'Producer Agreement',
+            'agreementNo': user.producerAgreementNo || '',
+            'agreementDate': user.producerAgreementDate && formatDate(user.producerAgreementDate) || '',
+        })
+        if(user.agent_type === 2) {
+            td.push({
                 'id': 'user-fee-agreement',
-                'agreementType': 'Administration Fee Agreement',
-                'agreementNo': user.feeAgreementNo || 2,
-                'agreementDate': user.feeAgreementDate && formatDate(user.feeAgreementDate) || 'June 21, 2025',
-            }
-        ]);
+              'agreementType': 'Administration Fee Agreement',
+              'agreementNo': user.feeAgreementNo || '',
+              'agreementDate': user.feeAgreementDate && formatDate(user.feeAgreementDate) || '',
+            })
+        }
+        setTableData(td);
 
 
         const fetchData = async () => {
@@ -120,7 +127,7 @@ export default function MyPortalPage() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                console.log('Success Fetch Data:', response.data);
+                // console.log('Success Fetch Data:', response.data);
             } catch (error) {
                 toast.error('Error fetching data:', error);
                 if (error.response?.status === 401) {

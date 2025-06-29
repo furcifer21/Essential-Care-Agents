@@ -74,14 +74,8 @@ export function formatDate(dt) {
         day: 'numeric', // День месяца (например, 22)
         year: 'numeric', // Полный год (например, 2025)
     };
-    if (dt instanceof Date) {
-        console.log('DATE',dt);
-    }
-    else {
-        console.log('STRING',dt);
-    }
     try {
-        return  new Intl.DateTimeFormat('en-US', options).format(dt);
+        return  new Intl.DateTimeFormat('en-US', options).format((dt instanceof Date) ? dt : new Date(dt));
     }
     catch (e) {
         return '';

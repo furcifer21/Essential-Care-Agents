@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
 import {useRouter} from "next/navigation";
@@ -8,6 +8,10 @@ import {useRouter} from "next/navigation";
 export default function AgreementsModal({ isOpen, onClose, tableData}) {
     const router = useRouter();
     if (!isOpen) return null;
+
+    useEffect(() => {
+      console.log(tableData);
+    }, tableData)
 
 
     const columns = [
@@ -30,13 +34,12 @@ export default function AgreementsModal({ isOpen, onClose, tableData}) {
         <div className="modal-overlay" onClick={onClose}>
             <div className="agreements-modal" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={onClose}>×</button>
-                <h2>My Agreements with Essential81</h2>
+                <h2>My Agreements with Essentials81</h2>
                 <Box sx={{ width: '100%', overflowX: 'auto' }}>
                     <Box>
                         <DataGrid
                           rows={tableData}
                           columns={columns}
-                          pageSize={3}
                           onRowClick={handleRowClick}
                           disableRowSelectionOnClick={true}
                           sx={{
