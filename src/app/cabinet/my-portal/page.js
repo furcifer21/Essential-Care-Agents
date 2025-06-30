@@ -36,7 +36,7 @@ export default function MyPortalPage() {
         },
         {
             name: 'My Payments',
-            link: '/cabinet/my-payment',
+            link: '/cabinet/my-payments',
             text: 'View All Commission Statements',
             color: '#E8623C',
             icon: 'money-icon'
