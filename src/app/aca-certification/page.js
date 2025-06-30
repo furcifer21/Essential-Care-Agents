@@ -16,7 +16,7 @@ export default function AcaCertificationPage() {
         },
         {
             title: 'Create My HealthSherpa Account',
-            link: 'https://www.healthsherpa.com/agents/new_user?join_code=b4fd&_agent_id=agility',
+            link: 'https://www.healthsherpa.com/agents/new_user?_agent_id=essential-care&joint_code=8ce251a0',
             icon: 'laptop-icon'
         },
         {
