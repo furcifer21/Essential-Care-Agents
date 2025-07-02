@@ -2,6 +2,7 @@
 const isDev = process.env.NODE_ENV !== 'production';
 
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       ...(isDev

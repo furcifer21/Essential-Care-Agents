@@ -98,11 +98,6 @@ export default function MyPortalPage() {
             return;
         }
 
-        console.log('USER',user);
-        console.log('producerAgreementDate',user.producerAgreementDate);
-        console.log('producerAgreementDate2',formatDate(user.producerAgreementDate));
-
-
         const td = [];
         td.push({
             'id': 'user-producer-agreement',

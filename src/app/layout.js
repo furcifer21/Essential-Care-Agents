@@ -18,9 +18,11 @@ export default function RootLayout({ children }) {
             <Toaster
               position="top-right"
               toastOptions={{
+                dismissible: true,
+                duration: 5000,
                 classNames: {
-                error: 'error-toast',
-                success: 'success-toast',
+                  error: 'error-toast',
+                  success: 'success-toast',
                 },
               }}
             />

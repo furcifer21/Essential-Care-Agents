@@ -1,5 +1,4 @@
-'use client";'
-import Head from "next/head";
+'use client'
 import AuthHeader from "./AuthHeader";
 import Header from "./Header";
 import Footer from "./Footer";
