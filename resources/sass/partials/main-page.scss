@@ -1,3 +1,14 @@
+.outer-section-margin {
+  padding: 20px 0;
+  &.with-bg {
+    background-color: #faf9fc;
+  }
+
+  @media (min-width: breakpoint-min(xl)) {
+    padding: 20px 0;
+  }
+}
+
 .section-margin {
   padding: 40px 0;
   &.with-bg {

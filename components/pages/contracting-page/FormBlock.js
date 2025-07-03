@@ -107,21 +107,22 @@ const FormBlockContent = ({insuranceData}) => {
                 </div>
             ))}
 
-            <div className="d-flex flex-column mb-2">
-              <label className="mb-2">First Name<span className={'text-orange'}>*</span></label>
-                <input placeholder={`Your First Name`} {...register('data[First Name]', { required: true, minLength: 2, maxLength: 255 })} />
+            <div className="d-flex flex-column mb-3">
+              <label className="mb-0">First Name<span className={'text-orange'}>*</span></label>
+                <input placeholder={`Your First Name`} className={'light-placeholder'} {...register('data[First Name]', { required: true, minLength: 2, maxLength: 255 })} />
                 {errors.firstName && <span>First name is required (2–255 characters)</span>}
             </div>
 
-            <div className="d-flex flex-column mb-2">
-                <label className="mb-2">Last Name<span className={'text-orange'}>*</span></label>
-                <input placeholder={`Your Last Name`} {...register('data[Last Name', { required: true, minLength: 2, maxLength: 255 })} />
+            <div className="d-flex flex-column mb-3">
+                <label className="mb-0">Last Name<span className={'text-orange'}>*</span></label>
+                <input placeholder={`Your Last Name`} className={'light-placeholder'} {...register('data[Last Name', { required: true, minLength: 2, maxLength: 255 })} />
                 {errors.lastName && <span>Last name is required (2–255 characters)</span>}
             </div>
 
-            <div className="d-flex flex-column mb-2">
-                <label className="mb-2">Email<span className={'text-orange'}>*</span></label>
+            <div className="d-flex flex-column mb-3">
+                <label className="mb-0">Email<span className={'text-orange'}>*</span></label>
                 <input placeholder={`Your Email`}
+                       className={'light-placeholder'}
                        {...register('data[Email]', {
                            required: 'Valid email is required',
                            pattern: {value: /^\S+@\S+$/i, message: 'Enter valid email',} })
@@ -130,24 +131,30 @@ const FormBlockContent = ({insuranceData}) => {
                 {errors.email && <span>{errors.email.message}</span>}
             </div>
 
-            <div className="d-flex flex-column mb-2">
-                <label className="mb-2">Phone</label>
-                <input placeholder={`Your Phone`} {...register('data[Phone]', {
+            <div className="d-flex flex-column mb-3">
+                <label className="mb-0">Phone</label>
+                <input placeholder={`Your Phone`}
+                    className={'light-placeholder'}
+                    {...register('data[Phone]', {
                     required: true,
                     pattern: /^\+?[0-9]\d{1,14}$/
                 })} />
                 {errors.phone && <span>Valid phone number is required</span>}
             </div>
 
-            <div className="d-flex flex-column mb-2">
-                <label className="mb-2">Resident State</label>
-                <input placeholder={`Your Resident State`} {...register('data[Resident State]', { required: true, minLength: 2, maxLength: 255 })} />
+            <div className="d-flex flex-column mb-3">
+                <label className="mb-0">Resident State</label>
+                <input placeholder={`Your Resident State`}
+                    className={'light-placeholder'}
+                    {...register('data[Resident State]', { required: true, minLength: 2, maxLength: 255 })} />
                 {errors.residentState && <span>Resident State is required</span>}
             </div>
 
-            <div className="d-flex flex-column mb-4">
-                <label className="mb-2">NPN<span className={'text-orange'}>*</span></label>
-                <input placeholder={`Your National Producer Number`} {...register('data[NPN]', { required: true, minLength: 2, maxLength: 255 })} />
+            <div className="d-flex flex-column mb-3">
+                <label className="mb-0">NPN<span className={'text-orange'}>*</span></label>
+                <input placeholder={`Your National Producer Number`}
+                    className={'light-placeholder'}
+                    {...register('data[NPN]', { required: true, minLength: 2, maxLength: 255 })} />
                 {errors.npn && <span>NPN is required</span>}
             </div>
 

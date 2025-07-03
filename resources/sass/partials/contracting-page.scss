@@ -418,3 +418,21 @@
     width: 80%;
   }
 }
+
+.light-placeholder {
+  &::placeholder {
+    opacity: 0.4;
+  }
+  &::-webkit-input-placeholder {
+    opacity: 0.4;
+  }
+  &::-moz-placeholder {
+    opacity: 0.4;
+  }
+  &::-ms-input-placeholder {
+    opacity: 0.4;
+  }
+  &::-ms-input-placeholder {
+    opacity: 0.4;
+  }
+}

@@ -121,7 +121,10 @@ export default function MyTrainingPage() {
 
     return (
         <MainLayout isAuth>
-            <section className="section-margin">
+            <section className="outer-section-margin">
+                { isHydrated && user.id &&
+                  <h2 className={'text-center pb-2'}>Greetings, {user?.first_name} {user?.last_name}</h2>
+                }
                 <div className="container">
                     <div className="row ">
                         {bottomCards.map((bottomCard, j) => {

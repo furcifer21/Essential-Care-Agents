@@ -1,3 +1,5 @@
+'use client'
+
 import "../../resources/sass/app.scss";
 import PageLoader from "../../components/loaders/PageLoader";
 import { Toaster } from "sonner"
@@ -13,9 +15,9 @@ export default function RootLayout({ children }) {
             <script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js'></script>
         </head>
         <body>
-            <PageLoader/>
-            {children}
-            <Toaster
+          <PageLoader/>
+          {children}
+          <Toaster
               position="top-right"
               toastOptions={{
                 dismissible: true,

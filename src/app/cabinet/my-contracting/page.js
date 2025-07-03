@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import MainLayout from "../../../../components/MainLayout";
 import TableBlock from "../../../../components/pages/cabinet-page/TableBlock";
 import {redirect, useRouter} from "next/navigation";
@@ -24,8 +24,8 @@ import {toast} from "sonner";
 export default function MyContractingPage() {
     const { token, user, isHydrated } = useAuthStore();
     const router = useRouter();
-    const [tableData, setTableData] = React.useState(null);
-    const [carriersList, setCarriersList] = React.useState(null); // {"carrier.id" : { carrier.carrier_name, states: [state.id,...] } }
+    const [tableData, setTableData] = useState(null);
+    const [carriersList, setCarriersList] = useState(null); // {"carrier.id" : { carrier.carrier_name, states: [state.id,...] } }
 
     const localFetchData = async () => {
         const contractsData=[];
@@ -112,7 +112,10 @@ export default function MyContractingPage() {
 
     return (
         <MainLayout isAuth>
-            <section className="section-margin pt-3">
+            <section className="outer-section-margin pt-3">
+                { isHydrated && user.id &&
+                  <h2 className={'text-center pb-2'}>Greetings, {user?.first_name} {user?.last_name}</h2>
+                }
                 <div className="container">
                     <h1 className="mb-3">My Contracting Report</h1>
                     <TableBlock tableData={tableData} fetchData={localFetchData}/>
