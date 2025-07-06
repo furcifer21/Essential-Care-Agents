@@ -46,7 +46,7 @@ export default function TableBlock({tableData, fetchData}) {
                 sx={{minWidth: 150}}
               >
                   <MenuItem value="">All States</MenuItem>
-                  {Object.keys(usStates).map((code) => (
+                  {usStates && Object.keys(usStates).map((code) => (
                     <MenuItem key={code} value={code}>
                         {usStates[code]}
                     </MenuItem>
@@ -119,7 +119,7 @@ export default function TableBlock({tableData, fetchData}) {
                           onChange={(e) => setSelectedState(e.target.value)}
                         >
                             <MenuItem value="">All States</MenuItem>
-                            {Object.keys(usStates).map((code) => (
+                            {usStates && Object.keys(usStates).map((code) => (
                               <MenuItem key={code} value={code}>
                                   {usStates[code]}
                               </MenuItem>
