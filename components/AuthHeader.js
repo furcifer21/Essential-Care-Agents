@@ -16,7 +16,6 @@ export default function AuthHeader() {
 
     const logout = () => {
         useAuthStore.getState().clearAuth();
-        router.push('/login');
     }
 
     const menuData = [
