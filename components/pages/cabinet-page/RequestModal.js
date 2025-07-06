@@ -5,7 +5,7 @@ import {useOutsideClick} from "../../helper";
 import axios from "axios";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {toast} from "sonner";
-import useAuthStore from "../../../components/storage";
+import { useAuthStore } from "../../../components/storage";
 
 
 export default function RequestModal ({ isOpen, onClose, data, formData }) {

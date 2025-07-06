@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React, {useRef, useState} from "react";
 import {useOutsideClick} from "./helper";
-import useAuthStore from "./storage";
+import { useAuthStore } from "./storage";
 import {useRouter} from "next/navigation";
 
 export default function AuthHeader() {

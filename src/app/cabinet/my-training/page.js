@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import MainLayout from "../../../../components/MainLayout";
 import Link from "next/link";
 import axios from "axios";
-import useAuthStore from "../../../../components/storage";
+import { useAuthStore } from "../../../../components/storage";
 import {useRouter} from "next/navigation";
 import {CLIENT_API_URL} from "../../../../components/constants";
 import {toast} from "sonner";

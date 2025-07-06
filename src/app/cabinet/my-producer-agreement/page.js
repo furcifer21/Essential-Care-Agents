@@ -1,25 +1,12 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import MainLayout from "../../../../components/MainLayout";
-import TableBlock from "../../../../components/pages/cabinet-page/TableBlock";
-import {redirect, useRouter} from "next/navigation";
-import {getCookie} from "../../../../components/helper";
-import axios from "axios";
-import {CLIENT_API_URL} from "../../../../components/constants";
-import useAuthStore from "../../../../components/storage";
-import {toast} from "sonner";
-import RequestModal from "../../../../components/pages/cabinet-page/RequestModal";
-import AgreementsModal from "../../../../components/pages/cabinet-page/AgreementsModal";
-
-// export const metadata = {
-//     title: 'My Contracting',
-//     description: '',
-// };
-
+import {useRouter} from "next/navigation";
+import  { useAuthStore } from "../../../../components/storage";
 
 export default function MyProducerAgreementPage() {
 
-  const {token, user, isHydrated} = useAuthStore();
+  const {token, isHydrated} = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import MainLayout from "../../../../components/MainLayout";
 import Form404 from "../../../../components/pages/cabinet-page/Form404";
-import useAuthStore from "../../../../components/storage";
+import { useAuthStore } from "../../../../components/storage";
 
 export default function MyHomePage() {
     const {token, user, isHydrated} = useAuthStore();

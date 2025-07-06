@@ -53,5 +53,3 @@ export const useCacheStore = create(
     }
   )
 );
-
-export default useAuthStore;

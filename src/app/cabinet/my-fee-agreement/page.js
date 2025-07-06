@@ -6,7 +6,7 @@ import {redirect, useRouter} from "next/navigation";
 import {getCookie} from "../../../../components/helper";
 import axios from "axios";
 import {CLIENT_API_URL} from "../../../../components/constants";
-import useAuthStore from "../../../../components/storage";
+import { useAuthStore } from "../../../../components/storage";
 import {toast} from "sonner";
 import RequestModal from "../../../../components/pages/cabinet-page/RequestModal";
 import AgreementsModal from "../../../../components/pages/cabinet-page/AgreementsModal";

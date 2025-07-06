@@ -5,7 +5,7 @@ import {CLIENT_API_URL} from "../../constants";
 import {useRouter, useSearchParams} from 'next/navigation';
 import axios from "axios";
 import {toast} from "sonner";
-import useAuthStore from "../../storage";
+import { useAuthStore } from "../../storage";
 
 export default function TokenForm() {
     const router = useRouter();

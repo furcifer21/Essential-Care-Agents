@@ -5,7 +5,7 @@ import TableBlock from "../../../../components/pages/cabinet-page/TableBlock";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import {CLIENT_API_URL} from "../../../../components/constants";
-import useAuthStore from "../../../../components/storage";
+import { useAuthStore } from "../../../../components/storage";
 import {toast} from "sonner";
 
 
