@@ -4,7 +4,7 @@ import React, {useCallback} from "react";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
-import useAuthStore from '../../storage';
+import  { useAuthStore, useCacheStore } from '../../storage';
 import axios from "axios";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
@@ -19,6 +19,8 @@ const LoginFormContent = () => {
 
     const router = useRouter();
     const setAuth = useAuthStore((state) => state.setAuth);
+    const setStates = useCacheStore((state) => state.setStates);
+    const { usStates } = useCacheStore();
     const { executeRecaptcha } = useGoogleReCaptcha();
 
     const onSubmit = useCallback(async (data) => {
@@ -33,6 +35,7 @@ const LoginFormContent = () => {
                 ...data,
                 'g-recaptcha-response': gRecaptchaToken
             });
+
             if (response?.data?.token) {
                 const user = response.data.user;
                 user.producerAgreementNo=response.data.user.producer_agreement_no;
@@ -40,6 +43,14 @@ const LoginFormContent = () => {
                 user.feeAgreementNo=response.data.user.fee_agreement_no;
                 user.feeAgreementDate= response.data.user.fee_agreement_date ? new Date(response.data.user.fee_agreement_date): '';
                 setAuth(response.data.token, user);
+
+                if(!usStates) {
+                    const response2 = await axios.get(CLIENT_API_URL + '/api/states');
+                    if(response2?.data?.data) {
+                        setStates(response2.data.data);
+                    }
+                }
+
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
             } else {
                 setError("email", { type: "manual", message: response.data.message });
@@ -47,7 +58,7 @@ const LoginFormContent = () => {
         } catch (error) {
             setError("email", { type: "manual", message: "Login failed. Please try again." });
         }
-    }, [executeRecaptcha, setError, setAuth, router]);
+    }, [executeRecaptcha, setError, setAuth, usStates, setStates]);
 
     return (
         <section className="section-margin">

@@ -54,7 +54,6 @@ export default function MyContractingPage() {
                     contractsData.push(row);
                 }
             }
-            console.log('carrierUsedStates',carrierUsedStates);
 
             // Список всех доступных страховых компаний. Для тех у кого уже есть контракты, уберем из списка "занятые" штаты
             // и добавим в таблицу со свободными штатами только. Для того чтобы можно было запросить контракт на эти штаты.
@@ -72,7 +71,7 @@ export default function MyContractingPage() {
                         status: 'Available',
                         statusDate: '',
                         writingNo: '',
-                        appointedStates: allowedStates.join(', ') || '',
+                        appointedStates: allowedStates.join(',') || '',
                         markets: 'ACA',
                         RequestContract: ''
                     };

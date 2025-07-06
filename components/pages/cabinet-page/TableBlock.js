@@ -1,18 +1,60 @@
 'use client'
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import {  Box } from '@mui/material';
+import {Box, FormControl, InputLabel, MenuItem, Select} from '@mui/material';
 import RequestModal from "./RequestModal";
-import {useState} from "react";
+import {useMemo, useState} from "react";
+import {useCacheStore} from "../../storage";
 
 export default function TableBlock({tableData, fetchData}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
+    const { usStates } = useCacheStore();
     const [formData, setFormData] = useState({
         name: '',
         markets: '',
         appointedStates: [],
     });
+    const [selectedState, setSelectedState] = useState('');
+
+    // Фильтрация строк
+    const filteredRows = useMemo(() => {
+        if (!selectedState) return tableData;
+        return tableData.filter(row =>
+          row.appointedStates.split(',').includes(selectedState)
+        );
+    }, [selectedState, tableData])
+
+    const stateFilterOperator = {
+        label: 'contains state',
+        value: 'containsState',
+        getApplyFilterFn: (filterItem) => {
+            if (!filterItem.value) {
+                return null;
+            }
+            return (value) => {
+                if (!value) return false;
+                return value.split(',').includes(filterItem.value);
+            };
+        },
+        InputComponent: ({applyValue, item}) => {
+            return (
+              <Select
+                value={item.value || ''}
+                onChange={(e) => applyValue({...item, value: e.target.value})}
+                size="small"
+                sx={{minWidth: 150}}
+              >
+                  <MenuItem value="">All States</MenuItem>
+                  {Object.keys(usStates).map((code) => (
+                    <MenuItem key={code} value={code}>
+                        {usStates[code]}
+                    </MenuItem>
+                  ))}
+              </Select>
+            );
+        }
+    }
     const columns = [
         { field: 'carrier', headerName: 'Carrier', flex: 1 },
         {
@@ -25,7 +67,9 @@ export default function TableBlock({tableData, fetchData}) {
         },
         { field: 'statusDate', headerName: 'Status Date', flex: 1 },
         { field: 'writingNo', headerName: 'Writing No', flex: 1 },
-        { field: 'appointedStates', headerName: 'Appointed States', flex: 1 },
+        { field: 'appointedStates', headerName: 'Appointed States', flex: 1,
+            filterOperators: [stateFilterOperator], // Привязываем кастомный фильтр
+        },
         { field: 'markets', headerName: 'Markets', flex: 1 },
         {
             field: 'requestContract',
@@ -65,14 +109,37 @@ export default function TableBlock({tableData, fetchData}) {
     return (
         <>
             <Box sx={{ width: '100%', overflowX: 'auto' }}>
-                <Box sx={{ minWidth: 1000 }}> {/* или больше, если нужно */}
+                <Box sx={{ minWidth: 1000, paddingTop: 1 }}> {/* или больше, если нужно */}
+                    <FormControl sx={{ mb: 2, minWidth: 200 }}>
+                        <InputLabel id="state-filter-label">Filter by State</InputLabel>
+                        <Select
+                          labelId="state-filter-label"
+                          value={selectedState}
+                          label="Filter by State"
+                          onChange={(e) => setSelectedState(e.target.value)}
+                        >
+                            <MenuItem value="">All States</MenuItem>
+                            {Object.keys(usStates).map((code) => (
+                              <MenuItem key={code} value={code}>
+                                  {usStates[code]}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <DataGrid
                         autoHeight
-                        rows={tableData}
+                        rows={filteredRows}
                         columns={columns}
-                        pageSize={5}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 10
+                                }
+                            },
+                        }}
                         rowsPerPageOptions={[5, 10, 25]}
                         disableRowSelectionOnClick
+                        filterMode="client"
                         sx={{
                             '& .MuiDataGrid-footerContainer': {
                                 justifyContent: 'space-between',
