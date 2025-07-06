@@ -102,15 +102,15 @@ export default function MyPortalPage() {
         td.push({
             'id': 'user-producer-agreement',
             'agreementType': 'Producer Agreement',
-            'agreementNo': user.producerAgreementNo || '',
-            'agreementDate': user.producerAgreementDate && formatDate(user.producerAgreementDate) || '',
+            'agreementNo': user?.producerAgreementNo || '',
+            'agreementDate': user?.producerAgreementDate && formatDate(user?.producerAgreementDate) || '',
         })
-        if(user.agent_type === 2) {
+        if(user?.agent_type === 2) {
             td.push({
                 'id': 'user-fee-agreement',
               'agreementType': 'Administration Fee Agreement',
-              'agreementNo': user.feeAgreementNo || '',
-              'agreementDate': user.feeAgreementDate && formatDate(user.feeAgreementDate) || '',
+              'agreementNo': user?.feeAgreementNo || '',
+              'agreementDate': user?.feeAgreementDate && formatDate(user?.feeAgreementDate) || '',
             })
         }
         setTableData(td);
@@ -149,7 +149,7 @@ export default function MyPortalPage() {
     return (
         <MainLayout isAuth>
             <section className="outer-section-margin">
-                { isHydrated && user.id &&
+                { isHydrated && user?.id &&
                     <h2 className={'text-center pb-2'}>Greetings, {user?.first_name} {user?.last_name}</h2>
                 }
                 <div className="container">
