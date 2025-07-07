@@ -104,6 +104,7 @@ export default function MyPortalPage() {
             'agreementType': 'Producer Agreement',
             'agreementNo': user?.producerAgreementNo || '',
             'agreementDate': user?.producerAgreementDate && formatDate(user?.producerAgreementDate) || '',
+            'npn': user?.npn,
         })
         if(user?.agent_type === 2) {
             td.push({
@@ -111,6 +112,7 @@ export default function MyPortalPage() {
               'agreementType': 'Administration Fee Agreement',
               'agreementNo': user?.feeAgreementNo || '',
               'agreementDate': user?.feeAgreementDate && formatDate(user?.feeAgreementDate) || '',
+              'npn': user?.npn,
             })
         }
         setTableData(td);
@@ -176,7 +178,7 @@ export default function MyPortalPage() {
                                 <div className="mb-4">
                                     <div className="fw-semibold mb-2">Address:</div>
                                     <div className="mb-2"></div>
-                                    <div></div>
+                                    <div>{user?.address}</div>
                                 </div>
                                 <div className="mb-4">
                                     <div className="d-flex align-items-center mb-2">
@@ -187,7 +189,7 @@ export default function MyPortalPage() {
                                     </div>
                                     <div className="d-flex align-items-center">
                                         <svg className="svg-icon flex-shrink-0 me-2">
-                                            <use xlinkHref="/images/sprite.svg#phone-icon"></use>
+                                            <use xlinkHref="/images/sprite.svg#email-icon"></use>
                                         </svg>
                                         {user?.email}
                                     </div>

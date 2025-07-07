@@ -3,16 +3,12 @@ import React, {useEffect} from 'react';
 import {Box} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
 import {useRouter} from "next/navigation";
+import {AGREEMENTS_FEE_PDF_API_URL, AGREEMENTS_PRODUCER_PDF_API_URL} from "../../constants";
 
 
 export default function AgreementsModal({ isOpen, onClose, tableData}) {
     const router = useRouter();
     if (!isOpen) return null;
-
-    useEffect(() => {
-      console.log(tableData);
-    }, tableData)
-
 
     const columns = [
         { field: 'agreementType', headerName: 'Agreement type', width: 300, cellClassName: 'fw-bolder', editable: false },
@@ -22,10 +18,10 @@ export default function AgreementsModal({ isOpen, onClose, tableData}) {
 
     const handleRowClick = (params, event, details) => {
       if(params.id === 'user-producer-agreement') {
-        router.push('/cabinet/my-producer-agreement');
+        router.push(AGREEMENTS_PRODUCER_PDF_API_URL + 'producer-agreement-'+ tableData[0].npn +'.pdf');
       }
       else if(params.id === 'user-fee-agreement') {
-        router.push('/cabinet/my-fee-agreement');
+        router.push(AGREEMENTS_FEE_PDF_API_URL + 'fee-agreement-'+ tableData[1].npn +'.pdf');
       }
     }
 
