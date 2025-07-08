@@ -5,11 +5,13 @@ import {CLIENT_API_URL} from "../../constants";
 import {useRouter, useSearchParams} from 'next/navigation';
 import axios from "axios";
 import {toast} from "sonner";
-import { useAuthStore } from "../../storage";
+import {useAuthStore, useCacheStore} from "../../storage";
 
 export default function TokenForm() {
     const router = useRouter();
     const setAuth = useAuthStore((state) => state.setAuth);
+    const setStates = useCacheStore((state) => state.setStates);
+    const { usStates } = useCacheStore();
     const [isLogged, setIsLogged] = useState(false);
 
     const searchParams = useSearchParams();
@@ -30,6 +32,13 @@ export default function TokenForm() {
                 user.feeAgreementDate = user.fee_agreement_date ? new Date(user.fee_agreement_date) : '';
                 setAuth(signToken, user);
                 toast.success(`You are logged in as ${user.first_name} ${user.last_name}.`);
+                if(!usStates) {
+                    const response2 = await axios.get(CLIENT_API_URL + '/api/states');
+                    if(response2?.data?.data) {
+                        setStates(response2.data.data);
+                    }
+                }
+
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
             }
             else {

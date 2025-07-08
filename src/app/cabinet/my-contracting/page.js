@@ -49,7 +49,8 @@ export default function MyContractingPage() {
                         writingNo: contract.contract_no || '',
                         appointedStates: appointedStates.join(',') || '',
                         markets: contract.market ? contract.market.market_name : '',
-                        RequestContract: ''
+                        RequestContract: '',
+                        className: `text-status-level-${contract.status?.level || '0'}`
                     };
                     contractsData.push(row);
                 }
@@ -73,7 +74,8 @@ export default function MyContractingPage() {
                         writingNo: '',
                         appointedStates: allowedStates.join(',') || '',
                         markets: 'ACA',
-                        RequestContract: ''
+                        RequestContract: '',
+                        className: 'text-status-level-4'
                     };
                     contractsData.push(row);
                 }

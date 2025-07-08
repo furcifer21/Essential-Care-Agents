@@ -165,6 +165,22 @@ h1, h2, h3, h4, h5, h6 {
   border: none !important;
 }
 
-.text-orange {
+.text-orange, .text-status-level-1 {
   color: #E8623C;
+}
+
+.text-status-level-3 {
+  color: #E8623C;
+}
+
+.text-status-level-2 {
+  color: red;
+}
+
+.text-status-level-4 {
+  color: green;
+}
+
+.text-status-level-0 {
+  color: inherit;
 }

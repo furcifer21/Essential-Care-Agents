@@ -62,7 +62,7 @@ export default function TableBlock({tableData, fetchData}) {
             headerName: 'Status',
             flex: 1,
             renderCell: (params) => (
-              <span style={{color: params.row.status === 'Available' ? 'green' : 'inherit'}}>{params.row.status}</span>
+              <span className={params.row.className} >{params.row.status}</span>
             ),
         },
         { field: 'statusDate', headerName: 'Status Date', flex: 1 },
