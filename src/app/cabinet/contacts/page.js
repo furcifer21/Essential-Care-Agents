@@ -81,7 +81,7 @@ export default function MyHomePage() {
                     <div className="row">
                         <div className="col-md-12 col-xl-6 position-relative text-center pointer">
                             <div className="contacts-links-section__card align-content-center">
-                                <a href="https://cms.gov" target="_blank" className="fake-link-block"></a>
+                                <a href="https://www.cms.gov/medicare/medicaid-coordination/center-program-integrity/reporting-fraud" target="_blank" className="fake-link-block"></a>
                                 <h4 style={{fontSize:'24px', fontWeight:'800'}}> Medicare Fraud, Waste & Abuse OIG</h4>
                                 <span style={{fontSize:'22px', fontWeight:'400'}}>Hotline: (800) 447-8477 | CMS.gov</span>
                             </div>
