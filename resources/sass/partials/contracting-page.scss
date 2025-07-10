@@ -244,6 +244,58 @@
   }
 }
 
+.contacts-links-section {
+  background-color: #faf9fc;
+
+  &__card {
+    border-radius: 7px;
+    height: 200px;
+    padding: 24px 0;
+    margin-bottom: 24px;
+    background-color: #fff;
+    box-shadow: 5px 11px 26px rgba(49, 60, 88, 0.4);
+    transition: all .2s;
+    &:hover {
+     @media (min-width: breakpoint-min(xl)) {
+       h4, .svg-icon, span {
+         color: #E8623C;
+       }
+       h4::before {
+         background-color: #E8623C;
+       }
+     }
+    }
+
+    h4 {
+      position: relative;
+      max-width: 80%;
+      margin: 0 auto 10px;
+      font-weight: bold;
+      font-size: 22px;
+      transition: all .2s;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 34px;
+        left: 25%;
+        width: 50%;
+        height: 1px;
+        background-color: #e6e9ec;
+      }
+    }
+
+    h4+span {
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    .svg-icon {
+      font-size: 32px;
+      transition: all .2s;
+    }
+  }
+}
+
 .certification-agents-card-wrap {
   grid-gap: 30px;
 }

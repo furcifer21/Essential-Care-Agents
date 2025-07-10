@@ -50,6 +50,10 @@ export default function AuthHeader() {
         //     name: 'Book of business',
         //     link: '/cabinet/book-of-business',
         // },
+        {
+            name: 'Contacts',
+            link: '/cabinet/contacts',
+        },
     ];
 
     useOutsideClick(popoverRef, () => {
