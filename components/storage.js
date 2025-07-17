@@ -18,6 +18,7 @@ export const useAuthStore = create(
         }
         set({ token, user, isHydrated: true });
       },
+      updateAvatar: (avatarPath) => set((state) => ({ user: {...state.user, avatar_path: avatarPath}, isHydrated: true })),
       clearAuth: () => set({ token: null, user: null }),
       setHydrated: () => set({ isHydrated: true }), // Устанавливаем флаг после загрузки
     }),
@@ -36,9 +37,13 @@ export const useCacheStore = create(
   persist(
     (set) => ({
       usStates: null,
+      usTimezones: null,
       isHydrated: false,
       setStates: (usStates) => {
         set({ usStates, isHydrated: true });
+      },
+      setTimezones: (usTimezones) => {
+        set({ usTimezones, isHydrated: true });
       },
       clearStorage: () => set({ usStates: null }),
       setHydrated: () => set({ isHydrated: true }), // Устанавливаем флаг после загрузки
