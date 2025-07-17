@@ -6,37 +6,31 @@ import {useRouter, useSearchParams} from 'next/navigation';
 import axios from "axios";
 import {toast} from "sonner";
 import {useAuthStore, useCacheStore} from "../../storage";
+import {fetchAgentProfile, updateCacheData} from "../../helper";
 
 export default function TokenForm() {
     const router = useRouter();
     const setAuth = useAuthStore((state) => state.setAuth);
-    const setStates = useCacheStore((state) => state.setStates);
-    const { usStates } = useCacheStore();
+    const { usStates, usTimezones, setStates, setTimezones } = useCacheStore();
     const [isLogged, setIsLogged] = useState(false);
 
     const searchParams = useSearchParams();
     const signToken = searchParams.get('token');
 
-    const fetchUser = async () => {
+    const localFetchUser = async () => {
         try {
-            const response = await axios.get(CLIENT_API_URL + '/api/user/profile', {
-                headers: {
-                    Authorization: `Bearer ${signToken}`,
-                },
-            });
-            if (response?.data?.data?.id) {
-                const user = response?.data?.data;
+            const user = fetchAgentProfile(signToken);
+            if (user) {
                 user.producerAgreementNo = user.producer_agreement_no;
                 user.producerAgreementDate = user.producer_agreement_date ? new Date(user.producer_agreement_date) : '';
                 user.feeAgreementNo = user.fee_agreement_no;
                 user.feeAgreementDate = user.fee_agreement_date ? new Date(user.fee_agreement_date) : '';
                 setAuth(signToken, user);
                 toast.success(`You are logged in as ${user.first_name} ${user.last_name}.`);
-                if(!usStates) {
-                    const response2 = await axios.get(CLIENT_API_URL + '/api/states');
-                    if(response2?.data?.data) {
-                        setStates(response2.data.data);
-                    }
+                if(!usStates || !usTimezones) {
+                    const cache =await updateCacheData();
+                    setStates(cache.states);
+                    setTimezones(cache.timezones);
                 }
 
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
@@ -54,7 +48,7 @@ export default function TokenForm() {
 
     useEffect( () => {
         if(!isLogged) {
-            fetchUser();
+            localFetchUser();
         }
     })
 

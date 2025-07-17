@@ -1,5 +1,7 @@
 'use client'
 import {useEffect} from "react";
+import axios from "axios";
+import {CLIENT_API_URL} from "./constants";
 
 export function useOutsideClick (ref, callback) {
     const handleClick = (e) => {
@@ -80,4 +82,55 @@ export function formatDate(dt) {
     catch (e) {
         return '';
     }
+}
+
+export async function updateCacheData() {
+    const data = {
+        states: null,
+        timezones: null,
+    }
+    try {
+        const response = await axios.get(CLIENT_API_URL + '/api/states');
+        if (response?.data?.data) {
+            data.states = response.data.data;
+        }
+    }
+    catch (e) {
+        
+    }
+
+    try {
+        const response = await axios.get(CLIENT_API_URL + '/api/timezones');
+        if (response?.data?.data) {
+            data.timezones = response.data.data;
+        }
+    }
+    catch (e) {
+        
+    }
+
+    return data;
+}
+
+export async function fetchAgentProfile( token ) {
+    const response = await axios.get(CLIENT_API_URL + '/api/user/profile', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return (response?.data?.data?.id)
+        ? response?.data?.data
+        :null
+}
+
+export async function updateAgentTimezone( token, timezone ) {
+    await axios.post(CLIENT_API_URL + '/api/user/update', {
+          "timezone": timezone,
+      },
+      {
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+          }
+      });
 }

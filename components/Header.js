@@ -83,14 +83,6 @@ export default function Header() {
                                 </svg>
                                 <span className="d-none d-xl-inline">acacontracting@essentialcare.info</span>
                             </a>
-                            <a href="https://www.facebook.com/EssentialCareInsuranceAgency"
-                               className="social-btn d-inline-flex flex-shrink-0 ms-2"
-                               target="_blank"
-                            >
-                                <svg className="svg-icon">
-                                    <use xlinkHref="/images/sprite.svg#facebook-icon"></use>
-                                </svg>
-                            </a>
                             <button className={`burger-btn d-xl-none flex-shrink-0 ms-3 ${isMobileMenuOpen ? 'active' : ''}`}
                                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             >
