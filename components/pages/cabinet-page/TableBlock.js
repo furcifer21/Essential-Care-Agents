@@ -133,11 +133,10 @@ export default function TableBlock({tableData, fetchData}) {
                         initialState={{
                             pagination: {
                                 paginationModel: {
-                                    pageSize: 10
+                                    pageSize: 25
                                 }
                             },
                         }}
-                        rowsPerPageOptions={[5, 10, 25]}
                         disableRowSelectionOnClick
                         filterMode="client"
                         sx={{

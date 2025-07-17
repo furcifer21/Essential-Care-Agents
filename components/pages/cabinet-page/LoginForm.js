@@ -7,6 +7,7 @@ import {useRouter} from 'next/navigation';
 import  { useAuthStore, useCacheStore } from '../../storage';
 import axios from "axios";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import {updateCacheData} from "../../helper";
 
 const LoginFormContent = () => {
     const {
@@ -20,7 +21,8 @@ const LoginFormContent = () => {
     const router = useRouter();
     const setAuth = useAuthStore((state) => state.setAuth);
     const setStates = useCacheStore((state) => state.setStates);
-    const { usStates } = useCacheStore();
+    const setTimezones = useCacheStore((state) => state.setTimezones);
+    const { usStates, usTimezones } = useCacheStore();
     const { executeRecaptcha } = useGoogleReCaptcha();
 
     const onSubmit = useCallback(async (data) => {
@@ -44,11 +46,10 @@ const LoginFormContent = () => {
                 user.feeAgreementDate= response.data.user.fee_agreement_date ? new Date(response.data.user.fee_agreement_date): '';
                 setAuth(response.data.token, user);
 
-                if(!usStates) {
-                    const response2 = await axios.get(CLIENT_API_URL + '/api/states');
-                    if(response2?.data?.data) {
-                        setStates(response2.data.data);
-                    }
+                if(!usStates || !usTimezones) {
+                    const cache = await updateCacheData();
+                    setStates(cache.states);
+                    setTimezones(data.timezones);
                 }
 
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
@@ -58,7 +59,7 @@ const LoginFormContent = () => {
         } catch (error) {
             setError("email", { type: "manual", message: "Login failed. Please try again." });
         }
-    }, [executeRecaptcha, setError, setAuth, usStates, setStates]);
+    }, [executeRecaptcha, setError, setAuth, usStates, setStates, usTimezones, setTimezones, router]);
 
     return (
         <section className="section-margin">
