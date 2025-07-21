@@ -18,7 +18,7 @@ export const useAuthStore = create(
         }
         set({ token, user, isHydrated: true });
       },
-      updateAvatar: (avatarPath) => set((state) => ({ user: {...state.user, avatar_path: avatarPath}, isHydrated: true })),
+      updateAvatar: (avatarPath) => set((state) => ({ user: {...state.user, avatar_path: avatarPath, v: (state?.v || 1)+1}, isHydrated: true })),
       clearAuth: () => set({ token: null, user: null }),
       setHydrated: () => set({ isHydrated: true }), // Устанавливаем флаг после загрузки
     }),

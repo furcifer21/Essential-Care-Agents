@@ -1,3 +1,19 @@
+a {
+  color: #536878;
+  text-decoration: underline;
+  &:hover {
+    color: #E8623C;
+    text-decoration: underline;
+  }
+}
+
+input {
+  &[type=checkbox] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
 .sort-icon {
   border-radius: 4px;
   padding: 2px 4px;
@@ -104,6 +120,28 @@
     border-radius: 0 0 6px 6px;
     color: #fff;
     font-size: 13px;
+  }
+}
+
+.mydata-card {
+  border-radius: 6px;
+  height: 100%;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, .15), 0 1px 3px 0 rgba(0, 0, 0, .15);
+
+  &__title {
+    font-weight: bolder;
+    font-size: 18px;
+    .svg-icon {
+      font-size: 32px;
+      color: #fff;
+    }
+  }
+
+  &__text {
+    margin-top: 6px;
+    font-size: 16px;
   }
 }
 
@@ -246,5 +284,12 @@
 
   th {
     text-align: center;
+  }
+}
+
+.update-avatar-btn {
+  color: #536878;
+  &:hover {
+    color: #E8623C;
   }
 }

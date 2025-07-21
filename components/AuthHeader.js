@@ -5,6 +5,7 @@ import React, {useRef, useState} from "react";
 import {useOutsideClick} from "./helper";
 import { useAuthStore } from "./storage";
 import {useRouter} from "next/navigation";
+import {IMAGE_API_URL} from "./constants";
 
 export default function AuthHeader() {
     const popoverRef = useRef(null);
@@ -76,18 +77,16 @@ export default function AuthHeader() {
                             <div className="avatar-block d-flex align-items-center" onClick={() => setShowUserPopover(!showUserPopover)}>
                                 <div title={`User Name`} className="avatar-block__name d-none d-md-block me-2">{user?.first_name} {user?.last_name}</div>
                                 <div title={`User Name`} className="avatar-block__img position-relative pointer">
-                                    <Image src={`/images/user-normal.png`}
-                                           fill
+                                    <img src={(user?.avatar_path ? IMAGE_API_URL + user.avatar_path + '?x='+new Date().getTime() : `/images/user-normal.png`)}
                                            alt="avatar"
-                                           objectFit="cover"
+                                           style={{ objectFit: 'cover', width: '100%', height: '100%', position: 'absolute', left:0, top:0 }}
                                     />
                                 </div>
                                 <div ref={popoverRef} className={`avatar-block__popover d-flex ${showUserPopover ? 'opened' : ''}`}>
                                     <div className="avatar-block__img position-relative me-3">
-                                        <Image src={`/images/user-normal.png`}
-                                               fill
+                                        <img src={(user?.avatar_path ? IMAGE_API_URL + user.avatar_path + '?x='+new Date().getTime() : `/images/user-normal.png`)}
                                                alt="avatar"
-                                               objectFit="cover"
+                                             style={{ objectFit: 'cover', width: '100%', height: '100%', position: 'absolute', left:0, top:0 }}
                                         />
                                     </div>
                                     <div className="avatar-block__popover-info">

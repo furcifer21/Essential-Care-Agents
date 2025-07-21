@@ -12,6 +12,11 @@ const nextConfig = {
             hostname: 'host.docker.internal',
             port: '9155',
           },
+          {
+            protocol: 'http',
+            hostname: 'localhost',
+            port: '9155',
+          },
         ]
         : []),
       {
