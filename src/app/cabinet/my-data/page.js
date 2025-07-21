@@ -17,7 +17,7 @@ import {maxHeight} from "@mui/system";
 export default function MyDataPage() {
     const {token, user, isHydrated, setAuth} = useAuthStore();
     const { usStates, usTimezones, setStates, setTimezones } = useCacheStore();
-    const [selectedTZ, setSelectedTZ] = useState('America/New_York');
+    const [selectedTZ, setSelectedTZ] = useState('CDT/Central Daylight Time');
 
 
     const router = useRouter();
