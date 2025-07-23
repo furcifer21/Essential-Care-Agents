@@ -19,7 +19,7 @@ export default function TokenForm() {
 
     const localFetchUser = async () => {
         try {
-            const user = fetchAgentProfile(signToken);
+            const user = await fetchAgentProfile(signToken);
             if (user) {
                 user.producerAgreementNo = user.producer_agreement_no;
                 user.producerAgreementDate = user.producer_agreement_date ? new Date(user.producer_agreement_date) : '';
