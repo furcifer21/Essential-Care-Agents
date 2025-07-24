@@ -20,7 +20,7 @@ export default function ProducerAgreementModal({ isOpen, onClose}) {
                 </div>
                 <div className="row">
                   <div className="col-12 text-center">
-                    <Link href={FORM_PRODUCER_AGREEMENT_LINK} target='_blank' className="btn-basic d-none d-xl-inline-flex py-2">Read and Sign the Producer Agreement</Link>
+                    <Link href={FORM_PRODUCER_AGREEMENT_LINK} target='_blank' className="btn-basic d-none d-xl-inline-flex py-2">Review and Sign the Producer Agreement</Link>
                   </div>
                 </div>
             </div>
