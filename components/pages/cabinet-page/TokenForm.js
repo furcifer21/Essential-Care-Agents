@@ -26,7 +26,7 @@ export default function TokenForm() {
                 user.feeAgreementNo = user.fee_agreement_no;
                 user.feeAgreementDate = user.fee_agreement_date ? new Date(user.fee_agreement_date) : '';
                 setAuth(signToken, user);
-                toast.success(`You are logged in as ${user.first_name} ${user.last_name}.`);
+                // toast.success(`You are logged in as ${user.first_name} ${user.last_name}.`);
                 if(!usStates || !usTimezones) {
                     const cache =await updateCacheData();
                     setStates(cache.states);
