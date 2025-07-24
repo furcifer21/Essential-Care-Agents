@@ -35,7 +35,6 @@ export default async function AcaContractingPage() {
         console.error("Error fetching carriers:", error);
     }
 
-
     return (
         <MainLayout>
             <div className="contract-page-wrap">

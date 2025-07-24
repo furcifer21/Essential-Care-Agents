@@ -137,6 +137,7 @@ export default function TableBlock({tableData, fetchData}) {
                                 }
                             },
                         }}
+                        rowsPerPageOptions={[5, 10, 25]}
                         disableRowSelectionOnClick
                         filterMode="client"
                         sx={{

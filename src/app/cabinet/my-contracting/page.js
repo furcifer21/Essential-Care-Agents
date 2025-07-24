@@ -7,6 +7,7 @@ import axios from "axios";
 import {CLIENT_API_URL} from "../../../../components/constants";
 import { useAuthStore } from "../../../../components/storage";
 import {toast} from "sonner";
+import ProducerAgreementModal from "../../../../components/pages/contracting-page/ProducerAgreementModal";
 
 
 //todo: check if user is authenticated - redirect to login page if not authenticated
@@ -91,6 +92,16 @@ export default function MyContractingPage() {
             }
         }
     };
+
+    const handleProducerAgreementClick = (evt) => {
+        evt.preventDefault();
+        setIsModalOpen(true);
+    }
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
 
     useEffect(() => {
         if (!isHydrated) {

@@ -1,12 +1,13 @@
 "use client";
 
 import { toast } from 'sonner';
-import React from "react";
+import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from "next/navigation";
 import {GoogleReCaptchaProvider, useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import ProducerAgreementModal from "./ProducerAgreementModal";
 
 const FormBlockContent = ({insuranceData}) => {
     const router = useRouter();
@@ -18,6 +19,7 @@ const FormBlockContent = ({insuranceData}) => {
         watch
     } = useForm();
     const { executeRecaptcha } = useGoogleReCaptcha();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
@@ -44,15 +46,18 @@ const FormBlockContent = ({insuranceData}) => {
         return true;
     }
 
-
     const onSubmit = async (data) => {
         if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
-            toast.error('Please select at least 3 ACA carriers.');
+            toast.error('Please select at least 3 ACA carriers.', {
+              duration: 5000,
+            });
             return;
         }
 
         if (!executeRecaptcha) {
-          toast.error( 'reCAPTCHA not ready' );
+          toast.error( 'reCAPTCHA not ready' ,{
+            duration: 5000,
+          });
           return;
         }
 
@@ -84,12 +89,21 @@ const FormBlockContent = ({insuranceData}) => {
           const gRecaptchaToken = await executeRecaptcha('aca_contracting');
           formData.append('g-recaptcha-response', gRecaptchaToken);
           await axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
-          toast.success('Your request has been sent successfully. We will contact you soon.');
-          router.push('/');
+          toast.success('Your request has been sent successfully. We will contact you soon.',{
+            duration: 5000,
+          });
+          setIsModalOpen(true);
         }
         catch (e) {
-          toast.error('We have an issue with sending your request. ' + e.message);
+          toast.error('We have an issue with sending your request. ' + e.message,{
+            duration: 5000,
+          });
         }
+    };
+
+    const handleCloseModal = () => {
+      setIsModalOpen(false);
+      router.push('/');
     };
 
     return (
@@ -132,7 +146,7 @@ const FormBlockContent = ({insuranceData}) => {
             </div>
 
             <div className="d-flex flex-column mb-3">
-                <label className="mb-0">Phone</label>
+                <label className="mb-0">Phone<span className={'text-orange'}>*</span></label>
                 <input placeholder={`Your Phone`}
                     className={'light-placeholder'}
                     {...register('data[Phone]', {
@@ -214,6 +228,11 @@ const FormBlockContent = ({insuranceData}) => {
             </p>
 
             <button disabled={isSubmitting} type="submit" className="btn-basic w-100 justify-content-center">{isSubmitting ? 'REQUESTING...' : 'REQUEST CONTRACTING'}</button>
+
+            <ProducerAgreementModal
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+            />
         </form>
     );
 }

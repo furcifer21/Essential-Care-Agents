@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect} from "react";
+import React from "react";
 import FormBlock from "./FormBlock";
 import {IMAGE_API_URL} from "../../constants";
 

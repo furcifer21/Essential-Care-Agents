@@ -194,6 +194,20 @@ export default function MyPortalPage() {
                                         {user?.email}
                                     </div>
                                 </div>
+                                <div className="mb-4">
+                                    <div className="d-flex align-items-center mb-2">
+                                        <svg className="svg-icon flex-shrink-0 me-2">
+                                            <use xlinkHref="/images/sprite.svg#pdf1-icon"></use>
+                                        </svg>
+                                        W-9 form: {user?.pdf_w9_path ? 'Completed' : 'Need to fulfill'}
+                                    </div>
+                                    <div className="d-flex align-items-center">
+                                        <svg className="svg-icon flex-shrink-0 me-2">
+                                            <use xlinkHref="/images/sprite.svg#pdf1-icon"></use>
+                                        </svg>
+                                        Direct deposit form: {user?.pdf_direct_deposit_path ? 'Completed' : 'Need to fulfill'}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="col-md-6">
