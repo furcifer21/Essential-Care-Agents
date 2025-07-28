@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from 'sonner';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
@@ -20,6 +20,8 @@ const FormBlockContent = ({insuranceData}) => {
     } = useForm();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAgreementSigned, setIsAgreementSigned] = useState(false);
+    const [submittedData, setSubmittedData] = useState(null);
 
     const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
@@ -60,45 +62,63 @@ const FormBlockContent = ({insuranceData}) => {
           });
           return;
         }
+        setSubmittedData(data);
+        setIsModalOpen(true);
+    };
 
-        const sendData = [];
-        for(const [key, value] of Object.entries(data.data)) {
+    useEffect(() => {
+      if(!isAgreementSigned) {
+        return;
+      }
+
+      executeRecaptcha('aca_contracting')
+        .then((gRecaptchaToken) => {
+          const data = submittedData;
+          const sendData = [];
+
+          for(const [key, value] of Object.entries(data.data)) {
             if (key !== 'carriers') {
-                sendData.push({label: key, value});
+              sendData.push({label: key, value});
             }
-        }
+          }
 
-        for(let i = 1; i <= data.carriers.length; i++) {
+          for(let i = 1; i <= data.carriers.length; i++) {
             sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
-        }
+          }
 
-        const formData = new FormData();
-        formData.append("slug", "aca-contracting");
-        formData.append("subject", "ACA Contracting Request");
-        formData.append("gtoken", "ok");
-        sendData.forEach((element, index) => {
-          formData.append(`data[${index}][label]`, element.label);
-          formData.append(`data[${index}][value]`, element.value);
-        })
+          const formData = new FormData();
+          formData.append("slug", "aca-contracting");
+          formData.append("subject", "ACA Contracting Request");
+          formData.append("gtoken", "ok");
+          sendData.forEach((element, index) => {
+            formData.append(`data[${index}][label]`, element.label);
+            formData.append(`data[${index}][value]`, element.value);
+          })
 
-        if (data.attachment?.[0] instanceof File) {
+          if (data.attachment?.[0] instanceof File) {
             formData.append('files[]', data.attachment[0]);
-        }
-
-        try {
-          const gRecaptchaToken = await executeRecaptcha('aca_contracting');
+          }
           formData.append('g-recaptcha-response', gRecaptchaToken);
-          await axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
-          toast.success('Your request has been sent successfully. We will contact you soon.',{
-            duration: 5000,
+          return axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
+        })
+        .then((response) => {
+          toast.success('Your request has been sent successfully. We will contact you soon.', {
+            duration: 0,
           });
-          setIsModalOpen(true);
-        }
-        catch (e) {
-          toast.error('We have an issue with sending your request. ' + e.message,{
-            duration: 5000,
+          router.push('/');
+        })
+        .catch((e) => {
+          toast.error('We have an issue with sending your request. ' + e.message, {
+            duration: 0,
           });
-        }
+          setIsModalOpen(false);
+        })
+    },[isAgreementSigned]);
+
+
+    const handleClickAgreement = (evt) => {
+      evt.stopPropagation();
+      setIsAgreementSigned(true);
     };
 
     const handleCloseModal = () => {
@@ -232,6 +252,7 @@ const FormBlockContent = ({insuranceData}) => {
             <ProducerAgreementModal
               isOpen={isModalOpen}
               onClose={handleCloseModal}
+              onClick={handleClickAgreement}
             />
         </form>
     );

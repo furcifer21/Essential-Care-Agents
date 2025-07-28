@@ -5,14 +5,16 @@ import Link from "next/link";
 import {FORM_PRODUCER_AGREEMENT_LINK} from "../../constants";
 
 
-export default function ProducerAgreementModal({ isOpen, onClose}) {
+export default function ProducerAgreementModal({ isOpen, onClose, onClick}) {
     const router = useRouter();
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="agreements-modal" onClick={(e) => e.stopPropagation()}>
-                <button className="modal-close text-main" onClick={onClose}>×</button>
+        // <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-overlay">
+            {/*<div className="agreements-modal" onClick={(e) => e.stopPropagation()}>*/}
+            <div className="agreements-modal">
+                {/*<button className="modal-close text-main" onClick={onClose}>×</button>*/}
                 <div className="row mb-4">
                   <div className="col-12 text-center text-main">
                     Before we continue, you need to sign an producer agreement with Essential Care.
@@ -20,7 +22,7 @@ export default function ProducerAgreementModal({ isOpen, onClose}) {
                 </div>
                 <div className="row">
                   <div className="col-12 text-center">
-                    <Link href={FORM_PRODUCER_AGREEMENT_LINK} target='_blank' className="btn-basic d-none d-xl-inline-flex py-2">Review and Sign the Producer Agreement</Link>
+                    <Link href={FORM_PRODUCER_AGREEMENT_LINK} onClick={onClick} target='_blank' className="btn-basic d-none d-xl-inline-flex py-2">Review and Sign the Producer Agreement</Link>
                   </div>
                 </div>
             </div>
