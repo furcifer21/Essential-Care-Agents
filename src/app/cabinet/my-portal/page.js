@@ -9,12 +9,15 @@ import {CLIENT_API_URL} from "../../../../components/constants";
 import {toast} from "sonner";
 import AgreementsModal from "../../../../components/pages/cabinet-page/AgreementsModal";
 import { formatDate} from "../../../../components/helper";
+import ImportantDocumentsModal from "../../../../components/pages/cabinet-page/ImportantDocumentsModal";
 
 export default function MyPortalPage() {
     const cards = [
         {
             name: 'Important Documents!',
-            link: 'https://drive.google.com/drive/folders/1Ayqh2fCx_s1eaCaD0TvSHQhPZwFdFMAz?usp=sharing',
+            link: '#',
+            click: (evt) => handleImportantDocumentsClick(evt),
+            // link: 'https://drive.google.com/drive/folders/1Ayqh2fCx_s1eaCaD0TvSHQhPZwFdFMAz?usp=sharing',
             text: 'Review Compliance, Procedures and Policies.',
             color: '#192954',
             icon: '',
@@ -85,7 +88,9 @@ export default function MyPortalPage() {
     ]
     const { token, user, isHydrated } = useAuthStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isImportantModalOpen, setIsImportantModalOpen] = useState(false);
     const [tableData, setTableData] = useState([]);
+    const [importantTableData, setImportantTableData] = useState([]);
 
     const router = useRouter();
     useEffect(() => {
@@ -117,6 +122,29 @@ export default function MyPortalPage() {
         }
         setTableData(td);
 
+        const itd=[];
+        itd.push({
+            'id' : 1,
+            'documentName': 'Employee Code Of Conduct.pdf',
+        });
+        itd.push({
+            'id' : 2,
+            'documentName': 'ESSENTIAL CARE AGENT & EMPLOYEE EXCLUSION SCREENING.pdf',
+        });
+        itd.push({
+            'id' : 3,
+            'documentName': 'FRAUD, WASTE & ABUSE.pdf',
+        });
+        itd.push({
+            'id' : 4,
+            'documentName': 'General Compliance Training.pdf',
+        });
+        itd.push({
+            'id' : 5,
+            'documentName': 'PRIVACY POLICY AND PROCEDURE.pdf',
+        });
+        setImportantTableData(itd);
+
 
         const fetchData = async () => {
             try {
@@ -143,9 +171,14 @@ export default function MyPortalPage() {
         evt.preventDefault();
         setIsModalOpen(true);
     }
+    const handleImportantDocumentsClick = (evt) => {
+        evt.preventDefault();
+        setIsImportantModalOpen(true);
+    }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setIsImportantModalOpen(false);
     };
 
     return (
@@ -256,6 +289,11 @@ export default function MyPortalPage() {
                 <AgreementsModal
                   tableData={tableData}
                   isOpen={isModalOpen}
+                  onClose={handleCloseModal}
+                />
+                <ImportantDocumentsModal
+                  tableData={importantTableData}
+                  isOpen={isImportantModalOpen}
                   onClose={handleCloseModal}
                 />
             </section>
