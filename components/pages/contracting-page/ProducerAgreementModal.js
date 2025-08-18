@@ -17,7 +17,7 @@ export default function ProducerAgreementModal({ isOpen, onClose, onClick}) {
                 {/*<button className="modal-close text-main" onClick={onClose}>×</button>*/}
                 <div className="row mb-4">
                   <div className="col-12 text-center text-main">
-                    Before we continue, you need to sign an producer agreement with Essential Care.
+                    To continue processing your request, you must sign an agreement with Essential Care.
                   </div>
                 </div>
                 <div className="row">
