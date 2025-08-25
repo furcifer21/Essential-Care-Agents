@@ -21,6 +21,7 @@ const ResetFormContent = () => {
     const router = useRouter();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [showPassword, setShowPassword] = useState(false);
+    const [isValidPasswordRules, setIsValidPasswordRules] = useState([false, false, false, false, false]);
 
     const searchParams = useSearchParams();
     const resetToken = searchParams.get('token');
@@ -51,6 +52,31 @@ const ResetFormContent = () => {
         }
     };
 
+    const setOneRule = (index, value) => {
+        setIsValidPasswordRules((prev) => {
+            const newRules = [...prev]; // Создаем копию массива
+            newRules[index] = value; // Изменяем 4-й элемент
+            return newRules;
+        });
+    }
+    const checkPasswordRules = (value) => {
+        // Check length > 7
+        if(value.length >7) setOneRule(0, true);
+        else setOneRule(0, false);
+        // Check at lease one lowercase
+        if(/[a-z]/.test(value)) setOneRule(1, true);
+        else setOneRule(1, false);
+        // Check at lease one capital
+        if(/[A-Z]/.test(value)) setOneRule(2, true);
+        else setOneRule(2, false);
+        // Check at lease one digit
+        if(/[0-9]/.test(value)) setOneRule(3, true);
+        else setOneRule(3, false);
+        // Check at lease one special character
+        if(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) setOneRule(4, true);
+        else setOneRule(4, false);
+    }
+
     return (
         <section className="section-margin">
             <div className="container">
@@ -67,9 +93,13 @@ const ResetFormContent = () => {
                             <label className="form-label">Password</label>
                             <input
                                 type={showPassword ? 'text' : 'password'}
-                                {...register('password', { required: 'Valid password is required' })}
+                                {...register('password', {
+                                    required: 'Valid password is required',
+                                    onChange: (e) => checkPasswordRules(e.target.value),
+                                })}
                                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                             />
+                            {!errors.password && (
                             <IconButton
                               onClick={() => setShowPassword(!showPassword)}
                               style={{
@@ -81,6 +111,7 @@ const ResetFormContent = () => {
                             >
                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
+                            )}
 
                             {errors.password && (
                                 <div className="invalid-feedback">{errors.password.message}</div>
@@ -112,8 +143,15 @@ const ResetFormContent = () => {
                                 <div className="invalid-feedback">{errors.passwordConfirmation.message}</div>
                             )}
                         </div>
+                        <div style={{width: 'fit-content', margin:'auto', display: 'flex', flexDirection: 'column', paddingBottom:'12px', fontSize:'.8rem', color:'red'}}>
+                            <div className='w-100' style={isValidPasswordRules[0]?{color:'green'}:{}}>&bull; At least 8 characters</div>
+                            <div className='w-100' style={isValidPasswordRules[1]?{color:'green'}:{}}>&bull; At least one lowercase letter</div>
+                            <div className='w-100' style={isValidPasswordRules[2]?{color:'green'}:{}}>&bull; At least one capital letter</div>
+                            <div className='w-100' style={isValidPasswordRules[3]?{color:'green'}:{}}>&bull; At least one digit</div>
+                            <div className='w-100' style={isValidPasswordRules[4]?{color:'green'}:{}}>&bull; At least one special character</div>
+                        </div>
 
-                        <button type="submit" className="btn-basic justify-content-center w-100">
+                        <button type="submit" className="btn-basic justify-content-center w-100" disabled={!isValidPasswordRules.every(Boolean)}>
                             Set new password
                         </button>
                     </form>
