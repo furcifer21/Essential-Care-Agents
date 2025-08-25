@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useCallback} from "react";
+import React, {useCallback, useState} from "react";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from 'next/navigation';
@@ -8,6 +8,9 @@ import  { useAuthStore, useCacheStore } from '../../storage';
 import axios from "axios";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import {updateCacheData} from "../../helper";
+import {IconButton} from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 
 const LoginFormContent = () => {
     const {
@@ -22,6 +25,9 @@ const LoginFormContent = () => {
     const setAuth = useAuthStore((state) => state.setAuth);
     const setStates = useCacheStore((state) => state.setStates);
     const setTimezones = useCacheStore((state) => state.setTimezones);
+    const [showPassword, setShowPassword] = useState(false);
+
+
     const { usStates, usTimezones } = useCacheStore();
     const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -79,13 +85,27 @@ const LoginFormContent = () => {
                             )}
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-4" style={{position:'relative'}}>
                             <label className="form-label">Password</label>
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 {...register('password', { required: 'Valid password is required' })}
                                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                             />
+                            {!errors.passwordConfirmation && (
+                              <IconButton
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{
+                                    position: 'absolute',
+                                    right: '8px',
+                                    top: '48%',
+                                    transform: 'translateY(-50%)',
+                                }}
+                              >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            )}
+
                             <div className="forgot-pass pt-3 text-end">
                                 <a href="/forgot" className="">Forgot password?</a>
                             </div>
