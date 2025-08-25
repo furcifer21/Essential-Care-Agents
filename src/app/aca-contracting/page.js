@@ -15,6 +15,7 @@ export const metadata = {
 
 export default async function AcaContractingPage() {
     const insuranceData = [];
+    const usaStates = [];
     try {
         const response = await axios.get(API_URL + '/api/carriers');
         if (response?.data?.data && Array.isArray(response.data.data)) {
@@ -35,10 +36,22 @@ export default async function AcaContractingPage() {
         console.error("Error fetching carriers:", error);
     }
 
+    try {
+        const response = await axios.get(API_URL + '/api/states');
+        if(response?.data?.data) {
+            for(const [key, value] of Object.entries(response?.data?.data)) {
+                usaStates.push({'id': key, 'state_name': value});
+            }
+        }
+    }
+    catch (error) {
+        console.error("Error fetching USA States:", error);
+    }
+
     return (
         <MainLayout>
             <div className="contract-page-wrap">
-                <ContractingForm insuranceData={insuranceData} />
+                <ContractingForm insuranceData={insuranceData} usaStates={usaStates} />
                 {insuranceData.length > 0 &&
                     <InsuranceSection insuranceData={insuranceData}/>
                 }

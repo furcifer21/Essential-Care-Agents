@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, {useEffect} from "react";
 import FormBlock from "./FormBlock";
 import {IMAGE_API_URL} from "../../constants";
 
-export default function ContractingForm({insuranceData}) {
+export default function ContractingForm({insuranceData, usaStates}) {
     return (
         <section className="contract-form-section section-margin">
             <div className="container">
@@ -16,7 +16,7 @@ export default function ContractingForm({insuranceData}) {
                     Safeguard your existing client base and enhance your service offerings by securing ACA contracts through Essential Care. Choose your preferred carriers and fill out the form below to get started.
                 </p>
                 <div className="contract-form-wrap d-xl-flex">
-                    <FormBlock insuranceData={insuranceData}  />
+                    <FormBlock insuranceData={insuranceData} usaStates={usaStates} />
                     <div className="contract-logos d-flex flex-xl-column flex-shrink-0 mt-4 mt-xl-0">
                         {insuranceData.map((carrier, index) => {
                             if(index < 13 && carrier.logo !== '/storage/') {

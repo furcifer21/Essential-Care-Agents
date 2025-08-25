@@ -8,105 +8,148 @@ import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter} from "next/navigation";
 import {GoogleReCaptchaProvider, useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import ProducerAgreementModal from "./ProducerAgreementModal";
+import {Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, useTheme} from "@mui/material";
 
-const FormBlockContent = ({insuranceData}) => {
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const FormBlockContent = ({insuranceData, usaStates}) => {
     const router = useRouter();
+    const theme = useTheme();
+
     const {
-        register,
-        handleSubmit,
-        control,
-        formState: { errors, isSubmitting },
-        reset,
-        watch
-    } = useForm();
-    const { executeRecaptcha } = useGoogleReCaptcha();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+          register,
+          handleSubmit,
+          control,
+          formState: { errors, isSubmitting },
+          reset,
+          watch
+      } = useForm();
+      const { executeRecaptcha } = useGoogleReCaptcha();
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [nonResidentStates, setNonResidentStates] = React.useState([]);
+      const [needNonResidentStates, setNeedNonResidentStates] = React.useState(false);
 
-    const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
-    function validateFile(files) {
-        if (!files || files.length === 0) return true;
-        if (files.length > 1) return "Please select only one file";
+      const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
-        const file = files[0];
-        const allowedTypes = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "image/gif",
-            "image/webp",
-            "image/bmp",
-            "image/svg+xml",
-        ];
+      function validateFile(files) {
+          if (!files || files.length === 0) return true;
+          if (files.length > 1) return "Please select only one file";
 
-        if (!allowedTypes.includes(file.type)) return "Only image files or PDFs are allowed";
+          const file = files[0];
+          const allowedTypes = [
+              "application/pdf",
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp",
+              "image/bmp",
+              "image/svg+xml",
+          ];
 
-        const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-        if (file.size > maxSizeInBytes) return "File size should be less than 5MB";
+          if (!allowedTypes.includes(file.type)) return "Only image files or PDFs are allowed";
 
-        return true;
-    }
+          const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+          if (file.size > maxSizeInBytes) return "File size should be less than 5MB";
 
-    const onSubmit = async (data) => {
-        if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
-            toast.error('Please select at least 3 ACA carriers.', {
+          return true;
+      }
+
+      const onSubmit = async (data) => {
+
+          if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
+              toast.error('Please select at least 3 ACA carriers.', {
+                duration: 5000,
+              });
+              return;
+          }
+
+          if (!executeRecaptcha) {
+            toast.error( 'reCAPTCHA not ready' ,{
               duration: 5000,
             });
             return;
-        }
+          }
+          executeRecaptcha('aca_contracting')
+            .then((gRecaptchaToken) => {
+              const sendData = [];
 
-        if (!executeRecaptcha) {
-          toast.error( 'reCAPTCHA not ready' ,{
-            duration: 5000,
-          });
-          return;
-        }
-        executeRecaptcha('aca_contracting')
-          .then((gRecaptchaToken) => {
-            const sendData = [];
-
-            for(const [key, value] of Object.entries(data.data)) {
-              if (key !== 'carriers') {
-                sendData.push({label: key, value});
+              for(const [key, value] of Object.entries(data.data)) {
+                if (key !== 'carriers' && key !== 'List of Non - Resident Licenses') {
+                  sendData.push({label: key, value});
+                }
               }
-            }
 
-            for(let i = 1; i <= data.carriers.length; i++) {
-              sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
-            }
+              for(let i = 1; i <= data.carriers.length; i++) {
+                sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
+              }
 
-            const formData = new FormData();
-            formData.append("slug", "aca-contracting");
-            formData.append("subject", "ACA Contracting Request");
-            formData.append("aca_carriers", data.carriers.join('|'));
-            sendData.forEach((element, index) => {
-              formData.append(`data[${index}][label]`, element.label);
-              formData.append(`data[${index}][value]`, element.value);
+              if(data?.data['Do you have any Non - Resident Licenses'] === 'Yes' && Array.isArray(data?.data['List of Non - Resident Licenses'])) {
+                sendData.push({
+                  label: `List of Non - Resident Licenses`,
+                  value: data?.data['List of Non - Resident Licenses'].join(', ')
+                });
+              }
+
+              const formData = new FormData();
+              formData.append("slug", "aca-contracting");
+              formData.append("subject", "ACA Contracting Request");
+              formData.append("aca_carriers", data.carriers.join('|'));
+              sendData.forEach((element, index) => {
+                formData.append(`data[${index}][label]`, element.label);
+                formData.append(`data[${index}][value]`, element.value);
+              })
+
+              if (data.attachment?.[0] instanceof File) {
+                formData.append('files[]', data.attachment[0]);
+              }
+              formData.append('g-recaptcha-response', gRecaptchaToken);
+              return axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
             })
+            .then((response) => {
+              toast.success('We received your request contracting. Your request will pending until you sign the Producer Agreement.', {
+                duration: 0,
+              });
+              setIsModalOpen(true);
+            })
+            .catch((e) => {
+              toast.error('We have an issue with sending your request. ' + e.message, {
+                duration: 0,
+              });
+              setIsModalOpen(false);
+            })
+      };
 
-            if (data.attachment?.[0] instanceof File) {
-              formData.append('files[]', data.attachment[0]);
-            }
-            formData.append('g-recaptcha-response', gRecaptchaToken);
-            return axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
-          })
-          .then((response) => {
-            toast.success('We received your request contracting. Your request will pending until you sign the Producer Agreement.', {
-              duration: 0,
-            });
-            setIsModalOpen(true);
-          })
-          .catch((e) => {
-            toast.error('We have an issue with sending your request. ' + e.message, {
-              duration: 0,
-            });
-            setIsModalOpen(false);
-          })
+      const handleClick = () => {
+        router.push('/');
+      }
+
+    const handleChangeNonResidentStates = (event) => {
+      const {
+        target: { value },
+      } = event;
+      setNonResidentStates(
+        typeof value === 'string' ? value.split(',') : value,
+      );
     };
 
-    const handleClick = () => {
-      router.push('/');
-    }
+  function getStyles(value, nonResidentStates, theme) {
+    return {
+      fontWeight: nonResidentStates.includes(value)
+        ? '600'
+        : '400',
+    };
+  }
 
     return (
         <form className="contract-form w-100" onSubmit={handleSubmit(onSubmit)}>
@@ -165,6 +208,86 @@ const FormBlockContent = ({insuranceData}) => {
                     {...register('data[Resident State]', { required: true, minLength: 2, maxLength: 255 })} />
                 {errors.residentState && <span>Resident State is required</span>}
             </div>
+
+            <div className="d-flex flex-column mb-2">
+              <label className="mb-2">Do you have any Non - Resident Licenses?</label>
+              <div className="d-flex">
+                <label className="me-4">
+                  <input type="radio" value="Yes" {...register('data[Do you have any Non - Resident Licenses]', { required: true })} />Yes
+                </label>
+                <label>
+                  <input type="radio" value="No" {...register('data[Do you have any Non - Resident Licenses]')} />No
+                </label>
+              </div>
+              {errors.nonResidentState && <span>This field is required</span>}
+            </div>
+
+          { watch("data[Do you have any Non - Resident Licenses]") === "Yes" &&
+            <div className="d-flex flex-column mb-2">
+                <label className="mb-2">List of Non - Resident Licenses:</label>
+                <Select
+                  {...register("data[List of Non - Resident Licenses]")}
+                  id="nonresident-multiple-chip"
+                  displayEmpty
+                  multiple
+                  value={nonResidentStates}
+                  onChange={handleChangeNonResidentStates}
+                  sx={{
+                    // Inactive state border color
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ffffff", // Custom color for inactive border
+                    },
+                    // Hover state border color
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#e8623c", // Custom color on hover
+                    },
+                    // Active (focused) state border color
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ffffff", // Custom color for active border
+                    },
+                    // Ensure no label offset
+                    "& .MuiSelect-root": {
+                      paddingTop: "8px", // Adjust padding to avoid label space
+                    },
+                    '& .MuiSelect-icon' : {
+                      color: '#ffffff',
+                    },
+                  }}
+                  renderValue={(selected) =>
+                    selected.length === 0 ? (
+                      <Box sx={{ color: "#ffffff" }}>Select Non - Resident Licenses...</Box>
+                    ) : (
+                    <Box sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 0.5
+                    }}>
+                      {selected.map((value) => (
+                        <Chip sx={{
+                          color: '#faf9fc',
+                          backgroundColor: '#e8623c',
+                        }}
+                              key={value} label={value}
+                        />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {usaStates.map((state) => (
+                    <MenuItem
+                      key={state.id}
+                      value={state.id}
+                      style={getStyles(state.id, nonResidentStates, theme)}
+                    >
+                      {state.state_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+            </div>
+          }
+
+
 
             <div className="d-flex flex-column mb-3">
                 <label className="mb-0">NPN<span className={'text-orange'}>*</span></label>
@@ -239,10 +362,10 @@ const FormBlockContent = ({insuranceData}) => {
     );
 }
 
-export default function FormBlock({insuranceData}) {
+export default function FormBlock({insuranceData, usaStates}) {
   return (
     <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_KEY}>
-      <FormBlockContent insuranceData={insuranceData}/>
+      <FormBlockContent insuranceData={insuranceData} usaStates={usaStates}/>
     </GoogleReCaptchaProvider>
   )
 };
