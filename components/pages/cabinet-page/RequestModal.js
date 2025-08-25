@@ -67,7 +67,6 @@ export default function RequestModal ({ isOpen, onClose, data, formData }) {
                     <div className="form-group">
                         <label>Markets (Single Select):</label>
                         <select {...register('markets', { required: 'Market is required' })}>
-                            <option value="">Select one</option>
                             {data?.markets?.split(',').map((market, index) => (
                                 <option key={index} value={market.trim()}>
                                     {market.trim()}

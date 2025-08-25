@@ -1,12 +1,14 @@
 'use client'
 
-import React from "react";
+import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {CLIENT_API_URL, RECAPTCHA_KEY} from "../../constants";
 import {useRouter, useSearchParams} from 'next/navigation';
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import axios from "axios";
 import {toast} from "sonner";
+import {IconButton} from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const ResetFormContent = () => {
     const {
@@ -18,6 +20,7 @@ const ResetFormContent = () => {
     } = useForm();
     const router = useRouter();
     const { executeRecaptcha } = useGoogleReCaptcha();
+    const [showPassword, setShowPassword] = useState(false);
 
     const searchParams = useSearchParams();
     const resetToken = searchParams.get('token');
@@ -60,25 +63,51 @@ const ResetFormContent = () => {
                         }
                     </h3>
                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                        <div className="mb-3">
+                        <div className="mb-3" style={{position:'relative'}}>
                             <label className="form-label">Password</label>
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 {...register('password', { required: 'Valid password is required' })}
                                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                             />
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                              style={{
+                                  position: 'absolute',
+                                  right: '8px',
+                                  top: '75%',
+                                  transform: 'translateY(-50%)',
+                              }}
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+
                             {errors.password && (
                                 <div className="invalid-feedback">{errors.password.message}</div>
                             )}
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-4" style={{position:'relative'}}>
                             <label className="form-label">Confirm Password</label>
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 {...register('passwordConfirmation', { required: 'Valid password is required' })}
                                 className={`form-control ${errors.passwordConfirmation ? 'is-invalid' : ''}`}
                             />
+                            {!errors.passwordConfirmation && (
+                                <IconButton
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  style={{
+                                      position: 'absolute',
+                                      right: '8px',
+                                      top: '75%',
+                                      transform: 'translateY(-50%)',
+                                  }}
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            )}
+
                             {errors.passwordConfirmation && (
                                 <div className="invalid-feedback">{errors.passwordConfirmation.message}</div>
                             )}
