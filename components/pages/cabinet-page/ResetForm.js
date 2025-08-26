@@ -17,11 +17,12 @@ const ResetFormContent = () => {
         setError,
         clearErrors,
         formState: { errors },
+        getValues
     } = useForm();
     const router = useRouter();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [showPassword, setShowPassword] = useState(false);
-    const [isValidPasswordRules, setIsValidPasswordRules] = useState([false, false, false, false, false]);
+    const [isValidPasswordRules, setIsValidPasswordRules] = useState([false, false, false, false, false, false]);
 
     const searchParams = useSearchParams();
     const resetToken = searchParams.get('token');
@@ -55,7 +56,7 @@ const ResetFormContent = () => {
     const setOneRule = (index, value) => {
         setIsValidPasswordRules((prev) => {
             const newRules = [...prev]; // Создаем копию массива
-            newRules[index] = value; // Изменяем 4-й элемент
+            newRules[index] = value; // Изменяем элемент
             return newRules;
         });
     }
@@ -75,6 +76,9 @@ const ResetFormContent = () => {
         // Check at lease one special character
         if(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value)) setOneRule(4, true);
         else setOneRule(4, false);
+        // Check Password is equals to Confirmation
+        if(value === getValues('passwordConfirmation')) setOneRule(5, true);
+        else setOneRule(5, false);
     }
 
     return (
@@ -122,7 +126,9 @@ const ResetFormContent = () => {
                             <label className="form-label">Confirm Password</label>
                             <input
                                 type={showPassword ? 'text' : 'password'}
-                                {...register('passwordConfirmation', { required: 'Valid password is required' })}
+                                {...register('passwordConfirmation', {
+                                    required: 'Valid password is required',
+                                })}
                                 className={`form-control ${errors.passwordConfirmation ? 'is-invalid' : ''}`}
                             />
                             {!errors.passwordConfirmation && (
@@ -149,6 +155,7 @@ const ResetFormContent = () => {
                             <div className='w-100' style={isValidPasswordRules[2]?{color:'green'}:{}}>&bull; At least one capital letter</div>
                             <div className='w-100' style={isValidPasswordRules[3]?{color:'green'}:{}}>&bull; At least one digit</div>
                             <div className='w-100' style={isValidPasswordRules[4]?{color:'green'}:{}}>&bull; At least one special character</div>
+                            <div className='w-100' style={isValidPasswordRules[5]?{color:'green'}:{}}>&bull; Password is equals to Confirmation</div>
                         </div>
 
                         <button type="submit" className="btn-basic justify-content-center w-100" disabled={!isValidPasswordRules.every(Boolean)}>
