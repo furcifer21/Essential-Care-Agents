@@ -11,7 +11,7 @@ import {fetchAgentProfile, updateCacheData} from "../../helper";
 export default function TokenForm() {
     const router = useRouter();
     const setAuth = useAuthStore((state) => state.setAuth);
-    const { usStates, usTimezones, setStates, setTimezones } = useCacheStore();
+    const { usStates, usTimezones, usCarriers, setStates, setTimezones, setCarriers } = useCacheStore();
     const [isLogged, setIsLogged] = useState(false);
 
     const searchParams = useSearchParams();
@@ -27,10 +27,11 @@ export default function TokenForm() {
                 user.feeAgreementDate = user.fee_agreement_date ? new Date(user.fee_agreement_date) : '';
                 setAuth(signToken, user);
                 // toast.success(`You are logged in as ${user.first_name} ${user.last_name}.`);
-                if(!usStates || !usTimezones) {
+                if(!usStates || !usTimezones || !usCarriers) {
                     const cache =await updateCacheData();
                     setStates(cache.states);
                     setTimezones(cache.timezones);
+                    setCarriers(cache.carriers);
                 }
 
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login

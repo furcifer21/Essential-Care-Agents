@@ -16,17 +16,18 @@ import {maxHeight} from "@mui/system";
 
 export default function MyDataPage() {
     const {token, user, isHydrated, setAuth} = useAuthStore();
-    const { usStates, usTimezones, setStates, setTimezones } = useCacheStore();
+    const { usStates, usTimezones, usCarriers, setStates, setTimezones, setCarriers } = useCacheStore();
     const [selectedTZ, setSelectedTZ] = useState('CDT/Central Daylight Time');
 
 
     const router = useRouter();
 
     const localFetchData = async () => {
-        if(!usStates || !usTimezones) {
+        if(!usStates || !usTimezones || !usCarriers) {
             const cache = await updateCacheData();
             setStates(cache.states);
             setTimezones(cache.timezones);
+            setCarriers(cache.carriers);
         }
     }
 

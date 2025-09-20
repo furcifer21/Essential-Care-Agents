@@ -37,15 +37,19 @@ export const useCacheStore = create(
   persist(
     (set) => ({
       usStates: null,
+      usCarriers: null,
       usTimezones: null,
       isHydrated: false,
       setStates: (usStates) => {
         set({ usStates, isHydrated: true });
       },
+      setCarriers: (usCarriers) => {
+        set({ usCarriers, isHydrated: true });
+      },
       setTimezones: (usTimezones) => {
         set({ usTimezones, isHydrated: true });
       },
-      clearStorage: () => set({ usStates: null }),
+      clearStorage: () => set({ usStates: null, usTimezones: null, usCarriers: null }),
       setHydrated: () => set({ isHydrated: true }), // Устанавливаем флаг после загрузки
     }),
     {

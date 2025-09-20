@@ -88,6 +88,7 @@ export async function updateCacheData() {
     const data = {
         states: null,
         timezones: null,
+        carriers: null,
     }
     try {
         const response = await axios.get(CLIENT_API_URL + '/api/states');
@@ -107,6 +108,16 @@ export async function updateCacheData() {
     }
     catch (e) {
         
+    }
+
+    try {
+        const response = await axios.get(CLIENT_API_URL + '/api/carriers');
+        if (response?.data?.data) {
+            data.carriers = response.data.data;
+        }
+    }
+    catch (e) {
+
     }
 
     return data;

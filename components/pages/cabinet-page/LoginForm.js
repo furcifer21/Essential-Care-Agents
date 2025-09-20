@@ -25,10 +25,11 @@ const LoginFormContent = () => {
     const setAuth = useAuthStore((state) => state.setAuth);
     const setStates = useCacheStore((state) => state.setStates);
     const setTimezones = useCacheStore((state) => state.setTimezones);
+    const setCarriers = useCacheStore((state) => state.setCarriers);
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const { usStates, usTimezones } = useCacheStore();
+    const { usStates, usTimezones, usCarriers } = useCacheStore();
     const { executeRecaptcha } = useGoogleReCaptcha();
 
     const onSubmit = useCallback(async (data) => {
@@ -52,10 +53,11 @@ const LoginFormContent = () => {
                 user.feeAgreementDate= response.data.user.fee_agreement_date ? new Date(response.data.user.fee_agreement_date): '';
                 setAuth(response.data.token, user);
 
-                if(!usStates || !usTimezones) {
+                if(!usStates || !usTimezones || !usCarriers) {
                     const cache = await updateCacheData();
                     setStates(cache.states);
-                    setTimezones(data.timezones);
+                    setTimezones(cache.timezones);
+                    setCarriers(cache.carriers);
                 }
 
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
@@ -65,7 +67,7 @@ const LoginFormContent = () => {
         } catch (error) {
             setError("email", { type: "manual", message: "Login failed. Please try again." });
         }
-    }, [executeRecaptcha, setError, setAuth, usStates, setStates, usTimezones, setTimezones, router]);
+    }, [executeRecaptcha, setError, setAuth, usStates, setStates, usTimezones, setTimezones, usCarriers, setCarriers, router]);
 
     return (
         <section className="section-margin">
