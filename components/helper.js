@@ -70,12 +70,17 @@ export function deleteCookie(name) {
     })
 }
 
-export function formatDate(dt) {
-    const options = {
-        month: 'long', // Полное название месяца (например, June)
-        day: 'numeric', // День месяца (например, 22)
+export function formatDate(dt,monthOnly=false) {
+    const options = monthOnly
+    ? {
+        month: 'short', // Короткое название месяца (например, June)
         year: 'numeric', // Полный год (например, 2025)
-    };
+    }
+    : {
+          month: 'long', // Полное название месяца (например, June)
+          day: 'numeric', // День месяца (например, 22)
+          year: 'numeric', // Полный год (например, 2025)
+      }
     try {
         return  new Intl.DateTimeFormat('en-US', options).format((dt instanceof Date) ? dt : new Date(dt));
     }
