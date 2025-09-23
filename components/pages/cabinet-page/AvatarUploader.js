@@ -70,7 +70,7 @@ export default function AvatarUploader({user, token}) {
       );
 
       const { avatar_path } = response.data;
-      updateAvatar(avatar_path); // Обновляем Zustand store
+      updateAvatar('/storage/'+avatar_path); // Обновляем Zustand store
       setShowDropzone(false);
       setSelectedFile(null);
       setError(null);
