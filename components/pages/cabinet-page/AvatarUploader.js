@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
 import axios from 'axios';
 import { useAuthStore } from '../../storage';
-import {CLIENT_API_URL, IMAGE_API_URL} from "../../constants";
+import {AVATAR_API_URL, CLIENT_API_URL, IMAGE_API_URL} from "../../constants";
 import {toast} from "sonner";
 
 export default function AvatarUploader({user, token}) {
@@ -70,7 +70,7 @@ export default function AvatarUploader({user, token}) {
       );
 
       const { avatar_path } = response.data;
-      updateAvatar('/storage/'+avatar_path); // Обновляем Zustand store
+      updateAvatar(avatar_path); // Обновляем Zustand store
       setShowDropzone(false);
       setSelectedFile(null);
       setError(null);
@@ -90,7 +90,7 @@ export default function AvatarUploader({user, token}) {
               user?.avatar_path ? (
                 <div className="mb-3">
                   <img
-                    src={IMAGE_API_URL + user.avatar_path + '?x='+new Date().getTime()}
+                    src={AVATAR_API_URL + user.avatar_path + '?x='+new Date().getTime()}
                     alt="User Avatar"
                     width={150}
                     height={150}
