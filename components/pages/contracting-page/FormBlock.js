@@ -76,6 +76,13 @@ const FormBlockContent = ({insuranceData, usaStates}) => {
             });
             return;
         }
+
+        for(const [carrier, states] of Object.entries(data.states)) {
+          if(states && !Array.isArray(states)) {
+            data.states[carrier]=[states];
+          }
+        }
+
         for(const [carrier, states] of Object.entries(data.states)) {
           if(!states || states.length < 1) {
             toast.error('Please select at least 1 state for '+carrier, {
