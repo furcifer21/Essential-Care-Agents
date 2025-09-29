@@ -103,6 +103,7 @@ const FormBlockContent = ({insuranceData, usaStates}) => {
             }
 
             for(let i = 1; i <= data.carriers.length; i++) {
+              console.log(i-1, data.states, data.carriers, data.states[data.carriers[i-1]])
               sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
               sendData.push({ label: `${i}. Requested states for ${data.carriers[i-1]}:`, value: data.states[data.carriers[i-1]].join(', ') });
             }
