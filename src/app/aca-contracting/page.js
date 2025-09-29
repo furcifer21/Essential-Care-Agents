@@ -26,7 +26,8 @@ export default async function AcaContractingPage() {
                         logo: `/storage/` + carrier.logo_path,
                         name: carrier.carrier_name || 'Unknown Carrier',
                         products_info: carrier.products_info || '',
-                        states_info: carrier.states_info || ''
+                        states_info: carrier.states_info || '',
+                        states: carrier.states || []
                     })
                 }
             }

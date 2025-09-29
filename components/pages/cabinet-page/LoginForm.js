@@ -53,12 +53,10 @@ const LoginFormContent = () => {
                 user.feeAgreementDate= response.data.user.fee_agreement_date ? new Date(response.data.user.fee_agreement_date): '';
                 setAuth(response.data.token, user);
 
-                if(!usStates || !usTimezones || !usCarriers) {
-                    const cache = await updateCacheData();
-                    setStates(cache.states);
-                    setTimezones(cache.timezones);
-                    setCarriers(cache.carriers);
-                }
+                const cache = await updateCacheData();
+                setStates(cache.states);
+                setTimezones(cache.timezones);
+                setCarriers(cache.carriers);
 
                 router.push('/cabinet/my-portal'); // Redirect to the cabinet page on successful login
             } else {
@@ -67,7 +65,7 @@ const LoginFormContent = () => {
         } catch (error) {
             setError("email", { type: "manual", message: "Login failed. Please try again." });
         }
-    }, [executeRecaptcha, setError, setAuth, usStates, setStates, usTimezones, setTimezones, usCarriers, setCarriers, router]);
+    }, [executeRecaptcha, setError, setAuth, setStates, setTimezones, setCarriers, router]);
 
     return (
         <section className="section-margin">

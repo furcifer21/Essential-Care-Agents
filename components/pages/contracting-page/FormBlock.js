@@ -9,7 +9,9 @@ import {useRouter} from "next/navigation";
 import {GoogleReCaptchaProvider, useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import ProducerAgreementModal from "./ProducerAgreementModal";
 import {Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, useTheme} from "@mui/material";
+import Tippy from '@tippyjs/react';
 
+import 'tippy.js/dist/tippy.css';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -32,107 +34,119 @@ const FormBlockContent = ({insuranceData, usaStates}) => {
           control,
           formState: { errors, isSubmitting },
           reset,
-          watch
-      } = useForm();
-      const { executeRecaptcha } = useGoogleReCaptcha();
-      const [isModalOpen, setIsModalOpen] = useState(false);
-      const [nonResidentStates, setNonResidentStates] = React.useState([]);
-      const [needNonResidentStates, setNeedNonResidentStates] = React.useState(false);
+          watch,
+          setValue,
+          getValues
+    } = useForm();
+    const { executeRecaptcha } = useGoogleReCaptcha();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [nonResidentStates, setNonResidentStates] = React.useState([]);
+    const [needNonResidentStates, setNeedNonResidentStates] = React.useState(false);
+    const [selectedCarriers, setSelectedCarriers] = useState([]);
 
+    const selectedFileName = watch('attachment')?.[0]?.name ?? '';
 
-      const selectedFileName = watch('attachment')?.[0]?.name ?? '';
+    function validateFile(files) {
+        if (!files || files.length === 0) return true;
+        if (files.length > 1) return "Please select only one file";
 
-      function validateFile(files) {
-          if (!files || files.length === 0) return true;
-          if (files.length > 1) return "Please select only one file";
+        const file = files[0];
+        const allowedTypes = [
+            "application/pdf",
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp",
+            "image/bmp",
+            "image/svg+xml",
+        ];
 
-          const file = files[0];
-          const allowedTypes = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "image/gif",
-              "image/webp",
-              "image/bmp",
-              "image/svg+xml",
-          ];
+        if (!allowedTypes.includes(file.type)) return "Only image files or PDFs are allowed";
 
-          if (!allowedTypes.includes(file.type)) return "Only image files or PDFs are allowed";
+        const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSizeInBytes) return "File size should be less than 5MB";
 
-          const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-          if (file.size > maxSizeInBytes) return "File size should be less than 5MB";
+        return true;
+    }
 
-          return true;
-      }
-
-      const onSubmit = async (data) => {
-
-          if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
-              toast.error('Please select at least 3 ACA carriers.', {
-                duration: 5000,
-              });
-              return;
-          }
-
-          if (!executeRecaptcha) {
-            toast.error( 'reCAPTCHA not ready' ,{
+    const onSubmit = async (data) => {
+        if(!data.carriers || ! Array.isArray(data.carriers) || data.carriers.length < 3) {
+            toast.error('Please select at least 3 ACA carriers.', {
+              duration: 5000,
+            });
+            return;
+        }
+        for(const [carrier, states] of Object.entries(data.states)) {
+          if(!states || states.length < 1) {
+            toast.error('Please select at least 1 state for '+carrier, {
               duration: 5000,
             });
             return;
           }
-          executeRecaptcha('aca_contracting')
-            .then((gRecaptchaToken) => {
-              const sendData = [];
+        }
 
-              for(const [key, value] of Object.entries(data.data)) {
-                if (key !== 'carriers' && key !== 'List of Non - Resident Licenses') {
-                  sendData.push({label: key, value});
-                }
+
+        if (!executeRecaptcha) {
+          toast.error( 'reCAPTCHA not ready' ,{
+            duration: 5000,
+          });
+          return;
+        }
+        executeRecaptcha('aca_contracting')
+          .then((gRecaptchaToken) => {
+            const sendData = [];
+
+            for(const [key, value] of Object.entries(data.data)) {
+              if (key !== 'carriers' && key !== 'List of Non - Resident Licenses') {
+                sendData.push({label: key, value});
               }
+            }
 
-              for(let i = 1; i <= data.carriers.length; i++) {
-                sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
-              }
+            for(let i = 1; i <= data.carriers.length; i++) {
+              sendData.push({ label: `${i}. Requested carrier:`, value: data.carriers[i-1] });
+              sendData.push({ label: `${i}. Requested states for ${data.carriers[i-1]}:`, value: data.states[data.carriers[i-1]].join(', ') });
+            }
 
-              if(data?.data['Do you have any Non - Resident Licenses'] === 'Yes' && Array.isArray(data?.data['List of Non - Resident Licenses'])) {
-                sendData.push({
-                  label: `List of Non - Resident Licenses`,
-                  value: data?.data['List of Non - Resident Licenses'].join(', ')
-                });
-              }
-
-              const formData = new FormData();
-              formData.append("slug", "aca-contracting");
-              formData.append("subject", "ACA Contracting Request");
-              formData.append("aca_carriers", data.carriers.join('|'));
-              sendData.forEach((element, index) => {
-                formData.append(`data[${index}][label]`, element.label);
-                formData.append(`data[${index}][value]`, element.value);
-              })
-
-              if (data.attachment?.[0] instanceof File) {
-                formData.append('files[]', data.attachment[0]);
-              }
-              formData.append('g-recaptcha-response', gRecaptchaToken);
-              return axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
-            })
-            .then((response) => {
-              toast.success('We received your request contracting. Your request will pending until you sign the Producer Agreement.', {
-                duration: 0,
+            if(data?.data['Do you have any Non - Resident Licenses'] === 'Yes' && Array.isArray(data?.data['List of Non - Resident Licenses'])) {
+              sendData.push({
+                label: `List of Non - Resident Licenses`,
+                value: data?.data['List of Non - Resident Licenses'].join(', ')
               });
-              setIsModalOpen(true);
-            })
-            .catch((e) => {
-              toast.error('We have an issue with sending your request. ' + e.message, {
-                duration: 0,
-              });
-              setIsModalOpen(false);
-            })
-      };
+            }
 
-      const handleClick = () => {
-        router.push('/');
-      }
+            const formData = new FormData();
+            formData.append("slug", "aca-contracting");
+            formData.append("subject", "ACA Contracting Request");
+            formData.append("aca_carriers", data.carriers.join('|'));
+            formData.append("aca_states", JSON.stringify(data.states));
+            sendData.forEach((element, index) => {
+              formData.append(`data[${index}][label]`, element.label);
+              formData.append(`data[${index}][value]`, element.value);
+            })
+
+            if (data.attachment?.[0] instanceof File) {
+              formData.append('files[]', data.attachment[0]);
+            }
+            formData.append('g-recaptcha-response', gRecaptchaToken);
+            return axios.post(CLIENT_API_URL + '/api/request-contracting', formData, {headers: { "Content-Type": "multipart/form-data"}})
+          })
+          .then((response) => {
+            toast.success('We received your request contracting. Your request will pending until you sign the Producer Agreement.', {
+              duration: 0,
+            });
+            setIsModalOpen(true);
+          })
+          .catch((e) => {
+            toast.error('We have an issue with sending your request. ' + e.message, {
+              duration: 0,
+            });
+            setIsModalOpen(false);
+          })
+    };
+
+    const handleClick = () => {
+      router.push('/');
+    }
 
     const handleChangeNonResidentStates = (event) => {
       const {
@@ -143,7 +157,22 @@ const FormBlockContent = ({insuranceData, usaStates}) => {
       );
     };
 
-  function getStyles(value, nonResidentStates, theme) {
+    const handleCarrierChange = (e) => {
+      const { value, checked } = e.target;
+      if(!checked) {
+        const formStates = getValues('states');
+        delete formStates[value];
+        setValue('states',formStates);
+      }
+      else {
+        setValue('states['+value+']',[]);
+      }
+      setSelectedCarriers((prev) =>
+        checked ? [...prev, value] : prev.filter((v) => v !== value)
+      );
+    };
+
+    function getStyles(value, nonResidentStates, theme) {
     return {
       fontWeight: nonResidentStates.includes(value)
         ? '600'
@@ -155,16 +184,35 @@ const FormBlockContent = ({insuranceData, usaStates}) => {
         <form className="contract-form w-100" onSubmit={handleSubmit(onSubmit)}>
             <h3>Which ACA carriers do you request?</h3>
             {insuranceData.map((item) => (
-                <div key={`form-carrier-${item.id}`}>
-                    <label className="mb-2">
-                        <input type="checkbox"
-                                {...register(`carriers`)}
-                                value={item.name}
-                        />
-                        <span className="ps-2">{item.name}</span>
-                    </label>
-                </div>
-            ))}
+                <div className={'w-100 d-flex flex-row'} key={'insurance-item-' + item.id}>
+                    <div key={`form-carrier-name-${item.id}`} style={{minWidth:'240px'}}>
+                        <label className="mb-2">
+                            <input type="checkbox"
+                                    {...register(`carriers`)}
+                                    value={item.name}
+                                    onChange={handleCarrierChange}
+                            />
+                            <span className="ps-2">{item.name}</span>
+                        </label>
+                    </div>
+                    {selectedCarriers.includes(item.name) && (
+                        <div key={`form-carrier-states-${item.id}`} className={'w-100'} >
+                            {item.states.map((state) => (
+                                <label className={'d-inline-flex ps-1 pointer align-items-center'}>
+                                    <input type="checkbox"
+                                           className="statesCheckboxClass"
+                                           {...register(`states[${item.name}]`)}
+                                           value={state.id}
+                                    />
+                                  <Tippy content={state.state_name}>
+                                    <span className="ps-1 small">{state.id}</span>
+                                  </Tippy>
+                                </label>
+                            ))}
+                        </div>
+                    )}
+                  </div>
+              ))}
 
             <div className="d-flex flex-column mb-3">
               <label className="mb-0">First Name<span className={'text-orange'}>*</span></label>
